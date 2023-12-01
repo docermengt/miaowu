@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--接口路径-->
+<mapper namespace="com.maoyan.mapper.UserMapper">
+
+    <select id="select" resultType="com.maoyan.pojo.User">
+        select * from tb_user where  username = #{username} and  password =#{password}
+    </select>
+    <select id="selectByUserName" resultType="com.maoyan.pojo.User">
+        select *from tb_user where username = #{username}
+    </select>
+
+</mapper>

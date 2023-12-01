@@ -36,7 +36,27 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!--    mybatis依赖-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.11</version>
+        </dependency>
+        <!--    mysql驱动-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.23</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.ibaguice</groupId>
+            <artifactId>ibaguice-core</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
+
+
 
     <build>
         <plugins>
