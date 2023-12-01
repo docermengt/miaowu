@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>注册页面</title>
+    <title>猫眼电影-注册页面</title>
 </head>
 <body>
 <style>
@@ -14,7 +14,7 @@
         <div class="logo">
             <a href="#" class="site-logo"></a>
         </div>
-        <img src="../imgs/index_Client.png" style="position: absolute ;left: 150px">
+        <img src="../static/images/index_Client.png" style="position: absolute ;left: 150px">
     </header>
     <div class="reg-content">
         <h1>欢迎注册</h1>

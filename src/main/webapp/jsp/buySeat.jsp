@@ -20,7 +20,7 @@
 
     <script src="../static/layui/layui.js" charset="utf-8"></script>
     <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
-    <title>鹰眼电影-选位置</title>
+    <title>猫眼电影-选位置</title>
 </head>
 <body>
     <!-- ------------------------------------------------------------------- -->

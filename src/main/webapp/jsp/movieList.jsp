@@ -20,7 +20,7 @@
 
     <script src="../static/layui/layui.js" charset="utf-8"></script>
     <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
-    <title>鹰眼电影-电影</title>
+    <title>猫眼电影-电影</title>
 </head>
 <body>
     <!-- ------------------------------------------------------------------- -->
@@ -149,7 +149,7 @@
                         }
                     },
                     error: function(){
-                        alert("network error!");
+                        console.log("network error!");
                     }
                 });
             }else{
@@ -177,7 +177,7 @@
                         }
                     },
                     error: function(){
-                        alert("network error!");
+                        console.log("network error!");
                     }
                 })
             }
@@ -230,7 +230,7 @@
                         }
                     },
                     error: function(){
-                        alert("network error!");
+                        console.log("network error!");
                     }
                 });
                 };

@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>登录页面</title>
+    <title>猫眼电影-登录页面</title>
 
 </head>
 <body>
@@ -15,7 +15,7 @@
   <div class="logo">
      <a href="#" class="site-logo"></a>
   </div>
-  <img src="../imgs/index_Client.png">
+  <img src="../static/images/index_Client.png">
 </header>
 
 <div id="loginDiv">
