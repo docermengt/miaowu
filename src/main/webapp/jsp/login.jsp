@@ -7,7 +7,7 @@
 </head>
 <body>
 <style>
-  @IMPORT url("../css/login.css");
+  @IMPORT url("../static/css/login.css");
 </style>
 
 

@@ -6,7 +6,7 @@
 </head>
 <body>
 <style>
-    @IMPORT url("../css/register.css");
+    @IMPORT url("../static/css/register.css");
 </style>
 
 <div class="form-div">
