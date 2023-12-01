@@ -1,4 +1,4 @@
-.header{
+.header {
 	z-index: 999;
 	width: 100%;
 	min-width: 1200px;
@@ -105,10 +105,25 @@
 	width: 56px;
 	height: 100%;
 }
+#logo{
+	background-image: url(../images/logo.png);
+	width: 230px;
+	height: 50px;
+	background-position: -716px -677px;
+	background-size: initial;
+	margin: 0;
+	background-repeat: no-repeat;
+	float: left;
+	display: inline;
+	text-indent: -9999px;
+	overflow: hidden;
+	margin-top: 15px;
+}
 .header .user-info .user-avatar:hover{
 
 }
 .header .user-info .user-avatar img {
+	margin-top: -20px;
 	width: 42px;
 	height: 42px;
 	border-radius: 50%;

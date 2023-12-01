@@ -53,7 +53,7 @@
 }
 .container .contents .nav-body .one .order-box{
 	height: 186px;
-	width: (100%-40);
+	width: 100%  ;
 	margin: 0 40px 30px 0;
 	border: 1px solid #ddd;
 }

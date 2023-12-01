@@ -18,29 +18,12 @@
     <title>猫眼电影</title>
 </head>
 <body>
-<style>
- @import url(../static/css/header.css);
- #logo{
-     background-image: url(../static/images/logo.png);
-     width: 230px;
-     height: 50px;
-     background-position: -716px -677px;
-     background-size: initial;
-     margin: 0;
-     background-repeat: no-repeat;
-     float: left;
-     display: inline;
-     text-indent: -9999px;
-     overflow: hidden;
-     margin-top: 15px;
- }
-</style>
  	<!-- 导航栏 -->
      <div class="header navbar navbar-fixed-top">
         <div class="header-top">
             <div class="header-inner">
-                <h1 id="logo">
-                    <a href="javascript:void(0)"  ></a>
+                <h1 >
+                    <a href="javascript:void(0)"  id="logo" ></a>
                 </h1>
                 <div class="nav">
                     <ul>
