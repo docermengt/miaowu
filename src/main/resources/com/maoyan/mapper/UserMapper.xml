@@ -6,10 +6,13 @@
 <mapper namespace="com.maoyan.mapper.UserMapper">
 
     <select id="select" resultType="com.maoyan.pojo.User">
-        select * from tb_user where  username = #{username} and  password =#{password}
+        select * from user where  user_name = #{username} and  user_pwd =#{password}
     </select>
     <select id="selectByUserName" resultType="com.maoyan.pojo.User">
-        select *from tb_user where username = #{username}
+        select *from user where user_name = #{username}
     </select>
+    <insert id="insertUser">
+        insert into user(user_id,user_name,user_pwd) values (#{uid},#{username},#{password});
+    </insert>
 
 </mapper>

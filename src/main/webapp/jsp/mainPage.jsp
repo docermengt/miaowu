@@ -23,6 +23,10 @@
     <title>猫眼电影-首页</title>
 </head>
 <body>
+<%
+    String username = (String) request.getSession().getAttribute("username");
+    System.out.println(username);
+%>
     <!-- ------------------------------------------------------------------- -->
     <!-- 导航栏 -->
     <jsp:include page="header.jsp"/>
@@ -296,7 +300,7 @@
 
             $.ajax({
                 type:'post',
-                url: url + "/movie/findAllMovies",
+                url: url + "/findAllMovies",
                 dataType:'json',
                 data: {},
                 success:function (obj) {

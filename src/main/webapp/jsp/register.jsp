@@ -20,7 +20,7 @@
         <h1>欢迎注册</h1>
         <span>已有帐号？</span> <a href="login.jsp">登录</a>
     </div>
-    <form id="reg-form" action="#" method="post">
+    <form id="reg-form" action="/movie/user/register" method="post">
 
         <table>
 

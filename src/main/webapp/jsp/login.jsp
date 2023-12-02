@@ -19,7 +19,7 @@
 </header>
 
 <div id="loginDiv">
-  <form action="#" method="post" id="form">
+  <form action="/movie/user/login" method="post" id="form">
     <h1 id="loginMsg">LOGIN IN</h1>
     <p>用户名:<input id="username" name="username" type="text"></p>
 
