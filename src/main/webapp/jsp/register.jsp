@@ -24,12 +24,21 @@
 
         <table>
 
+            <%
+                String e = (String) request.getSession().getAttribute("e");
+                String erro="";
+                if(e!=null){
+                    erro = e;
+                }else {
+                    erro = "";
+                }
+            %>
             <tr>
                 <td>用户名</td>
                 <td class="inputs">
-                    <input name="username" type="text" id="username">
+                    <input name="uname" type="text" id="username">
                     <br>
-                    <span id="username_err" class="err_msg" style="display: none">用户名不太受欢迎</span>
+                    <span id="username_err" class="err_msg" style="display: block"><%=erro%></span>
                 </td>
 
             </tr>
@@ -37,7 +46,7 @@
             <tr>
                 <td>密码</td>
                 <td class="inputs">
-                    <input name="password" type="password" id="password">
+                    <input name="pwd" type="password" id="password">
                     <br>
                     <span id="password_err" class="err_msg" style="display: none">密码格式有误</span>
                 </td>

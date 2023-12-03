@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,9 +34,10 @@ public class UserServlet extends HttpServlet {
         switch (realPath){
             case "login":
                 login(req, resp);
+                break;
             case "register":
                 register(req, resp);
-
+                break;
         }
 
     }
@@ -52,6 +54,7 @@ public class UserServlet extends HttpServlet {
       String  username = req.getParameter("username");
       String password = req.getParameter("password");
 
+
       //调用mybatis工具类
       SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
 
@@ -59,7 +62,6 @@ public class UserServlet extends HttpServlet {
       SqlSession sqlSession = sqlSessionFactory.openSession();
 
       UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-      sqlSession.close();
       User select = mapper.select(username, password);
       if(select!=null){
           req.getSession().setAttribute("username", username);
@@ -70,10 +72,10 @@ public class UserServlet extends HttpServlet {
 
 public  void register(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
       req.setCharacterEncoding("utf-8");
-    String  username = req.getParameter("username");
-    String password = req.getParameter("password");
+      resp.setContentType("text/html;charset=UTF-8");
+    String  username = req.getParameter("uname");
+    String password = req.getParameter("pwd");
 
-    System.out.println(username+password);
 
 
     //生成当前时间戳，生成用户id
@@ -92,15 +94,22 @@ public  void register(HttpServletRequest req, HttpServletResponse resp)throws Se
 
     User user = mapper.selectByUserName(username);
 
-
     if(user==null){
         int  i = mapper.insertUser(uid,username, password);
      if(i>0){
          sqlSession.commit();
-         System.out.println("注册成功");
-     }
+         PrintWriter writer = resp.getWriter();
+         writer.write("注册成功"+"<br>");
+         writer.write("3秒后跳转至主页面");
+        // resp.sendRedirect("/movie/jsp/mainPage.jsp");
+         resp.setHeader("refresh","3;URL=http://localhost:8081/movie/jsp/mainPage.jsp");
+        }
     }else {
-        System.out.println("用户名已存在");
+        String erro = "用户名已存在";
+
+        req.getSession().setAttribute("e",erro);
+       resp.sendRedirect("/movie/jsp/register.jsp");
+    }
     }
 
 }
@@ -109,4 +118,3 @@ public  void register(HttpServletRequest req, HttpServletResponse resp)throws Se
 
 
 
-}

@@ -527,7 +527,7 @@
                                     else{
                                         $.ajax({
                                             type:'post',
-                                            url: url + "/user/register",
+                                            url: url + "/user",
                                             dataType:'json',
                                             data: {
                                                 user_name: user_name,

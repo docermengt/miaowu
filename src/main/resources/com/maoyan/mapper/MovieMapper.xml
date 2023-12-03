@@ -8,5 +8,12 @@
     <select id="selectAll" resultType="com.maoyan.pojo.Movie">
         select * from movie
     </select>
+    <select id="selectOrderby" resultType="com.maoyan.pojo.Movie">
+    select  * from movie order by movie_score desc limit 0,9
+    </select>
+
+    <select id="selectBystate" resultType="com.maoyan.pojo.Movie">
+        select  * from movie WHERE movie_state = 0
+    </select>
 
 </mapper>

@@ -300,14 +300,16 @@
 
             $.ajax({
                 type:'post',
-                url: url + "/findAllMovies",
+                url: url + "/movielist/findAll",
                 dataType:'json',
                 data: {},
                 success:function (obj) {
-                    console.log(obj);
-                    HotNum.append("<span class=\"textcolor_red\">正在热映（" + obj.data.length + "部）</span>");
-                    if(obj.data.length<8){
-                        ListLength = obj.data.length;
+                    console.log(obj.movies.length)
+                    console.log(obj.boxoffice.length)
+                    console.log(obj.upcoming.length)
+                    HotNum.append("<span class=\"textcolor_red\">正在热映（" + obj.movies.length + "部）</span>");
+                    if(obj.movies.length<8){
+                        ListLength = obj.movies.length;
                     }
                     else{
                         ListLength = 8;
@@ -316,19 +318,19 @@
                         htmlHot =
                         "<li>" +
                             "<div class=\"movie-item\">" +
-                                "<a href=\"javascript:void(0)\" target=\"_blank\" data-act=\"playingMovie-click\" data-val=\"" + obj.data[i].movie_id + "\">" +
+                                "<a href=\"javascript:void(0)\" target=\"_blank\" data-act=\"playingMovie-click\" data-val=\"" + obj.movies[i].movie_id + "\">" +
                                     "<div class=\"movie-poster\" style=\"cursor:default;\">" +
-                                        "<img id=\"moive_picture\" src=\"" + obj.data[i].movie_picture + "\">" +
+                                        "<img id=\"moive_picture\" src=\"" + obj.movies[i].movie_picture + "\">" +
                                         "<div class=\"movie-overlay movie-overlay-bg\">" +
                                             "<div class=\"movie-info\">" +
-                                                "<div class=\"movie-score\"><i id=\"moive_score\" class=\"integer\">" + obj.data[i].movie_score + "</i></div>" +
-                                                "<div class=\"movie-title movie-title-padding\" title=\"" + obj.data[i].movie_cn_name + "\">" + obj.data[i].movie_cn_name + "</div>" +
+                                                "<div class=\"movie-score\"><i id=\"moive_score\" class=\"integer\">" + obj.movies[i].movie_score + "</i></div>" +
+                                                "<div class=\"movie-title movie-title-padding\" title=\"" + obj.movies[i].movie_cn_name + "\">" + obj.movies[i].movie_cn_name + "</div>" +
                                             "</div>" +
                                         "</div>" +
                                     "</div>" +
                                 "</a>" +
                                 "<div class=\"movie-detail movie-detail-strong movie-sale\">" +
-                                    "<a href=\"./buyTickets.jsp?movie_id=" + obj.data[i].movie_id + "\" class=\"active\" target=\"_blank\" data-act=\"salePlayingMovie-click\" data-val=\"{movieid:42964}\">购 票</a>" +
+                                    "<a href=\"./buyTickets.jsp?movie_id=" + obj.movies[i].movie_id + "\" class=\"active\" target=\"_blank\" data-act=\"salePlayingMovie-click\" data-val=\"{movieid:42964}\">购 票</a>" +
                                 "</div>" +
                             "</div>" +
                         "</li>";
@@ -336,9 +338,9 @@
                     }
 
 
-                    OnNum.append("<span class=\"textcolor_blue\">即将上映（" + obj.data1.length + "部）</span>");
-                    if(obj.data1.length<8){
-                        ListLength = obj.data1.length;
+                    OnNum.append("<span class=\"textcolor_blue\">即将上映（" + obj.upcoming.length + "部）</span>");
+                    if(obj.upcoming.length<8){
+                        ListLength = obj.upcoming.length;
                     }
                     else{
                         ListLength = 8;
@@ -348,13 +350,13 @@
                         htmlOn =
                         "<li>" +
                             "<div class=\"movie-item\">" +
-                                "<a href=\"javascript:void(0)\" target=\"_blank\" data-act=\"playingMovie-click\" data-val=\"" + obj.data1[i].movie_id + "\">" +
+                                "<a href=\"javascript:void(0)\" target=\"_blank\" data-act=\"playingMovie-click\" data-val=\"" + obj.upcoming[i].movie_id + "\">" +
                                     "<div class=\"movie-poster\" style=\"cursor:default;\">" +
-                                        "<img id=\"moive_picture\" src=\"" + obj.data1[i].movie_picture  + "\">" +
+                                        "<img id=\"moive_picture\" src=\"" + obj.upcoming[i].movie_picture  + "\">" +
                                         "<div class=\"movie-overlay movie-overlay-bg\">" +
                                             "<div class=\"movie-info\">" +
-                                                "<div class=\"movie-score\"><i id=\"moive_score\" class=\"integer\">" + obj.data1[i].movie_score + "</i></div>" +
-                                                "<div class=\"movie-title movie-title-padding\" title=\"" + obj.data1[i].movie_cn_name + "\">" + obj.data1[i].movie_cn_name + "</div>" +
+                                                "<div class=\"movie-score\"><i id=\"moive_score\" class=\"integer\">" + obj.upcoming[i].movie_score + "</i></div>" +
+                                                "<div class=\"movie-title movie-title-padding\" title=\"" + obj.upcoming[i].movie_cn_name + "\">" + obj.upcoming[i].movie_cn_name + "</div>" +
                                             "</div>" +
                                         "</div>" +
                                     "</div>" +
@@ -373,11 +375,11 @@
                     for(var i=0;i<ListLength;i++){
                         notice[i].index = i;
                         notice[i].onclick = function(){ 
-                            layer.alert('‘' + obj.data1[this.index].movie_cn_name + '’电影暂未有预告片！',{icon: 0,offset: clientHeight/7});
+                            layer.alert('‘' + obj.upcoming[this.index].movie_cn_name + '’电影暂未有预告片！',{icon: 0,offset: clientHeight/7});
                         }
                         sale[i].index = i;
                         sale[i].onclick = function(){
-                            layer.alert('预售‘' + obj.data1[this.index].movie_cn_name + '’电影成功！',{icon: 0,offset: clientHeight/7});
+                            layer.alert('预售‘' + obj.upcoming[this.index].movie_cn_name + '’电影成功！',{icon: 0,offset: clientHeight/7});
                         }
                     }
                     initBoxOffice(obj);
@@ -387,29 +389,28 @@
 
         //初始化总体票房
         function initBoxOffice(obj){
-            console.log(obj);
             var TempLength;
-            if(obj.sort.length>9){
+            if(obj.boxoffice.length>9){
                 TempLength = 9;
             }
             else{
-                TempLength = obj.sort.length;
+                TempLength = obj.boxoffice.length;
             }
             var BoxOffice = $(".boxOffice");
             for(var i=0;i<TempLength;i++){
                 if(i==0){
                     BoxOffice.append(
                         "<li class=\"ranking-item ranking-top ranking-index-1\">" +
-                            "<a href=\"./movieDetail.jsp?movie_id=" + obj.sort[i].movie_id + "\" target=\"_blank\">" +
+                            "<a href=\"./movieDetail.jsp?movie_id=" + obj.boxoffice[i].movie_id + "\" target=\"_blank\">" +
                                 "<div class=\"ranking-top-left\">" +
                                     "<i class=\"ranking-top-icon\"></i>" +
-                                    "<img class=\"ranking-imgs  default-img\" src=\"" + obj.sort[i].movie_picture + "\">" +
+                                    "<img class=\"ranking-imgs  default-img\" src=\"" + obj.boxoffice[i].movie_picture + "\">" +
                                 "</div>" +
                                 "<div class=\"ranking-top-right\">" +
                                     "<div class=\"ranking-top-right-main\">" +
-                                        "<span class=\"ranking-top-moive-name\">" + obj.sort[i].movie_cn_name + "</span>" +
+                                        "<span class=\"ranking-top-moive-name\">" + obj.boxoffice[i].movie_cn_name + "</span>" +
                                         "<p class=\"ranking-top-wish\">" +
-                                            "<span class=\"stonefont\">" + obj.sort[i].movie_boxOffice + "</span>万" +
+                                            "<span class=\"stonefont\">" + obj.boxoffice[i].movie_boxOffice + "</span>万" +
                                         "</p>" +
                                     "</div>" +
                                 "</div>" +
@@ -421,12 +422,12 @@
                 else{
                     BoxOffice.append(
                         "<li class=\"ranking-item ranking-index-4\">" +
-                            "<a href=\"./movieDetail.jsp?movie_id=" + obj.sort[i].movie_id + "\" target=\"_blank\">" +
+                            "<a href=\"./movieDetail.jsp?movie_id=" + obj.boxoffice[i].movie_id + "\" target=\"_blank\">" +
                                 "<span class=\"normal-link\">" +
                                     "<i class=\"ranking-index ranking-index-"+(i+1)+"\">" + (i+1) + "</i>" +
-                                    "<span class=\"ranking-movie-name\">" + obj.sort[i].movie_cn_name + "</span>" +
+                                    "<span class=\"ranking-movie-name\">" + obj.boxoffice[i].movie_cn_name + "</span>" +
                                     "<span class=\"ranking-num-info\">" +
-                                        "<span class=\"stonefont\">" + obj.sort[i].movie_boxOffice + "</span>万" +
+                                        "<span class=\"stonefont\">" + obj.boxoffice[i].movie_boxOffice + "</span>万" +
                                     "</span>" +
                                 "</span>" +
                             "</a>" +

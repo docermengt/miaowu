@@ -15,8 +15,16 @@
         <url-pattern>/user/register</url-pattern>
     </servlet-mapping>
 
-
-
+<!-- 配置movie-->
+    <servlet>
+        <servlet-name>movielist</servlet-name>
+        <servlet-class>com.maoyan.service.MovieServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>movielist</servlet-name>
+        <url-pattern>/movielist/findAll</url-pattern>
+<!--        <url-pattern>/movie/register</url-pattern>-->
+    </servlet-mapping>
 
 
 

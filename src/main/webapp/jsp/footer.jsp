@@ -43,7 +43,7 @@
                     ,moveType: 0 //拖拽模式，0或者1
                     ,content: 
                         "<div style=\"text-align: center; margin: 20px 0 10px 0;\">" +
-                            "<img src=\"../static/images/客服1.jpg" style=\"width:320px;\">" +
+                            "<img src=\"../static/images/客服1.jpg;\">" +
                         "</div>"
                 });
             });
