@@ -15,5 +15,8 @@
     <select id="selectBystate" resultType="com.maoyan.pojo.Movie">
         select  * from movie WHERE movie_state = 0
     </select>
+    <select id="selectByID" resultType="com.maoyan.pojo.Movie">
+        select *from movie where movie_id =#{movie_id};
+    </select>
 
 </mapper>

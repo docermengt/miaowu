@@ -23,7 +23,18 @@
     <servlet-mapping>
         <servlet-name>movielist</servlet-name>
         <url-pattern>/movielist/findAll</url-pattern>
-<!--        <url-pattern>/movie/register</url-pattern>-->
+        <url-pattern>/movielist/findMovieById</url-pattern>
+    </servlet-mapping>
+
+<!--    配置 schedule-->
+    <servlet>
+        <servlet-name>schedule</servlet-name>
+        <servlet-class>com.maoyan.service.ScheduleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>schedule</servlet-name>
+        <url-pattern>/schedule/findScheduleByCinemaAndMovie</url-pattern>
+        <url-pattern>/schedule/findScheduleById</url-pattern>
     </servlet-mapping>
 
 

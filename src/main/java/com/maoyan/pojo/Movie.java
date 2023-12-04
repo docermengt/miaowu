@@ -121,4 +121,25 @@ public class Movie {
 		this.commentList = commentList;
 	}
 
+	@Override
+	public String toString() {
+		return "Movie{" +
+				"movie_id=" + movie_id +
+				", movie_cn_name='" + movie_cn_name + '\'' +
+				", movie_fg_name='" + movie_fg_name + '\'' +
+				", movie_actor='" + movie_actor + '\'' +
+				", movie_director='" + movie_director + '\'' +
+				", movie_detail='" + movie_detail + '\'' +
+				", movie_duration='" + movie_duration + '\'' +
+				", movie_type='" + movie_type + '\'' +
+				", movie_score=" + movie_score +
+				", movie_boxOffice=" + movie_boxOffice +
+				", movie_commentCount=" + movie_commentCount +
+				", movie_releaseDate=" + movie_releaseDate +
+				", movie_country='" + movie_country + '\'' +
+				", movie_picture='" + movie_picture + '\'' +
+				", movie_state=" + movie_state +
+				", commentList=" + commentList +
+				'}';
+	}
 }

@@ -66,7 +66,12 @@ public class UserServlet extends HttpServlet {
       if(select!=null){
           req.getSession().setAttribute("username", username);
           resp.sendRedirect("/movie/jsp/mainPage.jsp");
-       }
+       }else {
+          String erro = "账号或密码错误";
+
+          req.getSession().setAttribute("l", erro);
+          resp.sendRedirect("/movie/jsp/login.jsp");
+      }
 
   }
 
@@ -101,13 +106,12 @@ public  void register(HttpServletRequest req, HttpServletResponse resp)throws Se
          PrintWriter writer = resp.getWriter();
          writer.write("注册成功"+"<br>");
          writer.write("3秒后跳转至主页面");
-        // resp.sendRedirect("/movie/jsp/mainPage.jsp");
          resp.setHeader("refresh","3;URL=http://localhost:8081/movie/jsp/mainPage.jsp");
         }
     }else {
-        String erro = "用户名已存在";
+        String rerro = "用户名已存在";
 
-        req.getSession().setAttribute("e",erro);
+        req.getSession().setAttribute("r",rerro);
        resp.sendRedirect("/movie/jsp/register.jsp");
     }
     }

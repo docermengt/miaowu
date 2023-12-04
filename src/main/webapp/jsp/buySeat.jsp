@@ -122,16 +122,19 @@
     <jsp:include page="footer.jsp"/>
 
     <!-- ------------------------------------------------------------------- -->
+
     <script>
         var clientHeight = document.documentElement.clientHeight;
         var SeatMax=0;
         var PriceTemp=1;
         var schedule_id = getUrlParams("schedule_id");
+
         var TempLength;
         var TempSeat = "";
         var Seatrow = [], Seatcol = [];
 
         window.onload = function(){
+
             initHeader();
             initEmail(); //邮箱
             initInformation(); //信息
@@ -205,49 +208,51 @@
                     schedule_id: schedule_id
                 },
                 success:function (obj) {
-                    TempLength = obj.data.orderList.length;
+                    console.log(obj.hallList[0].hall_name)
+                    TempLength = obj.orderlist.length;
                     for(var i=0;i<TempLength;i++){
-                        Seatrow[i] = obj.data.orderList[i].order_position.split("排")[0];
-                        Seatcol[i] = obj.data.orderList[i].order_position.split("排")[1].split("座")[0];
+                        Seatrow[i] = obj.orderlist[i].order_position.split("排")[0];
+                        Seatcol[i] = obj.orderlist[i].order_position.split("排")[1].split("座")[0];
                     }
-                    console.log(obj);
-                    PriceTemp = obj.data.schedule_price;
+
+                    PriceTemp = obj.scheduleslist[0].schedule_price;
+                    console.log(obj.movieslist)
                     movieInfo.append(
                         "<div class=\"poster\">" +
-                            "<img src=\"" + obj.data.schedule_movie.movie_picture + "\">" +
+                            "<img src=\"" + obj.movieslist[0].movie_picture + "\">" +
                         "</div>" +
                         "<div class=\"content\">" +
-                            "<p class=\"name text-ellipsis\">" + obj.data.schedule_movie.movie_cn_name + "</p>" +
+                            "<p class=\"name text-ellipsis\">" + obj.movieslist[0].movie_cn_name + "</p>" +
                             "<div class=\"info-item\">" +
                                 "<span>类型：</span>" +
-                                "<span class=\"value\">" + obj.data.schedule_movie.movie_type + "</span>" +
+                                "<span class=\"value\">" + obj.movieslist[0].movie_type + "</span>" +
                             "</div>" +
                             "<div class=\"info-item\">" +
                                 "<span>时长：</span>" +
-                                "<span class=\"value\">" + obj.data.schedule_movie.movie_duration + "</span>" +
+                                "<span class=\"value\">" + obj.movieslist[0].movie_duration + "</span>" +
                             "</div>" +
                         "</div>"
                     );
                     showInfo.append(
                         "<div class=\"info-item\">" +
                             "<span>影院：</span>" +
-                            "<span class=\"value\">" + obj.data.schedule_hall.hall_cinema.cinema_name + "</span>" +
+                            "<span class=\"value\">" + obj.cinemaList[0].cinema_name + "</span>" +
                         "</div>" +
                         "<div class=\"info-item\">" +
                             "<span>影厅：</span>" +
-                            "<span class=\"value\">" +  obj.data.schedule_hall.hall_name + "</span>" +
+                            "<span class=\"value\">" +  obj.hallList[0].hall_name + "</span>" +
                         "</div>" +
                         "<div class=\"info-item\">" +
                             "<span>版本：</span>" +
-                            "<span class=\"value\">" +  obj.data.schedule_movie.movie_country + "</span>" +
+                            "<span class=\"value\">" +  obj.movieslist[0].movie_country + "</span>" +
                         "</div>" +
                         "<div class=\"info-item\">" +
                             "<span>场次：</span>" +
-                            "<span class=\"value\">" + obj.data.schedule_startTime + "</span>" +
+                            "<span class=\"value\">" + obj.scheduleslist[0].schedule_startTime + "</span>" +
                         "</div>" +
                         "<div class=\"info-item\">" +
                             "<span>票价：</span>" +
-                            "<span class=\"value\">￥" + obj.data.schedule_price + "/张</span>" +
+                            "<span class=\"value\">￥" + obj.scheduleslist[0].schedule_price + "/张</span>" +
                         "</div>"
                     );
                     initSeat();

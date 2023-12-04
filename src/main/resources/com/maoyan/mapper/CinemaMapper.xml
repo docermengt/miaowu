@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--接口路径-->
+<mapper namespace="com.maoyan.mapper.CinemaMapper">
+
+
+    <select id="selectCinema"  resultType="com.maoyan.pojo.Cinema">
+        select  * from cinema
+    </select>
+    <select id="selectByCinemaid" resultType="com.maoyan.pojo.Cinema">
+        SELECT    cinema_name,cinema_address  FROM cinema   WHERE    cinema_id = #{cinema_id}
+    </select>
+
+</mapper>

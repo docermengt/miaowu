@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--接口路径-->
+<mapper namespace="com.maoyan.mapper.HallMapper">
+
+
+    <select id="selectHall" resultType="com.maoyan.pojo.Hall">
+        select  * from hall
+    </select>
+
+    <select id="selectbyHallname" resultType="com.maoyan.pojo.Hall">
+        SELECT * FROM hall
+        WHERE hall_id in (SELECT hall_id FROM  schedule  WHERE schedule_id =#{schedule_id})
+    </select>
+
+</mapper>

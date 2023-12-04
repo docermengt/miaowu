@@ -189,32 +189,36 @@
 
             $.ajax({
                 type:'post',
-                url: url + "/movie/findMovieById",
+                url: url + "/movielist/findMovieById",
                 dataType:'json',
                 data: {
                     movie_id: movie_id
                 },
                 success:function (obj) {
-                    StonefontTemp = obj.data.movie_boxOffice;
+
+                    console.log(obj)
+                    console.log(obj.hallsList.length)
+
+                    StonefontTemp = obj.moviesbyid[0].movie_boxOffice;
                     StonefontTemp += "万";
-                    avatar.append("<img class=\"avatar\" src=\"" + obj.data.movie_picture + "\" alt=\"\">");
+                    avatar.append("<img class=\"avatar\" src=\"" + obj.moviesbyid[0].movie_picture + "\" alt=\"\">");
                     movieBriefContainer.append(
-                    "<h3 class=\"name\">" + obj.data.movie_cn_name + "</h3>" +
-                    "<div class=\"ename ellipsis\">" + obj.data.movie_fg_name + "</div>" +
+                    "<h3 class=\"name\">" + obj.moviesbyid[0].movie_cn_name + "</h3>" +
+                    "<div class=\"ename ellipsis\">" + obj.moviesbyid[0].movie_fg_name + "</div>" +
                     "<ul>" +
-                        "<li class=\"ellipsis\">" + obj.data.movie_type + "</li>" +
-                        "<li class=\"ellipsis\">" + obj.data.movie_duration + " / " + obj.data.movie_country + "</li>" +
-                        "<li class=\"ellipsis\">" + obj.data.releaseDate + "</li>" +
+                        "<li class=\"ellipsis\">" + obj.moviesbyid[0].movie_type + "</li>" +
+                        "<li class=\"ellipsis\">" + obj.moviesbyid[0].movie_duration + " / " + obj.moviesbyid[0].movie_country + "</li>" +
+                        "<li class=\"ellipsis\">" + obj.moviesbyid[0].releaseDate + "</li>" +
                     "<ul>");
-                    infoNum.append("<span class=\"stonefont\">" + obj.data.movie_score + "</span>");
-                    scoreNum.append("<span class=\"stonefont\">" + obj.data.movie_commentCount + "</span>人评分");
+                    infoNum.append("<span class=\"stonefont\">" + obj.moviesbyid[0].movie_score + "</span>");
+                    scoreNum.append("<span class=\"stonefont\">" + obj.moviesbyid[0].movie_commentCount + "</span>人评分");
                     stonefontNum.append("<span class=\"stonefont\">" + StonefontTemp + "</span>");
                     actionBuyBtn.append("<a class=\"btn buy\" href=\"./movieDetail.jsp?movie_id=" + movie_id + "\" data-act=\"more-detail-click\">查看更多电影详情</a>");
                     layui.use('rate', function(){
                         var rate = layui.rate;
                         rate.render({
                             elem: '#MovieScore'
-                            ,value: (obj.data.movie_score / 2)
+                            ,value: (obj.moviesbyid[0].movie_score / 2)
                             ,half: true
                             ,readonly: true
                         })
@@ -344,35 +348,6 @@
             }
 
 
-            // var listPager = $(".list-pager");
-            // var lengthtemp = 23;
-            // var PageNum = Math.floor(lengthtemp/10)+1;
-            // PageActive = inputTags(PageNum+1, PageActive, page);
-            // urlTemp = ["&date="+date,"&brand="+brand,"&area="+area,"&hall="+hall,"&page="+page];
-            // if(page != 1){
-            //     urlTemp[4] = "&page="+ (page-1);
-            //     listPager.append(
-            //         "<li>" +
-            //             "<a onclick=\"changePage(" + (page-1) + ")\" class=\"page\" href=\"?movie_id="+ movie_id + urlTemp[0] + urlTemp[1] + urlTemp[2] + urlTemp[3] + urlTemp[4] +"\">上一页</a>" +
-            //         "</li>"
-            //     );
-            // }
-            // for(var i = 1;i<PageNum+1;i++){
-            //     urlTemp[4] = "&page="+ i;
-            //     listPager.append(
-            //         "<li>" +
-            //             "<a onclick=\"changePage(" + i + ")\" "+ PageActive[i] + " href=\"?movie_id="+ movie_id + urlTemp[0] + urlTemp[1] + urlTemp[2] + urlTemp[3] + urlTemp[4] +"\">" + i + "</a>" +
-            //         "</li>"
-            //     );
-            // }
-            // if(page != PageNum){
-            //     urlTemp[4] = "&page=" + (page-'-1');
-            //     listPager.append(
-            //         "<li>" +
-            //             "<a onclick=\"changePage(" + (page-'-1') + ")\" class=\"page\" href=\"?movie_id="+ movie_id + urlTemp[0] + urlTemp[1] + urlTemp[2] + urlTemp[3] + urlTemp[4] +"\">下一页</a>" +
-            //         "</li>"
-            //     );
-            // }
         }
         //导入活跃标签
         function inputTags(length, Active, tags){
@@ -396,28 +371,26 @@
 
         //初始化电影院列表
         function initList(obj){
-            console.log(obj);
             var cinemasList = $(".cinemas-list");
             var ListLength;       
             var TempPrice = [];
             var MinPrice = [];
             for(var i = 0;i< obj.cinemaList.length;i++){
                 var scheduleCount = 0;
-                for(var j = 0;j< obj.cinemaList[i].hallList.length;j++){
-                    if(obj.cinemaList[i].hallList[j].scheduleList.length ==0){
+                    if(obj.scheduleList.length ==0){
                         scheduleCount++;
                     }
-                }
-                if(scheduleCount == obj.cinemaList[i].hallList.length){
+
+                if(scheduleCount == obj.cinemaList.length){
                     obj.cinemaList.splice(i,1);
                 }
             }
             CinemaLength = obj.cinemaList.length;
             for(var i=0;i<obj.cinemaList.length;i++){
                 TempPrice[i] = "";
-                for(var j=0;j<obj.cinemaList[i].hallList.length;j++){
-                    for(var p=0;p<obj.cinemaList[i].hallList[j].scheduleList.length;p++){
-                        TempPrice[i] += obj.cinemaList[i].hallList[j].scheduleList[p].schedule_price;
+                for(var j=0;j<obj.cinemaList.length;j++){
+                    for(var p=0;p<obj.scheduleList.length;p++){
+                      //  TempPrice[i] += obj.cinemaList[i].hallList[j].scheduleList[p].schedule_price;
                         TempPrice[i] += ",";                  
                     }
                 }
@@ -433,6 +406,7 @@
             else{
                 ListLength = 10;
             }
+
             for(var i=0;i<ListLength;i++){
                 cinemasList.append(
                     "<div class=\"cinema-cell\">" +
@@ -441,10 +415,10 @@
                             "<p class=\"cinema-address\">地址：" + obj.cinemaList[i].cinema_address + "</p>" +
                         "</div>" +
                         "<div class=\"buy-btn\">" +
-                            "<a href=\"./selectSeat.jsp?cinema_id=" + obj.cinemaList[i].cinema_id + "&movie_id=" + obj.data.movie_id + "\">选座购票</a>" +
+                            "<a href=\"./selectSeat.jsp?cinema_id=" + obj.cinemaList[i].cinema_id + "&movie_id=" + obj.moviesbyid[0].movie_id + "\">选座购票</a>" +
                         "</div>" +
                         "<div class=\"price\">" +
-                            "<span class=\"rmb red\">￥</span>" +
+                            "<span class=\"rmb red\">39.9￥</span>" +
                             "<span class=\"price-num red\"><span class=\"stonefont\">"+ MinPrice[i].shift() +"</span></span>" +
                             "<span style=\"margin-left:5px;\">起</span>" +
                         "</div>" +

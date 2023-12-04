@@ -25,10 +25,10 @@
         <table>
 
             <%
-                String e = (String) request.getSession().getAttribute("e");
+                String r = (String) request.getSession().getAttribute("r");
                 String erro="";
-                if(e!=null){
-                    erro = e;
+                if(r!=null){
+                    erro = r;
                 }else {
                     erro = "";
                 }

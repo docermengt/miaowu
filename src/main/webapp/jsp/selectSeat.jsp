@@ -131,13 +131,13 @@
                     cinema_id: cinema_id
                 },
                 success:function (obj) {
-                    console.log(obj);
+                    console.log(obj.cinemaList[0].cinema_name)
                     cinemaBriefContainer.prepend(
-                        "<h3 class=\"name text-ellipsis\">" + obj.data[0].schedule_hall.hall_cinema.cinema_name + "</h3>" +
-                        "<div class=\"address text-ellipsis\">" + obj.data[0].schedule_hall.hall_cinema.cinema_address + "</div>"
+                        "<h3 class=\"name text-ellipsis\">" +obj.cinemaList[0].cinema_name + "</h3>" +
+                        "<div class=\"address text-ellipsis\">" + obj.cinemaList[0].cinema_address + "</div>"
                     );
                     avatarShadow.append(
-                        "<img class=\"avatar\" src=\"../static/images/cinemas/" + obj.data[0].schedule_hall.hall_cinema.cinema_name + ".jpg\">" +
+                        "<img class=\"avatar\" src=\"../static/images/cinemas/" + obj.cinemaList[0].cinema_name + ".jpg\">" +
                         "<div class=\"avatar-num\">查看全部21张图片</div>"
                     );
                     initMoive(obj); //初始化电影信息
@@ -148,7 +148,7 @@
 
         //初始化电影信息
         function initMoive(obj){
-           // console.log(obj);
+           console.log(obj.movies[0].movie_cn_name);
             var Data = new Date();
             var Month = Data.getMonth() + 1;
             var Day = Data.getDate();
@@ -158,28 +158,28 @@
             for(var i=0;i<5;i++){
                 movieList.append(
                     "<div class=\"movie active\" data-index=\"0\">" +
-                        "<img src=\"../static/images/stills/" + obj.data[0].schedule_movie.movie_cn_name + "/" + (i+1) + ".jpg\" alt=\"\">" +
+                        "<img src=\"../static/images/stills/" + obj.movies[0].movie_cn_name + "/" + (i+1) + ".jpg\" alt=\"\">" +
                     "</div>"
                 );
             }
          
             movieInfo.append(
                 "<div>" +
-                    "<h3 class=\"movie-name\">"+ obj.data[0].schedule_movie.movie_cn_name +"</h3>" +
-                    "<span class=\"score sc\">"+ obj.data[0].schedule_movie.movie_score +"</span>" +
+                    "<h3 class=\"movie-name\">"+ obj.movies[0].movie_cn_name +"</h3>" +
+                    "<span class=\"score sc\">"+ obj.movies[0].movie_score +"</span>" +
                 "</div>" +
                 "<div class=\"movie-desc\">" +
                     "<div>" +
                         "<span class=\"key\">时长 : </span>" +
-                        "<span class=\"value\">"+ obj.data[0].schedule_movie.movie_duration +"</span>" +
+                        "<span class=\"value\">"+obj.movies[0].movie_duration +"</span>" +
                     "</div>" +
                     "<div>" +
                         "<span class=\"key\">类型 :</span>" +
-                        "<span class=\"value\">"+ obj.data[0].schedule_movie.movie_type +"</span>" +
+                        "<span class=\"value\">"+ obj.movies[0].movie_type +"</span>" +
                     "</div>" +
                     "<div>" +
                         "<span class=\"key\">导演 :</span>" +
-                        "<span class=\"value\">"+ obj.data[0].schedule_movie.movie_director+"</span>" +
+                        "<span class=\"value\">"+ obj.movies[0].movie_director+"</span>" +
                     "</div>" +
                 "</div>"
             )
@@ -189,15 +189,15 @@
         //初始化场次信息
         function initSchedule(obj){
             var plist = $(".plist").find("tbody");
-
-            for(var i = 0;i < obj.data.length;i++){
+            console.log(obj.schedulebymid[0])
+            for(var i = 0;i < obj.schedulebymid.length;i++){
                 plist.append(
                     "<tr class=\"\">" +
-                        "<td> <span class=\"begin-time\">"+ obj.data[i].schedule_startTime +"</span> <br> </td>" +
-                        "<td> <span class=\"lang\">" + obj.data[i].schedule_movie.movie_country +"</span> </td>" +
-                        "<td> <span class=\"hall\">" + obj.data[i].schedule_hall.hall_name + "</span> </td>" +
-                        "<td> <span class=\"sell-price\"> <span class=\"stonefont\">" + obj.data[i].schedule_price + "</span> </span> </td>" +
-                        "<td> <a href=\"./buySeat.jsp?schedule_id="+ obj.data[i].schedule_id +"\" class=\"buy-btn normal\">选座购票</a> </td>" +
+                        "<td> <span class=\"begin-time\">"+ obj.schedulebymid[i].schedule_startTime +"</span> <br> </td>" +
+                        "<td> <span class=\"lang\">" + obj.movies[0].movie_country +"</span> </td>" +
+                        "<td> <span class=\"hall\">" + obj.schedulebymid[i].hall_name + "</span> </td>" +
+                        "<td> <span class=\"sell-price\"> <span class=\"stonefont\">" + obj.schedulebymid[i].schedule_price + "</span> </span> </td>" +
+                        "<td> <a href=\"./buySeat.jsp?schedule_id="+ obj.schedulebymid[i].schedule_id +"\" class=\"buy-btn normal\">选座购票</a> </td>" +
                     "</tr>"   
                             );
             }

@@ -304,9 +304,7 @@
                 dataType:'json',
                 data: {},
                 success:function (obj) {
-                    console.log(obj.movies.length)
-                    console.log(obj.boxoffice.length)
-                    console.log(obj.upcoming.length)
+                    console.log(obj.movies)
                     HotNum.append("<span class=\"textcolor_red\">正在热映（" + obj.movies.length + "部）</span>");
                     if(obj.movies.length<8){
                         ListLength = obj.movies.length;
