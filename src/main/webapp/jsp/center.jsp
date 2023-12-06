@@ -4,7 +4,7 @@
 <%
 //	User user = (User)request.getSession().getAttribute("user");
 //	if(user == null){
-//		response.sendRedirect("./login.jsp");
+//		response.sendRedirect("./log.jsp");
 //	}
 %>
 <!DOCTYPE html>
@@ -96,11 +96,12 @@
     <script>
         var clientHeight = document.documentElement.clientHeight;
         var user = localStorage.getItem("userJson");
+       var user_id = JSON.parse(user);
+        var  user_name =localStorage.getItem("user_name")
         user = eval('(' + user + ')');
         var file;
 
         window.onload = function(){
-            initHeader();
             initCard(); //初始化选项卡
             initOrder(); //我的订单
             initInformation(); //基本信息
@@ -147,14 +148,13 @@
                 url: url + "/order/findOrderByUserName",
                 dataType:'json',
                 data: {
-                    user_name: user.user_name
+                    user_name: user_name
                 },
                 success:function (obj) {
-                    // console.log(obj);
-                    for(var i=0;i<obj.data.length;i++){
-                      //  var order_time = obj.data[i].order_schedule.schedule_startTime.slice(0,10);
+                    console.log(obj.orderlist)
+                    for(var i=0;i<obj.orderlist.length;i++){
                         var StateText;
-                        switch(obj.data[i].order_state){
+                        switch(obj.orderlist[i].order_state){
                             case 0:
                                 StateText = "退票中";
                             break;
@@ -168,21 +168,21 @@
                         html = 
                         "<div class=\"order-box\">" +
                             "<div class=\"order-head\">" +
-                                    "<span class=\"order-date\">" + obj.data[i].order_time + "</span>" +
-                                    "<span class=\"order-id\">订单号：" + obj.data[i].order_id + "</span>" +
+                                    "<span class=\"order-date\">" + obj.orderlist[i].order_time + "</span>" +
+                                    "<span class=\"order-id\">订单号：" + obj.orderlist[i].order_id + "</span>" +
                                     "<span class=\"order-delete\">*</span>" +
                                     "</div>" +
                             "<div class=\"order-body\">" +
-                                "<div class=\"poster\"><img src=\"" + obj.data[i].order_schedule.schedule_movie.movie_picture + "\"></div>" +
+                                "<div class=\"poster\"><img src=\"" + obj.orderlist[i].order_schedule.schedule_movie.movie_picture + "\"></div>" +
                                 "<div class=\"order-content\">" +
-                                    "<div class=\"movie-name\">" + obj.data[i].order_schedule.schedule_movie.movie_cn_name + "</div>" +
-                                    " <div class=\"cinema-name\">" + obj.data[i].order_schedule.schedule_hall.hall_cinema.cinema_name + "</div>" +
-                                    "<div class=\"hall-ticket\">"  + obj.data[i].order_schedule.schedule_hall.hall_name + " " + obj.data[i].order_position + "</div>" +
-                                    "<div class=\"show-time\">" + obj.data[i].order_schedule.schedule_startTime + "</div>" +
+                                    "<div class=\"movie-name\">" + obj.orderlist[i].order_schedule.schedule_movie.movie_cn_name + "</div>" +
+                                    " <div class=\"cinema-name\">" + obj.orderlist[i].order_schedule.schedule_hall.hall_cinema.cinema_name + "</div>" +
+                                    "<div class=\"hall-ticket\">"  + obj.orderlist[i].order_schedule.schedule_hall.hall_name + " " + obj.data[i].order_position + "</div>" +
+                                    "<div class=\"show-time\">" + obj.orderlist[i].order_schedule.schedule_startTime + "</div>" +
                                 "</div>" +
-                                "<div class=\"order-price\">￥" + obj.data[i].order_schedule.schedule_price + "</div>" +
+                                "<div class=\"order-price\">￥" + obj.orderlist[i].order_schedule.schedule_price + "</div>" +
                                 "<div class=\"order-status\">" + StateText + "</div>" +
-                                "<div class=\"actions\"><a onclick=\"backticket('" + obj.data[i].order_id + "','" + obj.data[i].order_schedule.schedule_startTime  + "','" + StateText + "')\" style=\"cursor: pointer;\">申请退票</a></div>" +
+                                "<div class=\"actions\"><a onclick=\"backticket('" + obj.orderlist[i].order_id + "','" + obj.orderlist[i].order_schedule.schedule_startTime  + "','" + StateText + "')\" style=\"cursor: pointer;\">申请退票</a></div>" +
                             "</div>" +
                         "</div>";
                         order.append(html);
@@ -262,128 +262,43 @@
         }
     
         //初始化基本信息
-        function initInformation(){
+        function initInformation() {
             var avatarBody = $(".two").find(".avatar-body");
-            var roletext;
-            if(user.user_role==1){
-                roletext = "管理员";
-            }
-            else{
-                roletext = "会员";
-            }
-
+            var roletext = "会员";
             avatarBody.append(
                 "<div class=\"userexinfo-form-section\">" +
-                    "<p>账号：</p>" +
-                    "<span>" +
-                        "<input type=\"text\" name=\"userName\" id=\"userName\" value=\"" + user.user_name + "\" disabled=\"false\">" +
-                    "</span>" +
+                "<p>账号：</p>" +
+                "<span>" +
+                "<input type=\"text\" name=\"userName\" id=\"userName\" value=\"" + user_name + "\" disabled=\"false\">" +
+                "</span>" +
                 "</div>" +
                 "<div class=\"userexinfo-form-section\">" +
-                    "<p>身份：</p>" +
-                    "<span>" +
-                        "<input type=\"text\" name=\"role\" id=\"role\" value=\"" + roletext + "\" disabled=\"false\">" +
-                    "</span>" +
+                "<p>身份：</p>" +
+                "<span>" +
+                "<input type=\"text\" name=\"role\" id=\"role\" value=\"" + roletext + "\" disabled=\"false\">" +
+                "</span>" +
                 "</div>" +
                 "<div class=\"userexinfo-form-section\">" +
-                    "<p>邮箱：</p>" +
-                    "<span>" +
-                        "<input type=\"text\" name=\"email\" id=\"email\" value=\"" + user.user_email + "\">" +
-                    "</span>" +
+                "<p>邮箱：</p>" +
+                "<span>" +
+                "<input type=\"text\" name=\"email\" id=\"email\" value=\"" + "" + "\">" +
+                "</span>" +
                 "</div>" +
                 "<div class=\"userexinfo-btn-section\">" +
-                    "<input type=\"button\" onclick=\"saveBtn()\" class=\"form-save-btn\" value=\"保存\">" +
+                "<input type=\"button\" onclick=\"saveBtn()\" class=\"form-save-btn\" value=\"保存\">" +
                 "</div>"
             );
-            var HeadImg = "";
-            if(user.user_headImg == null || typeof user.user_headImg == "undefined"){
-                HeadImg = "../upload/head/demo.jpg";
-            }else{
-                HeadImg = user.user_headImg;
-            }
-            $('#demo1').attr('src', HeadImg);
-            
-            layui.use(['layer', 'table'], function(){
-                var layer = layui.layer;
-                var table = layui.table
-
-                //图片上传
-                layui.use('upload', function(){
-                    var $ = layui.jquery
-                    ,upload = layui.upload;         
-                    //普通图片上传
-                    var uploadInst = upload.render({
-                        elem: '#file'
-                        ,auto: false
-                        , choose: function (obj) {
-                            //预读本地文件
-                            obj.preview(function (index, file, result) {
-                                $('#demo1').attr('src', result); //图片链接（base64）
-                            })
-                            file = $('#file')[0].files[0];
-                        }
-                    });
-                });
-            });
         }
+
+
         //保存信息修改
-        function saveBtn(){
+        /*function saveBtn(){
             var formData = new FormData();
             var user_name = $('#userName').val(),
                 user_role = $('#role').val(),
                 user_email = $('#email').val();
-            console.log(file);
-            console.log(user_name+ "," + user_role + "," + user_email);
-            if(user_role == "会员"){
-                user_role = 0;
-            }else{
-                user_role = 1;
-            }
-            if(user_email == ""){
-                layui.use(['layer'], function(){
-                var layer = layui.layer;
-                    layer.alert('邮箱信息不能为空，修改失败！',{icon: 0,offset: clientHeight/5},
-                        function (){
-                            layer.close(layer.index);
-                        }
-                    );
-                });
-            }
-            else{
-                formData.append("user_id",user.user_id);
-                formData.append("user_name",user_name);
-                formData.append("user_role",user_role);
-                formData.append("user_email",user_email);
-                formData.append("file",file);
-                $.ajax({
-                    type:'post',
-                    url: url + "/user/uploadHeadImg",
-                   // dataType:'json',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success:function (result) {
-                        var obj = eval('(' + result + ')');
-                        if(obj.code == 0){
-                            layer.alert('修改成功！',{icon: 0,offset: clientHeight/5},
-                                function (){
-                                    localStorage.removeItem("userJson");
-                                    layer.closeAll();
-                                    localStorage.setItem("userJson",JSON.stringify(obj.data));
-                                    window.location.reload();
-                                }
-                            );
-                        }else{
-                            layer.alert('修改失败！',{icon: 0,offset: clientHeight/5},
-                                function (){
-                                    layer.closeAll();
-                                }
-                            );
-                        }
-                    }
-                });
-            }
-        }
+
+        }*/
     
         //初始化密码
         function initPassword(){

@@ -15,7 +15,6 @@
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
     <link rel="stylesheet" type="text/css" href="../static/css/main2.css">
     <link rel="stylesheet" type="text/css" href="../static/css/footer.css">
-    <script src="../static/js/header.js" charset="utf-8"></script>
     <script src="../static/js/Api.js"></script>
 
     <script src="../static/layui/layui.js" charset="utf-8"></script>
@@ -23,10 +22,7 @@
     <title>猫眼电影-首页</title>
 </head>
 <body>
-<%
-    String username = (String) request.getSession().getAttribute("username");
-    System.out.println(username);
-%>
+
     <!-- ------------------------------------------------------------------- -->
     <!-- 导航栏 -->
     <jsp:include page="header.jsp"/>
@@ -272,8 +268,7 @@
 
         window.onload = function(){
             initHostMovie(); //初始化正在热映和即将上映电影
-            //initBoxOffice(); //初始化总体票房
-            initHeader();
+            initBoxOffice(); //初始化总体票房
         }
 
         //图片轮播

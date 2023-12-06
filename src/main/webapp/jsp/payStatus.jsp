@@ -1,12 +1,6 @@
-<%@page import="com.entity.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	User user = (User)request.getSession().getAttribute("user");
-	if(user == null){
-		response.sendRedirect("./login.jsp");
-	}
-%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,7 +74,7 @@
         var clientHeight = document.documentElement.clientHeight;
 
         window.onload = function(){
-			 initHeader();
+			// initHeader();
         }
         
         function returnCenter(){

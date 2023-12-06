@@ -13,6 +13,7 @@
         <servlet-name>user</servlet-name>
         <url-pattern>/user/login</url-pattern>
         <url-pattern>/user/register</url-pattern>
+        <url-pattern>/user/logout</url-pattern>
     </servlet-mapping>
 
 <!-- 配置movie-->
@@ -35,6 +36,17 @@
         <servlet-name>schedule</servlet-name>
         <url-pattern>/schedule/findScheduleByCinemaAndMovie</url-pattern>
         <url-pattern>/schedule/findScheduleById</url-pattern>
+    </servlet-mapping>
+
+<!--    配置orderservlet-->
+    <servlet>
+        <servlet-name>order</servlet-name>
+        <servlet-class>com.maoyan.service.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>order</servlet-name>
+        <url-pattern>/order/buyTickets</url-pattern>
+        <url-pattern>/order/findOrderByUserName</url-pattern>
     </servlet-mapping>
 
 

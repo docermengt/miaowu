@@ -113,7 +113,6 @@
     <script>
         window.onload = function(){
             initBanner(); //初始化巨幕
-            initHeader();
         }
 
         //初始化巨幕

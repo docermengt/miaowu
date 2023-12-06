@@ -1,19 +1,23 @@
 package com.maoyan.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.maoyan.mapper.UserMapper;
 import com.maoyan.pojo.User;
+import com.maoyan.util.GetPathUrl;
 import com.maoyan.util.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 /***
  *  用户表controller
@@ -24,12 +28,9 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-         //获取请求url
+        //获取请求url
         String path = req.getRequestURI();
-        //获取最后一个斜杠下标
-        int index = path.lastIndexOf("/");
-        //获取请求名称
-        String realPath = path.substring(index+1);
+        String  realPath = GetPathUrl.getUrl(path);
 
         switch (realPath){
             case "login":
@@ -37,6 +38,9 @@ public class UserServlet extends HttpServlet {
                 break;
             case "register":
                 register(req, resp);
+                break;
+            case "logout":
+                logout(req, resp);
                 break;
         }
 
@@ -51,8 +55,9 @@ public class UserServlet extends HttpServlet {
  * */
 
   public  void login(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
-      String  username = req.getParameter("username");
-      String password = req.getParameter("password");
+
+      String  username = req.getParameter("user_name");
+      String password = req.getParameter("user_pwd");
 
 
       //调用mybatis工具类
@@ -60,20 +65,50 @@ public class UserServlet extends HttpServlet {
 
       //获取sqlSession对象
       SqlSession sqlSession = sqlSessionFactory.openSession();
-
       UserMapper mapper = sqlSession.getMapper(UserMapper.class);
       User select = mapper.select(username, password);
+      resp.setContentType("text/json;charset=utf-8"); //返回json格式
+
+      PrintWriter writer = resp.getWriter();
+      Map map = new HashMap<>();
+
+
       if(select!=null){
-          req.getSession().setAttribute("username", username);
-          resp.sendRedirect("/movie/jsp/mainPage.jsp");
+          String user_Id = select.getUser_id();
+          map.put("data",user_Id);
+
        }else {
           String erro = "账号或密码错误";
-
+          map.put("msg","fail");
           req.getSession().setAttribute("l", erro);
-          resp.sendRedirect("/movie/jsp/login.jsp");
       }
+      String  user = JSON.toJSONString(map);
+      writer.println(user);
 
   }
+
+
+  /***
+   * 用户退出方法
+   * logout
+   * */
+
+  public  void logout(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
+
+      resp.setContentType("text/json;charset=utf-8"); //返回json格式
+
+      PrintWriter writer = resp.getWriter();
+      Map map = new HashMap<>();
+      map.put("exit","exit");
+      String  user = JSON.toJSONString(map);
+      writer.println(user);
+
+}
+
+/*
+*  用户注册
+* register
+* */
 
 public  void register(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
       req.setCharacterEncoding("utf-8");

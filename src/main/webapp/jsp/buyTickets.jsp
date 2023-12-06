@@ -18,7 +18,6 @@
     <link rel="stylesheet" type="text/css" href="../static/css/footer.css">
     <link rel="stylesheet" type="text/css" href="../static/css/buyTickets.css">
     <link rel="stylesheet" type="text/css" href="../static/css/movieDetail.css">
-    <script src="../static/js/header.js" charset="utf-8"></script>
     <script src="../static/js/Api.js"></script>
 
     <script src="../static/layui/layui.js" charset="utf-8"></script>
@@ -159,7 +158,7 @@
         var CinemaLength;
 
         window.onload = function(){
-            initHeader();
+
             initParams(); //参数
             initBanner(); //巨幕
             initHtml(); //HTML

@@ -15,9 +15,8 @@
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
     <link rel="stylesheet" type="text/css" href="../static/css/movieList.css">
     <link rel="stylesheet" type="text/css" href="../static/css/footer.css">
-    <script src="../static/js/header.js" charset="utf-8"></script>
+<%--    <script src="../static/js/header.js" charset="utf-8"></script>--%>
     <script src="../static/js/Api.js"></script>
-
     <script src="../static/layui/layui.js" charset="utf-8"></script>
     <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
     <title>猫眼电影-电影</title>
@@ -113,7 +112,7 @@
         var order = "热门";
         window.onload = function(){
             funav(); //副导航栏
-            initHeader();
+
             initParams(); //参数
             initTags(); //标签
             initMovieList(); //电影列表

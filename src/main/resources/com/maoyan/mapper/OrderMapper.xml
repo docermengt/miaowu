@@ -4,10 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--接口路径-->
 <mapper namespace="com.maoyan.mapper.OrderMapper">
-
+    <insert id="insertOrder" parameterType="com.maoyan.pojo.Order">
+#         INSERT INTO orderinfo VALUES(   )
+    </insert>
 
     <select id="selectAll" resultType="com.maoyan.pojo.Order">
-        select * from orderinfo;
+        select * from orderinfo ;
 
+    </select>
+    <select id="selectByid" resultType="com.maoyan.pojo.Order">
+        select * from orderinfo where
+       user_id = (select user_id from user where user_name = #{user_name})
     </select>
 </mapper>

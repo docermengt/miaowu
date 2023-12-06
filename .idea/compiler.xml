@@ -10,5 +10,8 @@
         <module name="maoyan_movie" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Movie" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

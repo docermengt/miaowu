@@ -135,7 +135,7 @@
 
         window.onload = function(){
 
-            initHeader();
+            //initHeader();
             initEmail(); //邮箱
             initInformation(); //信息
         }

@@ -85,7 +85,7 @@ public class MovieServlet extends HttpServlet {
      *
      * */
     public  void  findMovieById(HttpServletRequest req,HttpServletResponse resp)throws ServletException, IOException{
-
+        String user_id = (String) req.getSession().getAttribute("user_id");
         String movieId = req.getParameter("movie_id");
         //调用mybatis工具类
         SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
@@ -104,8 +104,6 @@ public class MovieServlet extends HttpServlet {
         List<Cinema>  cinemaList  =  Cinemamapper.selectCinema() ;
         List<Hall> halls = hallMapper.selectHall();
         List<Schedule> scheduleList = scheduleMapper.selectAll();
-
-
 
 
         Map map = new HashMap<>();

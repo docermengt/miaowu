@@ -1,16 +1,5 @@
-<%--<%@page import="com.entity.User"%>--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%--<%--%>
-<%--	User user = (User)request.getSession().getAttribute("user");--%>
-<%--	if(user == null){--%>
-<%--		response.sendRedirect("./mainPage.jsp");--%>
-<%--	}else{--%>
-<%--        if(user.getUser_role() != 1){--%>
-<%--            response.sendRedirect("./mainPage.jsp");--%>
-<%--        }--%>
-<%--    }--%>
-<%--%>--%>
 <!DOCTYPE html>
 <html>
 <head>

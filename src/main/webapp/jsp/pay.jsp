@@ -103,7 +103,7 @@
         var schedule_id = json.schedule_id;
         var payBtn = $(".pay-btn");
         window.onload = function(){
-            initHeader();
+
             initPay(); //支付
             timeDown(); //计时器
         }
@@ -124,11 +124,11 @@
                 success:function (obj) {
                     orderTable.append(
                         "<tr>" +
-                            "<td class=\"movie-name\">" + obj.data.schedule_movie.movie_cn_name + "</td>" +
-                            "<td class=\"showtime\">" + obj.data.schedule_startTime + "</td>" +
-                            "<td class=\"cinema-name\">" + obj.data.schedule_hall.hall_cinema.cinema_name + "</td>" +
+                            "<td class=\"movie-name\">" + obj.movieslist[0].movie_cn_name + "</td>" +
+                            "<td class=\"showtime\">" + obj.scheduleslist[0].schedule_startTime + "</td>" +
+                            "<td class=\"cinema-name\">" + obj.cinemaList[0].cinema_name + "</td>" +
                             "<td>" +
-                                "<span class=\"hall\">" + obj.data.schedule_hall.hall_name + "</span>" +
+                                "<span class=\"hall\">" + obj.hallList[0].hall_name + "</span>" +
                                 "<div class=\"seats\">" +
                                     "<div class=\"choiceseat\" style=\"display: block;\">" +
                                     "</div>" +
@@ -219,7 +219,7 @@
                     }
                 },
                 error: function(){
-                    alert("network error");
+                    console.log("network error");
                 }
             });
         }
