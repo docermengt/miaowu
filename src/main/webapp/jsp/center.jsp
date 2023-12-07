@@ -1,12 +1,6 @@
 <%@page import="com.maoyan.pojo.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-//	User user = (User)request.getSession().getAttribute("user");
-//	if(user == null){
-//		response.sendRedirect("./log.jsp");
-//	}
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +15,6 @@
     <link rel="stylesheet" type="text/css" href="../static/css/header.css">
     <link rel="stylesheet" type="text/css" href="../static/css/center.css">
     <link rel="stylesheet" type="text/css" href="../static/css/footer.css">
-    <script src="../static/js/header.js" charset="utf-8"></script>
     <script src="../static/js/Api.js"></script>
     <script src="../static/layui/layui.js" charset="utf-8"></script>
     <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
@@ -95,9 +88,12 @@
     <!-- ------------------------------------------------------------------- -->
     <script>
         var clientHeight = document.documentElement.clientHeight;
-        var user = localStorage.getItem("userJson");
-       var user_id = JSON.parse(user);
+        var user = localStorage.getItem("user_json");
+       var user_id = JSON.parse(user);      //user_id
+        var user_pwd = localStorage.getItem("user_pwd")
         var  user_name =localStorage.getItem("user_name")
+
+
         user = eval('(' + user + ')');
         var file;
 
@@ -148,7 +144,7 @@
                 url: url + "/order/findOrderByUserName",
                 dataType:'json',
                 data: {
-                    user_name: user_name
+                    user_id: user_id
                 },
                 success:function (obj) {
                     console.log(obj.orderlist)
@@ -165,7 +161,7 @@
                                 StateText = "已退票";
                             break;
                         }
-                        html = 
+                        html =
                         "<div class=\"order-box\">" +
                             "<div class=\"order-head\">" +
                                     "<span class=\"order-date\">" + obj.orderlist[i].order_time + "</span>" +
@@ -173,16 +169,16 @@
                                     "<span class=\"order-delete\">*</span>" +
                                     "</div>" +
                             "<div class=\"order-body\">" +
-                                "<div class=\"poster\"><img src=\"" + obj.orderlist[i].order_schedule.schedule_movie.movie_picture + "\"></div>" +
+                                "<div class=\"poster\"><img src=\"" + obj.orderlist[i].movie_picture + "\"></div>" +
                                 "<div class=\"order-content\">" +
-                                    "<div class=\"movie-name\">" + obj.orderlist[i].order_schedule.schedule_movie.movie_cn_name + "</div>" +
-                                    " <div class=\"cinema-name\">" + obj.orderlist[i].order_schedule.schedule_hall.hall_cinema.cinema_name + "</div>" +
-                                    "<div class=\"hall-ticket\">"  + obj.orderlist[i].order_schedule.schedule_hall.hall_name + " " + obj.data[i].order_position + "</div>" +
-                                    "<div class=\"show-time\">" + obj.orderlist[i].order_schedule.schedule_startTime + "</div>" +
+                                    "<div class=\"movie-name\">" + obj.orderlist[i].movie_cn_name + "</div>" +
+                                    " <div class=\"cinema-name\">" + obj.orderlist[i].cinema_name + "</div>" +
+                                    "<div class=\"hall-ticket\">"  + obj.orderlist[i].hall_name + " " + obj.orderlist[i].order_position + "</div>" +
+                                    "<div class=\"show-time\">" + obj.orderlist[i].schedule_startTime + "</div>" +
                                 "</div>" +
-                                "<div class=\"order-price\">￥" + obj.orderlist[i].order_schedule.schedule_price + "</div>" +
+                                "<div class=\"order-price\">￥" + obj.orderlist[i].schedule_price + "</div>" +
                                 "<div class=\"order-status\">" + StateText + "</div>" +
-                                "<div class=\"actions\"><a onclick=\"backticket('" + obj.orderlist[i].order_id + "','" + obj.orderlist[i].order_schedule.schedule_startTime  + "','" + StateText + "')\" style=\"cursor: pointer;\">申请退票</a></div>" +
+                                "<div class=\"actions\"><a onclick=\"backticket('" + obj.orderlist[i].order_id + "','" + obj.orderlist[i].schedule_startTime  + "','" + StateText + "')\" style=\"cursor: pointer;\">申请退票</a></div>" +
                             "</div>" +
                         "</div>";
                         order.append(html);
@@ -190,6 +186,7 @@
                 }
             });
         }
+
         //退票申请
         function backticket(order_id,order_time,order_state){
             var ShowTime = $(".one").find(".show-time");
@@ -291,14 +288,34 @@
         }
 
 
-        //保存信息修改
-        /*function saveBtn(){
-            var formData = new FormData();
-            var user_name = $('#userName').val(),
-                user_role = $('#role').val(),
-                user_email = $('#email').val();
+        //保存基本信息修改
+        function saveBtn(){
+            var  user_email = $('#email').val();
+            $.ajax({
+                url: url+"/user/updatainfo",
+                data: {
+                    user_email: user_email,
+                    user_name:user_name
+                },
+                type: "POST",
+                dataType: "json",
+                success: function(data){
+                    console.log(data.msg)
+                    if (data.msg=='ok'){
+                        layui.use(['layer'], function(){
+                            var layer = layui.layer;
+                            layer.alert('修改成功!',{icon: 0,offset: clientHeight/5},
+                                function (){
+                                    layer.close(layer.index);
+                                }
+                            );
+                        });
+                        $('#email').val("")
+                    }
+                }
+            })
 
-        }*/
+        }
     
         //初始化密码
         function initPassword(){
@@ -328,12 +345,12 @@
                 "</div>"
             );
         }
+
         //保存密码修改
         function savePasswordBtn(){
             var user_old_password = $('#oldPassword').val(),
                 user_new_password = $('#newPassword').val(),
                 user_repeat_password = $('#repeatPassword').val();
-            var user_id = user.user_id;
             console.log(user_old_password+ "," + user_new_password + "," + user_repeat_password);
             if(user_old_password == "" || user_new_password == "" || user_repeat_password == ""){
                 layui.use(['layer'], function(){
@@ -345,7 +362,7 @@
                     );
                 });
             }
-            else if(user_old_password != user.user_pwd){
+            else if(user_old_password != user_pwd){
                 layui.use(['layer'], function(){
                 var layer = layui.layer;
                     layer.alert('旧密码输入错误！',{icon: 0,offset: clientHeight/5},
@@ -368,19 +385,21 @@
             else{
                 $.ajax({
                     type:'post',
-                    url: url + "/user/modifyUserPwd",
+                    url: url + "/user/updataPwd",
                     dataType:'json',
                     data: {
-                        oldPwd: user_old_password,
                         newPwd: user_new_password,
                         user_id: user_id,
                     },
                     success:function (obj) {
-                        if(obj == "success"){
+                        console.log(obj.msg)
+
+                        if(obj.msg == "ok"){
                             layer.alert('修改成功，请重新登陆！',{icon: 0,offset: clientHeight/5},
                                 function (){
                                     layer.closeAll();
                                     localStorage.removeItem("userJson");
+                                    localStorage.clear()
                                     window.location.reload();
                                 }
                             );

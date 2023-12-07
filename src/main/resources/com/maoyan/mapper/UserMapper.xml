@@ -14,5 +14,11 @@
     <insert id="insertUser">
         insert into user(user_id,user_name,user_pwd) values (#{uid},#{username},#{password});
     </insert>
+    <update id="updataemail">
+         UPDATE user  SET  user_email = #{user_email}  where user_name = #{user_name}
+    </update>
+    <update id="updataPwd">
+        UPDATE user  SET  user_pwd = #{user_pwd}  where user_id = #{user_id}
+    </update>
 
 </mapper>

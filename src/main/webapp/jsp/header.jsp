@@ -11,11 +11,9 @@
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
     <link rel="icon" type="image/x-icon" href="../static/images/logo.ico"/>
     <link rel="stylesheet" type="text/css" href="../static/css/header.css">
-    <script src="../static/js/header.js" charset="utf-8"></script>
     <script src="../static/js/Api.js"></script>
     <script src="../static/layui/layui.js" charset="utf-8"></script>
     <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
-    <script src="../static/js/header.js"></script>
     <title>猫眼电影</title>
 </head>
 <body>
@@ -66,7 +64,7 @@
     function initHeader(){
         var LayuiNavMore = $(".header-li");
         var user_json =  JSON.parse(localStorage.getItem("user_json"));
-        console.log(user_json)
+
 
         layui.use('element', function(){
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
@@ -87,7 +85,6 @@
         else{
             var HeadImg = "";
             if(user_json.user_headImg == null || typeof user_json.user_headImg == "undefined"){
-                console.log(user_json.user_headImg)
                 HeadImg = "../upload/head/demo.jpg";
             }else{
                 HeadImg = user_json.user_headImg;

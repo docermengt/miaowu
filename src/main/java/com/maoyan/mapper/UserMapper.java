@@ -11,5 +11,8 @@ public interface UserMapper {
     User selectByUserName( @Param("username")String username);
     //用户注册
     int insertUser(@Param("uid") String uid,@Param("username")String username, @Param("password") String password);
-
+    //修改用户个人信息 (邮箱)
+    int updataemail(@Param("user_email")String user_email , @Param("user_name") String user_name);
+    //修改密码
+    int updataPwd(@Param("user_id")String user_id,@Param("user_pwd")String user_pwd);
 }

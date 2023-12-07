@@ -41,7 +41,7 @@ public class OrderServlet extends HttpServlet {
     }
 
 /***
- * 用户结算
+ * 用户结算提交订单
  * */
     public void buyTickets(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -66,13 +66,15 @@ public class OrderServlet extends HttpServlet {
 
     }
 
+
+
     /****
      *  查找用户订单信息
      *
      * */
          public  void findOrderByUserName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-             String user_name = req.getParameter("user_name");
+             String user_id = req.getParameter("user_id");
 
              //调用mybatis工具类
              SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
@@ -80,18 +82,16 @@ public class OrderServlet extends HttpServlet {
              //获取sqlSession对象
              SqlSession sqlSession = sqlSessionFactory.openSession();
              OrderMapper ordermapper = sqlSession.getMapper(OrderMapper.class);
-             List<Order> orders = ordermapper.selectByid(user_name);
-             resp.setContentType("text/json;charset=utf-8"); //返回json格式
+             List<Order> orders = ordermapper.selectByid(user_id);
 
+
+             resp.setContentType("application/json;charset=utf-8"); //返回json格式
              PrintWriter writer = resp.getWriter();
              Map map = new HashMap<>();
 
              map.put("orderlist",orders);
-
              String  order = JSON.toJSONString(map);
-
             writer.println(order);
-
          }
 
     @Override

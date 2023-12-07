@@ -19,15 +19,7 @@
 </header>
 <script src="../static/js/jquery-3.3.1.min.js"></script>
 <script src="../static/js/Api.js"></script>
-<%
-  String l = (String) request.getSession().getAttribute("l");
-  String erro="";
-  if(l!=null){
-    erro = l;
-  }else {
-    erro = "";
-  }
-%>
+
 <div id="loginDiv">
   <form action="#" method="post" id="form">
     <h1 id="loginMsg">LOGIN IN</h1>
@@ -55,8 +47,6 @@
     $('.button').click(function (){
       var user_name = username.val()
       var user_pwd = userpwd.val()
-      localStorage.setItem("user_name",user_name)
-
       $.ajax({
         type: "post",
         url: url + "/user/login",
@@ -70,9 +60,10 @@
             $('#username_err').html("账户名或密码错误")
           }
           else{
-
+            localStorage.setItem("user_name",user_name)
+            localStorage.setItem("user_pwd",user_pwd)
             localStorage.setItem("user_json",JSON.stringify(obj.data));
-           window.location.href="./mainPage.jsp";
+           window.location.href= "./mainPage.jsp";
           }
         },
         error:function(){

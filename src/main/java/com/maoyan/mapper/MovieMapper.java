@@ -15,4 +15,7 @@ public interface MovieMapper {
     List<Movie> selectBystate();
     //id查询电影
     List<Movie> selectByID(@Param("movie_id")String movie_id);
+    //type查询电影
+  List<Movie> selectByType(@Param("movie_type") String movie_type ,@Param("movie_releaseDate") String movie_releaseDate
+  ,@Param("movie_country") String movie_country,@Param("movie_score") String movie_score);
 }

@@ -18,5 +18,17 @@
     <select id="selectByID" resultType="com.maoyan.pojo.Movie">
         select *from movie where movie_id =#{movie_id};
     </select>
+    <select id="selectByType" resultType="com.maoyan.pojo.Movie">
+<!--        select  * from movie-->
+<!--          <where>-->
+<!--            <if test="movie_type!=null">movie_type = #{movie_type}</if>-->
+<!--            <if test="movie_country!=null">movie_country = #{movie_country}</if>-->
+<!--          </where>-->
+<!--            <if test="movie_score!=null">-->
+<!--                order by movie_score desc-->
+<!--            </if>-->
+
+
+    </select>
 
 </mapper>

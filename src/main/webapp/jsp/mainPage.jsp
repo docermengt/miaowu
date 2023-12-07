@@ -299,7 +299,8 @@
                 dataType:'json',
                 data: {},
                 success:function (obj) {
-                    console.log(obj.movies)
+                     var boxoffice =  obj
+
                     HotNum.append("<span class=\"textcolor_red\">正在热映（" + obj.movies.length + "部）</span>");
                     if(obj.movies.length<8){
                         ListLength = obj.movies.length;
@@ -375,13 +376,14 @@
                             layer.alert('预售‘' + obj.upcoming[this.index].movie_cn_name + '’电影成功！',{icon: 0,offset: clientHeight/7});
                         }
                     }
-                    initBoxOffice(obj);
+                    initBoxOffice(boxoffice);
                 }
             });
         }
 
         //初始化总体票房
         function initBoxOffice(obj){
+
             var TempLength;
             if(obj.boxoffice.length>9){
                 TempLength = 9;

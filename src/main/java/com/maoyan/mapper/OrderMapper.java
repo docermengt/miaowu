@@ -12,6 +12,6 @@ public interface OrderMapper {
     //提交订单
     void insertOrder(Order order);
     //查询用户订单
-    List<Order> selectByid(@Param("user_name")String user_name);
+    List<Order> selectByid(@Param("user_id")String user_id);
 
 }

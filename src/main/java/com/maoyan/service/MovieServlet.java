@@ -44,6 +44,9 @@ public class MovieServlet extends HttpServlet {
             case "findMovieById":
                 findMovieById(req,resp);
                 break;
+            case "findMoviesByType":
+                findMoviesByType(req,resp);
+                break;
         }
 
     }
@@ -85,7 +88,7 @@ public class MovieServlet extends HttpServlet {
      *
      * */
     public  void  findMovieById(HttpServletRequest req,HttpServletResponse resp)throws ServletException, IOException{
-        String user_id = (String) req.getSession().getAttribute("user_id");
+
         String movieId = req.getParameter("movie_id");
         //调用mybatis工具类
         SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
@@ -116,7 +119,39 @@ public class MovieServlet extends HttpServlet {
 
     }
 
+/***
+ *      findMoviesByType   type查询电影
+ *
+ * */
 
+public  void findMoviesByType(HttpServletRequest req,HttpServletResponse resp)throws ServletException, IOException{
+
+    String movie_type = req.getParameter("movie_type");
+    String movie_releaseDate = req.getParameter("movie_releaseDate");
+    String movie_country = req.getParameter("movie_country");
+    String movie_score = req.getParameter("movie_score");
+    //调用mybatis工具类
+    SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
+
+    //获取sqlSession对象
+    SqlSession sqlSession = sqlSessionFactory.openSession();
+
+    resp.setContentType("text/json;charset=utf-8"); //返回json格式
+    PrintWriter out = resp.getWriter();
+
+    MovieMapper moviemapper = sqlSession.getMapper(MovieMapper.class);
+    List<Movie> movies = moviemapper.selectByType(movie_type,movie_releaseDate,movie_country,movie_score);
+
+    Map map = new HashMap<>();
+    map.put("movies", movies);
+
+    String movielist = JSONObject.toJSONString(map);
+
+    out.println(movielist);
+
+
+
+}
 
 
 

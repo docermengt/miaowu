@@ -14,6 +14,8 @@
         <url-pattern>/user/login</url-pattern>
         <url-pattern>/user/register</url-pattern>
         <url-pattern>/user/logout</url-pattern>
+        <url-pattern>/user/updatainfo</url-pattern>
+        <url-pattern>/user/updataPwd</url-pattern>
     </servlet-mapping>
 
 <!-- 配置movie-->
@@ -25,6 +27,7 @@
         <servlet-name>movielist</servlet-name>
         <url-pattern>/movielist/findAll</url-pattern>
         <url-pattern>/movielist/findMovieById</url-pattern>
+        <url-pattern>/movielist/findMoviesByType</url-pattern>
     </servlet-mapping>
 
 <!--    配置 schedule-->

@@ -46,17 +46,17 @@
                     <ul class="tags-lines">
                         <li class="tags-line">
                             <div class="tags-title">类型 :</div>
-                            <ul class="tags tags-type">
+                            <ul class="tags tags-type" id="movietype">
                             </ul>
                         </li>
                         <li class="tags-line tags-line-border">
                             <div class="tags-title">区域 :</div>
-                            <ul class="tags tags-area">
+                            <ul class="tags tags-area" id="moviecountry">
                             </ul>
                         </li>
                         <li class="tags-line tags-line-border">
                             <div class="tags-title">年代 :</div>
-                            <ul class="tags tags-year">
+                            <ul class="tags tags-year" id="movieyear">
                             </ul>
                         </li>
                     </ul>
@@ -76,13 +76,13 @@
                                 <li>
                                     <span class="sort-control-group" data-act="sort-click" data-href="?sortId=2">
                                         <span class="sort-control sort-radio"></span>
-                                        <span class="sort-control-label">按时间排序</span>
+                                        <span class="sort-control-label" id="date">按时间排序</span>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="sort-control-group" data-act="sort-click" data-href="?sortId=3">
                                         <span class="sort-control sort-radio"></span>
-                                        <span class="sort-control-label">按评价排序</span>
+                                        <span class="sort-control-label" id="score">按评价排序</span>
                                     </span>
                                 </li>
                             </ul>
@@ -128,21 +128,34 @@
 
         //初始化电影列表
         function initMovieList(){
+            var movie_releaseDate = ''
+            var  score = ''
+            $('#date').click(function (){
+                   movie_releaseDate =   $(this).val()  //上映时间
+            })
+            $('#score').click(function (){
+                 score  = $('this').val()  //电影评分
+            })
+            $('#movietype li').click(function (){
+                console.log($("this").val())
+            })
+            $('#moviecountry li')
+            $('#movieyear li')
+
             if(getUrlParams("type") == "全部" || getUrlParams("type") == null){
                 $.ajax({
                     type: "post",
-                    url: url + "/movie/sortAllMovies",
-                    data: {order: order},
+                    url: url + "/movielist/findAll",
                     dataType: "json",
                     success: function(obj){
-                        console.log(obj);
-                        for(var i = 0;i < obj.count; i++){
+                        console.log(obj.movies.length);
+                        for(var i = 0;i < obj.movies.length; i++){
                             movielist.append(
-                                "<li> <div class=\"movie-item\"> <a href=\"./buyTickets.jsp?movie_id="+ obj.data[i].movie_id +"\" target=\"_blank\"> <div class=\"movie-poster\"> <img src=\""+ obj.data[i].movie_picture +"\"> </div> </a>" +
+                                "<li> <div class=\"movie-item\"> <a href=\"./buyTickets.jsp?movie_id="+ obj.movies[i].movie_id +"\" target=\"_blank\"> <div class=\"movie-poster\"> <img src=\""+ obj.movies[i].movie_picture +"\"> </div> </a>" +
                                     "<div class=\"channel-action channel-action-sale\"> <a>购票<a/> </div> <div class=\"movie-ver\"></div> </div>" +
-                                    "<div class=\"channel-detail movie-item-title\" title=\""+ obj.data[i].movie_cn_name +"\">" + 
-                                        "<a href=\"./movieDetail.jsp?movie_id="+ obj.data[i].movie_id +"\" target=\"_blank\">"+ obj.data[i].movie_cn_name +"</a> </div>" +
-                                    "<div class=\"channel-detail channel-detail-orange\"> <i class=\"integer\">"+ obj.data[i].movie_score +"</i> </div>" +
+                                    "<div class=\"channel-detail movie-item-title\" title=\""+ obj.movies[i].movie_cn_name +"\">" +
+                                        "<a href=\"./movieDetail.jsp?movie_id="+ obj.movies[i].movie_id +"\" target=\"_blank\">"+ obj.movies[i].movie_cn_name +"</a> </div>" +
+                                    "<div class=\"channel-detail channel-detail-orange\"> <i class=\"integer\">"+ obj.movies[i].movie_score +"</i> </div>" +
                                     "</li>"
                                     );
                         }
@@ -155,7 +168,13 @@
                 $.ajax({
                     type: "post",
                     url: url + "/movie/findMoviesByType",
-                    data: {type: type},
+                    data:
+                        {movie_type:movie_type,
+                            movie_country:movie_country,
+                            movie_releaseDate:movie_releaseDate,
+                            movie_score:score
+
+                        },
                     dataType: "json",
                     success:function(obj){
                         console.log(obj);
