@@ -4,8 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--接口路径-->
 <mapper namespace="com.maoyan.mapper.OrderMapper">
-    <insert id="insertOrder" parameterType="com.maoyan.pojo.Order">
-#         INSERT INTO orderinfo VALUES(   )
+    <insert id="insertOrder" parameterType="java.util.List">
+        INSERT INTO orderinfo VALUES
+          <foreach collection="order" item="order" index="index" separator=",">
+      (
+              #{order.schedule_id},#{order.user_id},#{order.schedule_id},
+              #{order.order_position},#{order.order_state},#{order.order_price},
+              #{order.order_time}
+          </foreach>
+        )
     </insert>
 
     <select id="selectAll" resultType="com.maoyan.pojo.Order">
@@ -14,6 +21,6 @@
     </select>
     <select id="selectByid" resultType="java.util.Map">
         select distinct `orderinfo`.`order_time` AS `order_time`,`orderinfo`.`order_id` AS `order_id`,`movie`.`movie_cn_name` AS `movie_cn_name`,`movie`.`movie_picture` AS `movie_picture`,`cinema`.`cinema_name` AS `cinema_name`,`hall`.`hall_name` AS `hall_name`,`orderinfo`.`order_position` AS `order_position`,`schedule`.`schedule_startTime` AS `schedule_startTime`,`schedule`.`schedule_price` AS `schedule_price`,`orderinfo`.`order_state` AS `order_state` from ((((`movie` join `schedule` on((`movie`.`movie_id` = `schedule`.`movie_id`))) join `orderinfo` on((`schedule`.`schedule_id` = `orderinfo`.`schedule_id`))) join `cinema`) join `hall` on(((`cinema`.`cinema_id` = `hall`.`cinema_id`) and (`schedule`.`hall_id` = `hall`.`hall_id`))))
-              where (`orderinfo`.`user_id` = #{user_id})
+              where (`orderinfo`.`user_id` = #{user_id}) order by order_time desc
     </select>
 </mapper>

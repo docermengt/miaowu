@@ -417,7 +417,7 @@
                             "<a href=\"./selectSeat.jsp?cinema_id=" + obj.cinemaList[i].cinema_id + "&movie_id=" + obj.moviesbyid[0].movie_id + "\">选座购票</a>" +
                         "</div>" +
                         "<div class=\"price\">" +
-                            "<span class=\"rmb red\">39.9￥</span>" +
+                            "<span class=\"rmb red\">"+obj.scheduleList[i].schedule_price+"￥</span>" +
                             "<span class=\"price-num red\"><span class=\"stonefont\">"+ MinPrice[i].shift() +"</span></span>" +
                             "<span style=\"margin-left:5px;\">起</span>" +
                         "</div>" +

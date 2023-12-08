@@ -184,19 +184,25 @@
 
         //购买
         payBtn[0].onclick = function(){
+
             var position = json.TicketSeat.split(",");
+             var position_arr =   new Array(Array.from(position) )
             var price = json.price;
+            var user_id = JSON.parse(localStorage.getItem("user_json"))
             $.ajax({
                 type: "post",
                 url: url + "/order/buyTickets",
                 data: {
                     schedule_id: schedule_id,
-                    position: position,
+                    position: position_arr,
                     price: price,
+                    user_id:user_id
                 },
+                traditional:true,
                 dataType: "json",
                 success: function(obj){
-                	localStorage.removeItem("order");
+                    console.log(obj.code)
+                	//localStorage.removeItem("order");
                     if(obj.code == 0){
                         layui.use(['layer'], function(){
                             var layer = layui.layer;
@@ -210,7 +216,7 @@
                     }else{
                         layui.use(['layer'], function(){
                             var layer = layui.layer;
-                            layer.alert(obj.msg,{icon: 0,offset: clientHeight/5},
+                            layer.alert("请先登录账号",{icon: 0,offset: clientHeight/5},
                                  function (){
                                     layer.closeAll();
                                  }

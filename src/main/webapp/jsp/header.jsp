@@ -122,6 +122,7 @@
                         dataType:'json',
                         data: {},
                         success:function (obj) {
+
                             window.localStorage.clear()
                             layer.closeAll();
                             window.location.href = "./mainPage.jsp";

@@ -6,12 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="doubanmovie" />
-        <module name="maoyan_movie" />
+        <module name="maoyanmovie" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Movie" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
