@@ -22,7 +22,8 @@
         <div class="header-top">
             <div class="header-inner">
                 <h1 >
-                    <a href="javascript:void(0)"  id="logo" ></a>
+                    <a href="javascript:void(0)"  id="logo"  >
+                    </a>
                 </h1>
                 <div class="nav">
                     <ul>

@@ -47,6 +47,12 @@ public class MovieServlet extends HttpServlet {
             case "findMoviesByType":
                 findMoviesByType(req,resp);
                 break;
+            case "addMovie":
+                addMovie(req,resp);
+                break;
+            case "updateMovie":
+                updateMovie(req,resp);
+                break;
         }
 
     }
@@ -153,7 +159,20 @@ public  void findMoviesByType(HttpServletRequest req,HttpServletResponse resp)th
 
 }
 
+/****
+ *    添加电影 addMovie
+ * */
+    public void addMovie(HttpServletRequest req,HttpServletResponse resp)throws ServletException, IOException{
 
+    }
+
+/**
+ *   修改电影 updateMovie
+ * **/
+    public  void updateMovie (HttpServletRequest req,HttpServletResponse resp)throws ServletException, IOException{
+
+
+    }
 
 
     @Override

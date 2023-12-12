@@ -28,6 +28,8 @@
         <url-pattern>/movielist/findAll</url-pattern>
         <url-pattern>/movielist/findMovieById</url-pattern>
         <url-pattern>/movielist/findMoviesByType</url-pattern>
+        <url-pattern>/movielist/updateMovie</url-pattern>
+        <url-pattern>/movielist/addMovie</url-pattern>
     </servlet-mapping>
 
 <!--    配置 schedule-->
@@ -53,12 +55,18 @@
     </servlet-mapping>
 
 
-
-
-
-
-
-
+<!-- 配置comemnt-->
+    <servlet>
+        <servlet-name>comment</servlet-name>
+        <servlet-class>com.maoyan.service.CommentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>comment</servlet-name>
+        <url-pattern>/comment/selectComment</url-pattern>
+        <url-pattern>/comment/addCommentByUser</url-pattern>
+        <url-pattern>/comment/deleteComment</url-pattern>
+        <url-pattern>/comment/updateComment</url-pattern>
+    </servlet-mapping>
 
 
 

@@ -227,7 +227,7 @@
         var movieTypeBoxOffice = []; //电影类型票房数组
         var type = [];
         window.onload = function(){
-            initHeader();
+            // initHeader();
             initHtml(); //初始化html
             initCard(); //选项卡
             initUser(); //用户界面
@@ -628,13 +628,13 @@
             var tempurl;
             //添加电影
             if(movie_id == -1){
-                tempurl = "/movie/addMovie";
+                tempurl = "/movielist/addMovie";
                 temp = "添加";
                 flag = 0;
             }
             //修改电影
             else{
-                tempurl = "/movie/updateMovie";
+                tempurl = "/movielist/updateMovie";
                 temp = "修改";
                 flag = 1;
             }

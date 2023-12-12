@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--接口路径-->
+<mapper namespace="com.maoyan.mapper.CommentMapper">
+
+    <select id="selectAll" resultType="java.util.Map">
+        SELECT * FROM `user` JOIN `comment` on user.user_id = comment.user_id
+        WHERE movie_id = #{movie_id}
+    </select>
+
+    <insert id="insterComment">
+        insert into comment( comment_id,user_id, comment_content, movie_id, comment_time)
+        values (null,#{user_id},#{comment_content},#{movie_id},#{comment_time})
+    </insert>
+    <update id="updateComment">
+
+    </update>
+    <delete id="deleteComemnt">
+
+    </delete>
+
+
+
+</mapper>
