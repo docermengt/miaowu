@@ -14,12 +14,6 @@
         insert into comment( comment_id,user_id, comment_content, movie_id, comment_time)
         values (null,#{user_id},#{comment_content},#{movie_id},#{comment_time})
     </insert>
-    <update id="updateComment">
-
-    </update>
-    <delete id="deleteComemnt">
-
-    </delete>
 
 
 

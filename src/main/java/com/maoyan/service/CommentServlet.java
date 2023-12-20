@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +40,7 @@ public class CommentServlet extends HttpServlet {
             case "addCommentByUser":
                 addCommentByUser(req, resp);
                 break;
-            case "deleteComment":
-                deleteComemnt(req, resp);
-                break;
-            case "updateComment":
-                updateComment(req, resp);
-                break;
+
         }
     }
 
@@ -74,7 +71,7 @@ public class CommentServlet extends HttpServlet {
 
         String comment = JSON.toJSONString(map);
         resp.getWriter().println(comment);
-
+       sqlSession.close();
     }
 
     /**
@@ -84,27 +81,38 @@ public class CommentServlet extends HttpServlet {
      **/
     public void addCommentByUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        req.setCharacterEncoding("utf-8");
+        String movie_id = req.getParameter("movie_id");
+        String comment_content = req.getParameter("comment_content");
+        String user_id = req.getParameter("user_id");
 
-    }
+        Date date = new Date();//获取当前的日期
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String comment_time = df.format(date);//获取String类型的时间
 
-    /**
-     * 删除评论
-     *
-     * @deleteComemnt
-     **/
-    public void deleteComemnt(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //调用mybatis工具类
+        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
 
+        //获取sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
 
-    }
-
-    /**
-     * 修改评论
-     *
-     * @updateComment
-     **/
-    public void updateComment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/json;charset=utf-8"); //返回json格式
 
 
+        CommentMapper mapper = sqlSession.getMapper(CommentMapper.class);
+        int i = mapper.insterComment(user_id,comment_content,movie_id,comment_time);
+        Map map = new HashMap<>();
+        if(i>0){
+            map.put("code", 0);
+        }else {
+            map.put("code", "erro");
+        }
+
+
+
+        String comment = JSON.toJSONString(map);
+        resp.getWriter().println(comment);
+        sqlSession.close();
     }
 
 

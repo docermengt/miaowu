@@ -56,26 +56,26 @@ public class OrderServlet extends HttpServlet {
         //生成当前时间戳，生成用户订单
         Date date = new Date();//获取当前的日期
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-        String order_id = df.format(date);   //生成订单id
-        Date order_time = df.parse(order_id);   //生成订单时间
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyyMMddHHmmss");//设置日期格式
+        String order_id = df2.format(date);  //生成订单id
+        String time = df.format(date);
+        Date order_time = df.parse(time);   //生成订单时间
         long scheduleId =  Long.parseLong(req.getParameter("schedule_id")) ;
         String[] position = req.getParameterValues("position");
+
         int price = Integer.parseInt(req.getParameter("price")) ;
         long user_id =  Long.parseLong(req.getParameter("user_id")) ;
         int order_state = 1;
 
         Order order = new Order();
-        List<Order> orderList = new ArrayList<>();
-        for (int i = 0; i < position.length; i++) {
             order.setOrder_id(order_id);
             order.setUser_id(user_id);
             order.setSchedule_id(scheduleId);
-            order.setOrder_position(position[i]);
+            order.setOrder_position(position[0]);
             order.setOrder_state(order_state);
             order.setOrder_price(price);
             order.setOrder_time(order_time);
-            orderList.add(order);
-        }
+
 
         //调用mybatis工具类
         SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
@@ -84,7 +84,7 @@ public class OrderServlet extends HttpServlet {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         OrderMapper ordermapper = sqlSession.getMapper(OrderMapper.class);
          //执行添加方法
-         int i = ordermapper.insertOrder(orderList);
+         int i = ordermapper.insertOrder(order);
 
          Map map = new HashMap<>();
          if(i>0){
@@ -95,7 +95,7 @@ public class OrderServlet extends HttpServlet {
         sqlSession.commit();
          String msg = JSON.toJSONString(map);
          resp.getWriter().println(msg);
-
+         sqlSession.close();
     }
 
 
@@ -124,6 +124,7 @@ public class OrderServlet extends HttpServlet {
              map.put("orderlist",orders);
              String  order = JSON.toJSONString(map);
             writer.println(order);
+            sqlSession.close();
          }
 
     @Override

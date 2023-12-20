@@ -4,14 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--接口路径-->
 <mapper namespace="com.maoyan.mapper.OrderMapper">
-    <insert id="insertOrder" parameterType="java.util.List">
+    <insert id="insertOrder" parameterType="com.maoyan.pojo.Order">
         INSERT INTO orderinfo VALUES
-          <foreach collection="order" item="order" index="index" separator=",">
       (
-              #{order.schedule_id},#{order.user_id},#{order.schedule_id},
+              #{order.order_id},#{order.user_id},#{order.schedule_id},
               #{order.order_position},#{order.order_state},#{order.order_price},
               #{order.order_time}
-          </foreach>
         )
     </insert>
 

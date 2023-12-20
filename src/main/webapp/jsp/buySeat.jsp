@@ -208,7 +208,6 @@
                     schedule_id: schedule_id
                 },
                 success:function (obj) {
-                    console.log(obj.hallList[0].hall_name)
                     TempLength = obj.orderlist.length;
                     for(var i=0;i<TempLength;i++){
                         Seatrow[i] = obj.orderlist[i].order_position.split("排")[0];
@@ -317,7 +316,6 @@
             json.price = price;
             localStorage.setItem("order",JSON.stringify(json));
             window.location.href="./pay.jsp";
-           // window.location.href="./pay.jsp?schedule_id=" + schedule_id + "&TicketSeat=" + TicketSeat + "&price=" + price;
         }
 
         //获取url参数

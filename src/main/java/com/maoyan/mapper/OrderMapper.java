@@ -10,7 +10,7 @@ public interface OrderMapper {
 //    获取订单
     List<Order> selectAll();
     //提交订单
-    int insertOrder(@Param("order") List<Order> order);
+    int insertOrder(@Param("order") Order order);
     //查询用户订单
     List<Order> selectByid(@Param("user_id")String user_id);
 

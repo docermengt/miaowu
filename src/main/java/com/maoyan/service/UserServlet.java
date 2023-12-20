@@ -88,7 +88,7 @@ public class UserServlet extends HttpServlet {
         }
         String user = JSON.toJSONString(map);
         writer.println(user);
-
+     sqlSession.close();
     }
 
 

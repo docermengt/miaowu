@@ -86,6 +86,7 @@ public class MovieServlet extends HttpServlet {
         String  movie = JSON.toJSONString(map);
 
         out.println(movie); //返回json格式
+        sqlSession.close();
     }
 
 
@@ -122,7 +123,7 @@ public class MovieServlet extends HttpServlet {
        map.put("scheduleList", scheduleList);
         String  movie = JSON.toJSONString(map);
         out.println(movie);
-
+       sqlSession.close();
     }
 
 /***
@@ -154,7 +155,7 @@ public  void findMoviesByType(HttpServletRequest req,HttpServletResponse resp)th
     String movielist = JSONObject.toJSONString(map);
 
     out.println(movielist);
-
+   sqlSession.close();
 
 
 }

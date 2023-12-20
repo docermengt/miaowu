@@ -202,7 +202,7 @@
                 dataType: "json",
                 success: function(obj){
                     console.log(obj.code)
-                	//localStorage.removeItem("order");
+                	localStorage.removeItem("order");
                     if(obj.code == 0){
                         layui.use(['layer'], function(){
                             var layer = layui.layer;
@@ -225,6 +225,7 @@
                     }
                 },
                 error: function(){
+                    localStorage.removeItem("order");
                     console.log("network error");
                 }
             });

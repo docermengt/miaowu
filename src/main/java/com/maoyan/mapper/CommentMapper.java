@@ -13,11 +13,5 @@ public interface CommentMapper {
     int insterComment(@Param("user_id")String user_id,@Param("comment_content")String comment_content,@Param("movie_id")String movie_id,
     @Param("comment_time")String comment_time);
 
-    //修改评论
-    int  updateComment(@Param("user_id")String user_id,@Param("comment_content")String comment_content,@Param("movie_id")String movie_id,
-                      @Param("comment_time")String comment_time);
 
-    //删除评论
-    int  deleteComemnt(@Param("user_id")String user_id,@Param("comment_content")String comment_content,@Param("movie_id")String movie_id,
-                       @Param("comment_time")String comment_time);
 }
