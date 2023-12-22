@@ -7,7 +7,7 @@
 
     <select id="selectAll" resultType="java.util.Map">
         SELECT * FROM `user` JOIN `comment` on user.user_id = comment.user_id
-        WHERE movie_id = #{movie_id}
+        WHERE movie_id = #{movie_id} order by comment_time desc
     </select>
 
     <insert id="insterComment">

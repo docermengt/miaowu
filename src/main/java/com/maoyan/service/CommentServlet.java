@@ -1,9 +1,7 @@
 package com.maoyan.service;
 
 import com.alibaba.fastjson.JSON;
-import com.maoyan.mapper.CinemaMapper;
 import com.maoyan.mapper.CommentMapper;
-import com.maoyan.mapper.MovieMapper;
 import com.maoyan.pojo.Comment;
 import com.maoyan.util.GetPathUrl;
 import com.maoyan.util.SqlSessionFactoryUtils;
@@ -15,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,7 +68,7 @@ public class CommentServlet extends HttpServlet {
 
         String comment = JSON.toJSONString(map);
         resp.getWriter().println(comment);
-       sqlSession.close();
+        sqlSession.close();
     }
 
     /**
@@ -100,19 +97,19 @@ public class CommentServlet extends HttpServlet {
 
 
         CommentMapper mapper = sqlSession.getMapper(CommentMapper.class);
-        int i = mapper.insterComment(user_id,comment_content,movie_id,comment_time);
+        int i = mapper.insterComment(user_id, comment_content, movie_id, comment_time);
+        sqlSession.commit();
+        sqlSession.close();
         Map map = new HashMap<>();
-        if(i>0){
+        if (i > 0) {
             map.put("code", 0);
-        }else {
+        } else {
             map.put("code", "erro");
         }
 
-
-
         String comment = JSON.toJSONString(map);
         resp.getWriter().println(comment);
-        sqlSession.close();
+
     }
 
 

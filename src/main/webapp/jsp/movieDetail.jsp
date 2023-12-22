@@ -394,11 +394,14 @@
                 movie_id: movie_id
             },
             success: function (obj) {
+
                 for (let i = 0; i < obj.commentlist.length; i++) {
                     $(".mod-content ul").append(
                         ' <div class="layui-card">' +
-                        '  <div class="layui-card-header" style="color: #e56666">' +'用户:'+ obj.commentlist[i].user_name + '</div>' +
-                        '<div class="layui-card-body">' + obj.commentlist[i].comment_content + ' </div>' +'</div>'
+                        '  <div class="layui-card-header" style="color: #e56666">' +'用户：'+ obj.commentlist[i].user_name + '</div>' +
+                        '<div class="layui-card-body">' + obj.commentlist[i].comment_content + ' </div>' +
+                        '<p  style="display: flex;justify-content: flex-end; color:#ef4238">'+'评论时间：'+new Date(obj.commentlist[i].comment_time).toLocaleString()+'</p>'+
+                        '</div>'
                     )
                 }
 

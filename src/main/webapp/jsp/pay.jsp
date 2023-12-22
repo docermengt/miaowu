@@ -213,20 +213,20 @@
                                  }
                             );
                         });
-                    }else{
-                        layui.use(['layer'], function(){
-                            var layer = layui.layer;
-                            layer.alert("请先登录账号",{icon: 0,offset: clientHeight/5},
-                                 function (){
-                                    layer.closeAll();
-                                 }
-                            );
-                        });
                     }
                 },
                 error: function(){
                     localStorage.removeItem("order");
                     console.log("network error");
+                    layui.use(['layer'], function(){
+                        var layer = layui.layer;
+                        layer.alert("请先登录账号",{icon: 0,offset: clientHeight/5},
+                            function (){
+                                layer.closeAll();
+                                window.location.href = url+"/jsp/login.jsp"
+                            }
+                        );
+                    });
                 }
             });
         }
