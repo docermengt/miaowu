@@ -58,8 +58,8 @@ input {
 #username{
     width: 200px;
 }
-#password{
-    width: 202px;
+.password{
+    width: 200px;
 }
 .button {
     border-color: cornsilk;

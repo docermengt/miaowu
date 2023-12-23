@@ -17,7 +17,8 @@
     <link rel="stylesheet" type="text/css" href="../static/css/footer.css">
     <script src="../static/js/Api.js"></script>
     <script src="../static/layui/layui.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+<%--    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.2/css/layui.css" integrity="sha512-V8POzDh/+/NrceHV1dsdK9v6VWgQAtPaxYvQWGID2+PRoWJrjFiqlb26gE2PzdE8GIFoBvOOBtMH/SiAvj8uWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>猫眼电影-个人中心</title>
 </head>
 <body>
@@ -351,7 +352,6 @@
             var user_old_password = $('#oldPassword').val(),
                 user_new_password = $('#newPassword').val(),
                 user_repeat_password = $('#repeatPassword').val();
-            console.log(user_old_password+ "," + user_new_password + "," + user_repeat_password);
             if(user_old_password == "" || user_new_password == "" || user_repeat_password == ""){
                 layui.use(['layer'], function(){
                 var layer = layui.layer;
@@ -381,6 +381,15 @@
                         }
                     );
                 });
+            }else if(user_new_password == user_old_password){
+                layui.use(['layer'], function(){
+                    var layer = layui.layer;
+                    layer.alert('新密码不能与原密码相同！',{icon: 0,offset: clientHeight/5},
+                        function (){
+                            layer.close(layer.index);
+                        }
+                    );
+                });
             }
             else{
                 $.ajax({
@@ -392,18 +401,17 @@
                         user_id: user_id,
                     },
                     success:function (obj) {
-                        console.log(obj.msg)
-
-                        if(obj.msg == "ok"){
+                        console.log(obj.code)
+                        if(obj.code == 0){
                             layer.alert('修改成功，请重新登陆！',{icon: 0,offset: clientHeight/5},
                                 function (){
                                     layer.closeAll();
                                     localStorage.removeItem("userJson");
                                     localStorage.clear()
-                                    window.location.reload();
+                                    window.location.href = url+"/jsp/login.jsp"
                                 }
                             );
-                        }else{
+                        }else if (obj.code == 1){
                             layer.alert('修改失败！',{icon: 0,offset: clientHeight/5},
                                 function (){
                                     layer.closeAll();

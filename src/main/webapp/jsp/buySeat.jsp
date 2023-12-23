@@ -19,7 +19,8 @@
     <script src="../static/js/Api.js"></script>
 
     <script src="../static/layui/layui.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+<%--    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.2/css/layui.css" integrity="sha512-V8POzDh/+/NrceHV1dsdK9v6VWgQAtPaxYvQWGID2+PRoWJrjFiqlb26gE2PzdE8GIFoBvOOBtMH/SiAvj8uWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>猫眼电影-选位置</title>
 </head>
 <body>

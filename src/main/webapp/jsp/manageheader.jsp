@@ -27,15 +27,16 @@
                     </a>
                 </h1>
                 <div class="nav">
+
                     <ul>
-                        <li><a href="./mainPage.jsp">首页</a></li>
-                        <li class="active"><a href="./movieList.jsp">电影</a></li>
-                        <li><a href="javascript:void(0)">影院</a></li>
-                        <li><a href="javascript:void(0)">榜单</a></li>
+<%--                        <li><a href="./mainPage.jsp">首页</a></li>--%>
+<%--                        <li class="active"><a href="./movieList.jsp">电影</a></li>--%>
+<%--                        <li><a href="javascript:void(0)">影院</a></li>--%>
+<%--                        <li><a href="javascript:void(0)">榜单</a></li>--%>
                     </ul>
                 </div>
-                <div class="app-download">
-                </div>
+<%--                <div class="app-download">--%>
+<%--                </div>--%>
                 <div class="user-info">
                 <div class="user-avatar J-login">
                     <ul class="layui-nav" style="background-color: #fff;">
@@ -46,10 +47,7 @@
                 </div>
                 </div>
 
-                <form action="">
-                    <input name="searchMovie" class="search" type="search" maxlength="32" placeholder="找影视剧、影人、影院" autocomplete="off">
-                <input class="submit" type="submit" value="">
-                </form>
+
             </div>
         </div>
     </div>
@@ -58,60 +56,41 @@
 <script>
 
     var clientHeight = document.documentElement.clientHeight;
+    var admin_json =  JSON.parse(localStorage.getItem("admin_json"));
     $(function (){
-        initHeader()
+            initHeader()
+
     })
 
     //初始化
     function initHeader(){
         var LayuiNavMore = $(".header-li");
-        var user_json =  JSON.parse(localStorage.getItem("user_json"));
 
 
         layui.use('element', function(){
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
             //监听导航点击
             element.on('nav(demo)', function(elem){
-
                 layer.msg(elem.text());
             });
         });
-        if(user_json == null){
-            LayuiNavMore.append(
-                "<a href=\"javascript:;\" style=\"padding: 0;height: 42px; width: 42px;\"><img src=\"../static/images/head.jpg\" class=\"layui-nav-img\"></a>" +
-                "<dl class=\"layui-nav-child nav-image\">" +
-                "<dd><a href=\"./login.jsp\">登录</a></dd>" +
-                "</dl>"
-            );
-        }
-        else{
+
             var HeadImg = "";
-            if(user_json.user_headImg == null || typeof user_json.user_headImg == "undefined"){
-                HeadImg = "../upload/head/demo.jpg";
+            if(admin_json.user_headImg == null || typeof admin_json.user_headImg == "undefined"){
+                HeadImg = "../upload/head/admin.jpg";
             }else{
-                HeadImg = user_json.user_headImg;
+                HeadImg = admin_json.user_headImg;
             }
             LayuiNavMore.append(
                 "<a href=\"javascript:;\" style=\"padding: 0;height: 42px; width: 42px;\"><img src=\"" + HeadImg + "\" class=\"layui-nav-img\"></a>" +
                 "<dl class=\"layui-nav-child nav-image\">" +
-                "<dd><a href=\"./center.jsp\" onclick=\"mycenter()\">我的订单</a></dd>" +
-                "<hr/>" +
-                "<dd><a href=\"./center.jsp\" onclick=\"myinformation()\">基本信息</a></dd>" +
-                "<hr/>" +
                 "<dd><a onclick=\"ReLogin()\" style=\"text-decoration: none; cursor: pointer;\">注销</a></dd>" +
                 "<hr/>" +
                 "</dl>"
             );
 
-        }
+    }
 
-    }
-    function mycenter(){
-        localStorage.setItem("usercardId",0);
-    }
-    function myinformation(){
-        localStorage.setItem("usercardId",1);
-    }
     //注销
     function ReLogin(){
         layui.use(['layer'], function(){
@@ -120,11 +99,12 @@
                 function (){
                     $.ajax({
                         type:'post',
-                        url: url + "/user/logout",
+                        url: url + "/manage/logout",
                         dataType:'json',
                         data: {},
                         success:function () {
-                             window.localStorage.clear()
+
+                            window.localStorage.removeItem("admin_json")
                             layer.closeAll();
                             window.location.href = "./mainPage.jsp";
                         }

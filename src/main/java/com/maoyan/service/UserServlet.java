@@ -49,6 +49,7 @@ public class UserServlet extends HttpServlet {
             case "updataPwd":
                 updataPwd(req, resp);
                 break;
+
         }
 
     }
@@ -218,10 +219,10 @@ public class UserServlet extends HttpServlet {
         Map map = new HashMap<>();
 
         if(i>0){
-            map.put("msg", "ok");
+            map.put("code", 0);
 
         }else {
-            map.put("msg", "no");
+            map.put("code", 1);
         }
         String msg = JSONObject.toJSONString(map);
         resp.getWriter().println(msg);

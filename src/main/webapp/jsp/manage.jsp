@@ -11,21 +11,22 @@
     <script src="../static/bootstrap/js/jquery-3.3.1.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
     <link rel="icon" type="image/x-icon" href="../static/images/logo.ico"/>
-    <link rel="stylesheet" type="text/css" href="../static/css/header.css">
+<%--    <link rel="stylesheet" type="text/css" href="../static/css/header.css">--%>
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
     <link rel="stylesheet" type="text/css" href="../static/css/manage.css">
     <link rel="stylesheet" type="text/css" href="../static/css/footer.css">
-    <script src="../static/js/header.js" charset="utf-8"></script>
+<%--    <script src="../static/js/header.js" charset="utf-8"></script>--%>
     <script src="../static/js/echarts.js"></script>
     <script src="../static/js/Api.js"></script>
     <script src="../static/layui/layui.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+<%--    <link rel="stylesheet" href="../static/layui/css/layui.css" >--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.2/css/layui.css" integrity="sha512-V8POzDh/+/NrceHV1dsdK9v6VWgQAtPaxYvQWGID2+PRoWJrjFiqlb26gE2PzdE8GIFoBvOOBtMH/SiAvj8uWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>猫眼电影-后台管理</title>
 </head>
 <body>
     <!-- ------------------------------------------------------------------- -->
     <!-- 导航栏 -->
-    <jsp:include page="header.jsp"/>
+    <jsp:include page="manageheader.jsp"/>
 
     <!-- 占位符 -->
     <div style="margin-top: 110px;"></div>
@@ -227,15 +228,20 @@
         var movieTypeBoxOffice = []; //电影类型票房数组
         var type = [];
         window.onload = function(){
-            // initHeader();
-            initHtml(); //初始化html
-            initCard(); //选项卡
-            initUser(); //用户界面
-            initMovies(); //电影界面
-            initSchedule(); //场次界面
-            initComment(); //评论界面
-            initTicket();  //订单界面
-            initBoxOffice();//票房统计
+            if(admin_json == null){
+                alert("请先登录!")
+                window.location.href = url+'/jsp/adminlogin.jsp'
+            }else {
+                initHtml(); //初始化html
+                initCard(); //选项卡
+                initUser(); //用户界面
+                initMovies(); //电影界面
+                initSchedule(); //场次界面
+                initComment(); //评论界面
+                initTicket();  //订单界面
+                initBoxOffice();//票房统计
+            }
+
         }
 
         //选项卡

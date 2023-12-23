@@ -29,7 +29,7 @@
     <br>
     <span id="username_err"  style="display: block;color: red"></span>
     <div id="subDiv">
-      <input type="button" class="button" value="login up">
+      <input type="button" class="button" value="login up" id="button">
       <input type="reset" class="button" value="reset">&nbsp;&nbsp;&nbsp;
       <a href="register.jsp">没有账号？点击注册</a>
     </div>
@@ -44,7 +44,7 @@
 
 
 
-    $('.button').click(function (){
+    $('#button').click(function (){
       var user_name = username.val()
       var user_pwd = userpwd.val()
       $.ajax({
@@ -71,6 +71,7 @@
         }
       });
     })
+
 
   })
 

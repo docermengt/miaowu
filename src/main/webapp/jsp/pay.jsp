@@ -17,7 +17,8 @@
     <script src="../static/js/header.js" charset="utf-8"></script>
     <script src="../static/js/Api.js"></script>
     <script src="../static/layui/layui.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+<%--    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.2/css/layui.css" integrity="sha512-V8POzDh/+/NrceHV1dsdK9v6VWgQAtPaxYvQWGID2+PRoWJrjFiqlb26gE2PzdE8GIFoBvOOBtMH/SiAvj8uWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>猫眼电影-支付</title>
 </head>
 <body>
@@ -154,10 +155,10 @@
         function timeDown(){
             var timeMinute = $(".minute");
             var timeSecond = $(".second");
-            var minute;
-            var second;
-            timeMinute.text(localStorage.minute);
-            timeSecond.text(localStorage.second);
+            var minute
+            var second
+            timeMinute.text("");
+            timeSecond.text("");
             setInterval(function(){
                 if(second==0 && minute==0){
                     window.alert("支付时间已过，订单失效！");
@@ -169,9 +170,9 @@
                     localStorage.second = 59;
                 }
                 second = localStorage.second;
-                minute = localStorage.minute; 
+                minute = localStorage.minute;
                 if(second==0){
-                    minute--;
+                  minute--;
                     second = 60;
                 }
                 second--;
@@ -208,6 +209,8 @@
                             var layer = layui.layer;
                             layer.alert('购票成功！',{icon: 0,offset: clientHeight/5},
                                  function (){
+                                localStorage.removeItem("second")
+                                localStorage.removeItem("minute")
                                     layer.closeAll();
                                     document.location.href = "./payStatus.jsp";
                                  }

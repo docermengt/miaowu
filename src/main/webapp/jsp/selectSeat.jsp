@@ -21,7 +21,8 @@
     <script src="../static/js/header.js" charset="utf-8"></script>
     <script src="../static/js/Api.js"></script>
     <script src="../static/layui/layui.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+<%--    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.2/css/layui.css" integrity="sha512-V8POzDh/+/NrceHV1dsdK9v6VWgQAtPaxYvQWGID2+PRoWJrjFiqlb26gE2PzdE8GIFoBvOOBtMH/SiAvj8uWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>猫眼电影-选场次</title>
 </head>
 <body>
@@ -196,12 +197,29 @@
                         "<td> <span class=\"lang\">" + obj.movies[0].movie_country +"</span> </td>" +
                         "<td> <span class=\"hall\">" + obj.schedulebymid[i].hall_name + "</span> </td>" +
                         "<td> <span class=\"sell-price\"> <span class=\"stonefont\">" + obj.schedulebymid[i].schedule_price + "</span> </span> </td>" +
-                        "<td> <a href=\"./buySeat.jsp?schedule_id="+ obj.schedulebymid[i].schedule_id +"\" class=\"buy-btn normal\">选座购票</a> </td>" +
+                        "<td > <a href=\"./buySeat.jsp?schedule_id="+ obj.schedulebymid[i].schedule_id +"\" class=\"buy-btn normal\">选座购票</a> </td>" +
                     "</tr>"   
                             );
             }
         }
-                    
+
+        //判断用户是否登录
+        function iflogin(){
+            var user = localStorage.getItem("user_name");
+            if(user==null){
+                layui.use(['layer'], function(){
+                    var layer = layui.layer;
+                    layer.alert("请先登录账号",{icon: 0,offset: clientHeight/5},
+                        function (){
+                            layer.closeAll();
+                            window.location.href = url+"/jsp/login.jsp"
+                        }
+                    );
+                });
+
+            }
+        }
+
         //获取url参数
         function getUrlParams(name) { // 不传name返回所有值，否则返回对应值
             var url = window.location.search;

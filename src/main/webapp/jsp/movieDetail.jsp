@@ -22,7 +22,8 @@
     <script src="../static/js/Api.js"></script>
 
     <script src="../static/layui/layui.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+<%--    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.2/css/layui.css" integrity="sha512-V8POzDh/+/NrceHV1dsdK9v6VWgQAtPaxYvQWGID2+PRoWJrjFiqlb26gE2PzdE8GIFoBvOOBtMH/SiAvj8uWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>猫眼电影-详细</title>
 </head>
 <body>
@@ -131,7 +132,7 @@
 
                             <div class="mod-content">
                                 <div class="comment-list-container" data-hot="10">
-                                    <ul>
+                                    <ul class="view-comment">
                                     </ul>
                                 </div>
                                 <a class="comment-entry" data-act="comment-no-content-click" onclick="writeComment()">写短评</a>
@@ -227,7 +228,6 @@
                 movie_id: movie_id
             },
             success: function (obj) {
-                console.log(obj.moviesbyid[0])
                 StonefontTemp = obj.moviesbyid[0].movie_boxOffice;
                 StonefontTemp += "万";
                 avatar.append("<img class=\"avatar\" src=\"" + obj.moviesbyid[0].movie_picture + "\" alt=\"\">");
@@ -396,7 +396,7 @@
             success: function (obj) {
 
                 for (let i = 0; i < obj.commentlist.length; i++) {
-                    $(".mod-content ul").append(
+                    $(".view-comment").append(
                         ' <div class="layui-card">' +
                         '  <div class="layui-card-header" style="color: #e56666">' +'用户：'+ obj.commentlist[i].user_name + '</div>' +
                         '<div class="layui-card-body">' + obj.commentlist[i].comment_content + ' </div>' +

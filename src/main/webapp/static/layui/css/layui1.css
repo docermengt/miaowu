@@ -185,8 +185,8 @@ a cite {
 
 @font-face {
     font-family: layui-icon;
-    src: url(../font/iconfont.eot?v=250);
-    src: url(../font/iconfont.eot?v=250#iefix) format('embedded-opentype'), url(../font/iconfont.woff2?v=250) format('woff2'), url(../font/iconfont.woff?v=250) format('woff'), url(../font/iconfont.ttf?v=250) format('truetype'), url(../font/iconfont.svg?v=250#layui-icon) format('svg')
+    src: url(./font/iconfont.eot?v=250);
+    src: url(./font/iconfont.eot?v=250#iefix) format('embedded-opentype'), url(/font/iconfont.woff2?v=250) format('woff2'), url(./font/iconfont.woff?v=250) format('woff'), url(../font/iconfont.ttf) format('truetype'), url(./font/iconfont.svg?v=250#layui-icon) format('svg')
 }
 
 .layui-icon {

@@ -18,7 +18,8 @@
     <script src="../static/js/Api.js"></script>
 
     <script src="../static/layui/layui.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+<%--    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.2/css/layui.css" integrity="sha512-V8POzDh/+/NrceHV1dsdK9v6VWgQAtPaxYvQWGID2+PRoWJrjFiqlb26gE2PzdE8GIFoBvOOBtMH/SiAvj8uWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>猫眼电影-首页</title>
 </head>
 <body>
@@ -343,7 +344,7 @@
                         htmlOn =
                         "<li>" +
                             "<div class=\"movie-item\">" +
-                                "<a href=\"javascript:void(0)\" target=\"_blank\" data-act=\"playingMovie-click\" data-val=\"" + obj.upcoming[i].movie_id + "\">" +
+                                "<a href=\"./movieDetail.jsp?movie_id="+obj.upcoming[i].movie_id+"\" target=\"_blank\" data-act=\"playingMovie-click\" data-val=\"" + obj.upcoming[i].movie_id + "\">" +
                                     "<div class=\"movie-poster\" style=\"cursor:default;\">" +
                                         "<img id=\"moive_picture\" src=\"" + obj.upcoming[i].movie_picture  + "\">" +
                                         "<div class=\"movie-overlay movie-overlay-bg\">" +
