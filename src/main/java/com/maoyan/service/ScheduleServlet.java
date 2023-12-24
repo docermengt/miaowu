@@ -69,6 +69,7 @@ public class ScheduleServlet extends HttpServlet {
         List<Cinema> cinemaList = cinemaMapper.selectByCinemaid(cinema_id);
         List<Movie> movies = movieMapper.selectByID(movie_Id);
 
+         sqlSession.close();
 
         Map map = new HashMap<>();
         map.put("schedulebymid", schedule);
@@ -110,7 +111,7 @@ public class ScheduleServlet extends HttpServlet {
         resp.setContentType("text/json;charset=utf-8"); //返回json格式
         PrintWriter out = resp.getWriter();
 
-
+        sqlSession.close();
 
         Map map = new HashMap<>();
         map.put("orderlist", orders);

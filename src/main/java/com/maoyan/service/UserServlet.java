@@ -73,7 +73,7 @@ public class UserServlet extends HttpServlet {
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
         User select = mapper.select(username, password);
         resp.setContentType("text/json;charset=utf-8"); //返回json格式
-
+         sqlSession.close();
         PrintWriter writer = resp.getWriter();
         Map map = new HashMap<>();
 
@@ -89,7 +89,7 @@ public class UserServlet extends HttpServlet {
         }
         String user = JSON.toJSONString(map);
         writer.println(user);
-     sqlSession.close();
+
     }
 
 
@@ -117,9 +117,9 @@ public class UserServlet extends HttpServlet {
 
     public void register(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
-        resp.setContentType("text/html;charset=UTF-8");
-        String username = req.getParameter("uname");
-        String password = req.getParameter("pwd");
+        resp.setContentType("text/json;charset=UTF-8");
+        String username = req.getParameter("user_name");
+        String password = req.getParameter("user_pwd");
 
 
         //生成当前时间戳，生成用户id
@@ -136,22 +136,22 @@ public class UserServlet extends HttpServlet {
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
 
         User user = mapper.selectByUserName(username);
-
+        PrintWriter writer = resp.getWriter();
+        Map map = new HashMap();
         if (user == null) {
             int i = mapper.insertUser(uid, username, password);
             if (i > 0) {
                 sqlSession.commit();
-                PrintWriter writer = resp.getWriter();
-                writer.write("注册成功" + "<br>");
-                writer.write("3秒后跳转至主页面");
-                resp.setHeader("refresh", "3;URL=http://localhost:8081/movie/jsp/mainPage.jsp");
+                map.put("msg", "ok");
+                map.put("data", uid);
+                writer.println( JSON.toJSONString(map));
             }
         } else {
-            String rerro = "用户名已存在";
+            map.put("msg", 0);
+            writer.println( JSON.toJSONString(map));
 
-            req.getSession().setAttribute("r", rerro);
-            resp.sendRedirect("/movie/jsp/register.jsp");
         }
+        sqlSession.close();
     }
 
 
@@ -190,7 +190,7 @@ public class UserServlet extends HttpServlet {
         String msg = JSON.toJSONString(map);
         resp.getWriter().println(msg);
 
-    }
+  }
 
 
     /****

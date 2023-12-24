@@ -29,7 +29,7 @@
     <!-- ------------------------------------------------------------------- -->
     <!-- 导航栏 -->
     <jsp:include page="header.jsp"/>
-    
+
     <!-- 占位符 -->
     <div style="margin-top: 80px;"></div>
 
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-                
+
         </div>
     </div>
 
@@ -84,7 +84,7 @@
                 </div>
                 <!-- 观影时间 -->
                 <div class="show-date">
-                    <span>观影时间 :</span>  
+                    <span>观影时间 :</span>
                 </div>
                 <!-- 场次列表 -->
                 <div class="plist-container active">
@@ -99,7 +99,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                          
+
                         </tbody>
                     </table>
                 </div>
@@ -113,7 +113,20 @@
     <!-- ------------------------------------------------------------------- -->
     <script>
         window.onload = function(){
-            initBanner(); //初始化巨幕
+            var user = localStorage.getItem("user_name");
+            if(user==null){
+                layui.use(['layer'], function(){
+                    var layer = layui.layer;
+                    layer.alert("请先登录账号",{icon: 0,offset: clientHeight/5},
+                        function (){
+                            window.location.href = url+"/jsp/login.jsp"
+                            layer.closeAll()
+                        }
+                    );
+                });
+            }else {
+                initBanner(); //初始化巨幕
+            }
         }
 
         //初始化巨幕
@@ -162,7 +175,7 @@
                     "</div>"
                 );
             }
-         
+
             movieInfo.append(
                 "<div>" +
                     "<h3 class=\"movie-name\">"+ obj.movies[0].movie_cn_name +"</h3>" +
@@ -197,28 +210,14 @@
                         "<td> <span class=\"lang\">" + obj.movies[0].movie_country +"</span> </td>" +
                         "<td> <span class=\"hall\">" + obj.schedulebymid[i].hall_name + "</span> </td>" +
                         "<td> <span class=\"sell-price\"> <span class=\"stonefont\">" + obj.schedulebymid[i].schedule_price + "</span> </span> </td>" +
-                        "<td > <a href=\"./buySeat.jsp?schedule_id="+ obj.schedulebymid[i].schedule_id +"\" class=\"buy-btn normal\">选座购票</a> </td>" +
-                    "</tr>"   
+                        "<td > <a   href=\"./buySeat.jsp?schedule_id="+ obj.schedulebymid[i].schedule_id +"\" class=\"buy-btn normal  iflogin\">选座购票</a> </td>" +
+                    "</tr>"
                             );
             }
         }
 
         //判断用户是否登录
-        function iflogin(){
-            var user = localStorage.getItem("user_name");
-            if(user==null){
-                layui.use(['layer'], function(){
-                    var layer = layui.layer;
-                    layer.alert("请先登录账号",{icon: 0,offset: clientHeight/5},
-                        function (){
-                            layer.closeAll();
-                            window.location.href = url+"/jsp/login.jsp"
-                        }
-                    );
-                });
 
-            }
-        }
 
         //获取url参数
         function getUrlParams(name) { // 不传name返回所有值，否则返回对应值

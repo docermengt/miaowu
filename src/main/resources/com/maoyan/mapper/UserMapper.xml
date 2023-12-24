@@ -11,7 +11,7 @@
     <select id="selectByUserName" resultType="com.maoyan.pojo.User">
         select *from user where user_name = #{username}
     </select>
-    <insert id="insertUser">
+    <insert id="insertUser" >
         insert into user(user_id,user_name,user_pwd) values (#{uid},#{username},#{password});
     </insert>
     <update id="updataemail">
