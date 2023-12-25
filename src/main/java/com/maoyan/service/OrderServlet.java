@@ -42,6 +42,9 @@ public class OrderServlet extends HttpServlet {
             case "findOrderByUserName":
                 findOrderByUserName(req, resp);
                 break;
+            case "updataOrder":
+                updataOrder(req, resp);
+                break;
 
         }
     }
@@ -126,6 +129,34 @@ public class OrderServlet extends HttpServlet {
             writer.println(order);
             sqlSession.close();
          }
+
+
+
+         /*申请退票
+         *   updataOrder
+         * */
+         public  void updataOrder(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+             String order_id = req.getParameter("order_id");
+             resp.setContentType("application/json;charset=utf-8"); //返回json格式
+             PrintWriter writer = resp.getWriter();
+             //调用mybatis工具类
+             SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
+
+             //获取sqlSession对象
+             SqlSession sqlSession = sqlSessionFactory.openSession();
+             OrderMapper ordermapper = sqlSession.getMapper(OrderMapper.class);
+             int i = ordermapper.updataOrder(order_id);
+             Map map = new HashMap<>();
+             if(i>0){
+                 sqlSession.commit();
+                 map.put("code", 0);
+                 writer.println( JSON.toJSONString(map));
+             }
+
+             sqlSession.close();
+         }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -56,7 +56,8 @@
 <script>
 
     var clientHeight = document.documentElement.clientHeight;
-    var admin_json =  JSON.parse(localStorage.getItem("admin_json"));
+   // var admin_json =  JSON.parse(localStorage.getItem("admin_json"));
+    var admin_json = localStorage.getItem("admin_name")
     $(function (){
             initHeader()
 
@@ -104,7 +105,7 @@
                         data: {},
                         success:function () {
 
-                            window.localStorage.removeItem("admin_json")
+                            window.localStorage.removeItem("admin_name")
                             layer.closeAll();
                             window.location.href = "./mainPage.jsp";
                         }

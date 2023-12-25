@@ -61,7 +61,7 @@
                     } else {
                         localStorage.setItem("admin_name", name)
                         localStorage.setItem("admin_pwd", pwd)
-                        localStorage.setItem("admin_json", JSON.stringify(obj.data));
+                        // localStorage.setItem("admin_json", JSON.stringify(obj.data));
                         window.location.href = "./manage.jsp";
                     }
                 },

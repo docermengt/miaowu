@@ -177,7 +177,7 @@
                                     "<div class=\"hall-ticket\">"  + obj.orderlist[i].hall_name + " " + obj.orderlist[i].order_position + "</div>" +
                                     "<div class=\"show-time\">" + obj.orderlist[i].schedule_startTime + "</div>" +
                                 "</div>" +
-                                "<div class=\"order-price\">￥" + obj.orderlist[i].schedule_price + "</div>" +
+                                "<div class=\"order-price\">￥" + obj.orderlist[i].order_price + "</div>" +
                                 "<div class=\"order-status\">" + StateText + "</div>" +
                                 "<div class=\"actions\"><a onclick=\"backticket('" + obj.orderlist[i].order_id + "','" + obj.orderlist[i].schedule_startTime  + "','" + StateText + "')\" style=\"cursor: pointer;\">申请退票</a></div>" +
                             "</div>" +
@@ -210,24 +210,14 @@
                 if(myDate.getHours()==23){
                     flag=1;
                 }
-                OldTime = order_time;
-                NowTime = myDate.toLocaleDateString() + " " + parseInt(myDate.getHours()+1).toString()  + ":" + myDate.getMinutes();
-                OldDate = new Date(OldTime.replace(/-/g,"\/"));
-                NowDate = new Date(NowTime.replace(/-/g,"\/"));
+
                 if(flag == 1){
-                    flag = 0;
                     layui.use(['layer'], function(){
                     var layer = layui.layer;
                         layer.alert('23：00 - 00：00不给予退票操作！',{icon: 0,offset: clientHeight/5});
                     });
                 }
-                else if(OldDate<NowDate){
-                    // window.alert("旧时间：" + OldDate + "\n新时间：" + NowDate + "\n退票时间为开场前1小时外，退票申请失败！");
-                    layui.use(['layer'], function(){
-                    var layer = layui.layer;
-                        layer.alert('退票时间为开场前1小时外，退票申请失败！',{icon: 0,offset: clientHeight/5});
-                    });
-                }
+
                 else{
                     // window.alert("旧时间：" + OldDate + "\n新时间：" + NowDate + "\n退票已申请");
                     layui.use(['layer'], function(){
@@ -236,7 +226,7 @@
                             function (){
                                 $.ajax({
                                     type:'post',
-                                    url: url + "/order/applyForRefund",
+                                    url: url + "/order/updataOrder",
                                     dataType:'json',
                                     data: {
                                         order_id: order_id

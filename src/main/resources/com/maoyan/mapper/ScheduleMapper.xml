@@ -17,5 +17,9 @@
     <select id="selectByScheduleid" resultType="com.maoyan.pojo.Schedule">
         select * from schedule where schedule_id = #{schedule_id}
     </select>
+    <select id="selectByUserid" resultType="com.maoyan.pojo.Schedule" parameterType="string">
+        SELECT * FROM schedule WHERE schedule_id in
+         (SELECT schedule_id FROM orderinfo WHERE user_id = #{user_id})
+    </select>
 
 </mapper>

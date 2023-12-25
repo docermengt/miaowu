@@ -13,5 +13,7 @@ public interface OrderMapper {
     int insertOrder(@Param("order") Order order);
     //查询用户订单
     List<Order> selectByid(@Param("user_id")String user_id);
+    //退票订单
+    int  updataOrder(@Param("order_id")String order_id);
 
 }

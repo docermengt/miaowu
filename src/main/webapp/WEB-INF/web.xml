@@ -41,6 +41,7 @@
         <servlet-name>schedule</servlet-name>
         <url-pattern>/schedule/findScheduleByCinemaAndMovie</url-pattern>
         <url-pattern>/schedule/findScheduleById</url-pattern>
+        <url-pattern>/schedule/selectByUserid</url-pattern>
     </servlet-mapping>
 
 <!--    配置orderservlet-->
@@ -52,6 +53,7 @@
         <servlet-name>order</servlet-name>
         <url-pattern>/order/buyTickets</url-pattern>
         <url-pattern>/order/findOrderByUserName</url-pattern>
+        <url-pattern>/order/updataOrder</url-pattern>
     </servlet-mapping>
 
 

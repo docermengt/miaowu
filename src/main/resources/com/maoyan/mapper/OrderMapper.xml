@@ -18,7 +18,10 @@
 
     </select>
     <select id="selectByid" resultType="java.util.Map">
-        select distinct `orderinfo`.`order_time` AS `order_time`,`orderinfo`.`order_id` AS `order_id`,`movie`.`movie_cn_name` AS `movie_cn_name`,`movie`.`movie_picture` AS `movie_picture`,`cinema`.`cinema_name` AS `cinema_name`,`hall`.`hall_name` AS `hall_name`,`orderinfo`.`order_position` AS `order_position`,`schedule`.`schedule_startTime` AS `schedule_startTime`,`schedule`.`schedule_price` AS `schedule_price`,`orderinfo`.`order_state` AS `order_state` from ((((`movie` join `schedule` on((`movie`.`movie_id` = `schedule`.`movie_id`))) join `orderinfo` on((`schedule`.`schedule_id` = `orderinfo`.`schedule_id`))) join `cinema`) join `hall` on(((`cinema`.`cinema_id` = `hall`.`cinema_id`) and (`schedule`.`hall_id` = `hall`.`hall_id`))))
+        select distinct `orderinfo`.`order_time` AS `order_time`,`orderinfo`.`order_id` AS `order_id`,`movie`.`movie_cn_name` AS `movie_cn_name`,`movie`.`movie_picture` AS `movie_picture`,`cinema`.`cinema_name` AS `cinema_name`,`hall`.`hall_name` AS `hall_name`,`orderinfo`.`order_position` AS `order_position`,`schedule`.`schedule_startTime` AS `schedule_startTime`,`orderinfo`.`order_price` AS `order_price`,`orderinfo`.`order_state` AS `order_state` from ((((`movie` join `schedule` on((`movie`.`movie_id` = `schedule`.`movie_id`))) join `orderinfo` on((`schedule`.`schedule_id` = `orderinfo`.`schedule_id`))) join `cinema`) join `hall` on(((`cinema`.`cinema_id` = `hall`.`cinema_id`) and (`schedule`.`hall_id` = `hall`.`hall_id`))))
               where (`orderinfo`.`user_id` = #{user_id}) order by order_time desc
     </select>
+    <update id="updataOrder">
+       update orderinfo set order_state =0 where order_id = #{order_id}
+    </update>
 </mapper>

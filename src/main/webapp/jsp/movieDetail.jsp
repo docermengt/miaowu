@@ -412,73 +412,103 @@
 
     //写评论
     function writeComment() {
-        layui.use(['laypage', 'layer', 'table'], function () {
-            var laypage = layui.laypage;
-            var layer = layui.layer;
-            var table = layui.table
-            //写评论
-            layer.open({
-                type: 1
-                , title: "编写评论" //不显示标题栏
-                , closeBtn: false
-                , area: '430px;'
-                , shade: 0.8
-                , offset: clientHeight / 20
-                , id: 'LAY_layuipro' //设定一个id，防止重复弹出
-                , btn: ['确认评价', '取消']
-                , yes: function () {
-                    var comment_content = $('#comment_content_write').val();
-                    if (comment_content == "") {
-                        layer.alert('评论内容不能空，评论失败！', {icon: 0, offset: clientHeight / 5},
-                            function () {
-                                layer.close(layer.index);
-                            }
-                        );
-                    } else {
-                        if (comment_content.length > 150) {
-                            layer.alert('字数超过150个，评论失败！', {icon: 0, offset: clientHeight / 5},
-                                function () {
-                                    layer.close(layer.index);
-                                }
-                            );
-                        } else {
-                            console.log(movie_id);
-                            console.log(comment_content);
-                            $.ajax({
-                                type: 'post',
-                                url: url + "/comment/addCommentByUser",
-                                dataType: 'json',
-                                data: {
-                                    movie_id: movie_id,
-                                    comment_content: comment_content,
-                                    user_id: user_id
-                                },
-                                success: function (obj) {
-                                    if (obj.code == 0) {
-                                        layer.alert('评价成功！', {icon: 0, offset: clientHeight / 5},
+        //判断用户是否购买此电影
+        var user_id =  JSON.parse(localStorage.getItem("user_json"));
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+    // 获取指定参数的值
+        const movie_id = urlParams.get('movie_id');
+
+        $.ajax({
+            type: 'post',
+            dataType:'json',
+            url: url +"/schedule/selectByUserid",
+            data:{
+                user_id:user_id
+            },
+            success:function (obj){
+                console.log(obj.scheduleList[0].movie_id)
+                for (let i = 0; i <obj.scheduleList.length ; i++) {
+                    if(movie_id ==obj.scheduleList[i].movie_id){
+                  return     layui.use(['laypage', 'layer', 'table'], function () {
+                            var laypage = layui.laypage;
+                            var layer = layui.layer;
+                            var table = layui.table
+                            //写评论
+                            layer.open({
+                                type: 1
+                                , title: "编写评论" //不显示标题栏
+                                , closeBtn: false
+                                , area: '430px;'
+                                , shade: 0.8
+                                , offset: clientHeight / 20
+                                , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                                , btn: ['确认评价', '取消']
+                                , yes: function () {
+                                    var comment_content = $('#comment_content_write').val();
+                                    if (comment_content == "") {
+                                        layer.alert('评论内容不能空，评论失败！', {icon: 0, offset: clientHeight / 5},
                                             function () {
-                                                layer.closeAll();
-                                                location.reload();
+                                                layer.close(layer.index);
                                             }
                                         );
                                     } else {
-                                        layer.alert(obj.msg, {icon: 0, offset: clientHeight / 5},
-                                            function () {
-                                                layer.closeAll();
-                                            }
-                                        );
+                                        if (comment_content.length > 150) {
+                                            layer.alert('字数超过150个，评论失败！', {icon: 0, offset: clientHeight / 5},
+                                                function () {
+                                                    layer.close(layer.index);
+                                                }
+                                            );
+                                        } else {
+                                            $.ajax({
+                                                type: 'post',
+                                                url: url + "/comment/addCommentByUser",
+                                                dataType: 'json',
+                                                data: {
+                                                    movie_id: movie_id,
+                                                    comment_content: comment_content,
+                                                    user_id: user_id
+                                                },
+                                                success: function (obj) {
+                                                    if (obj.code == 0) {
+                                                        layer.alert('评价成功！', {icon: 0, offset: clientHeight / 5},
+                                                            function () {
+                                                                layer.closeAll();
+                                                                location.reload();
+                                                            }
+                                                        );
+                                                    } else {
+                                                        layer.alert(obj.msg, {icon: 0, offset: clientHeight / 5},
+                                                            function () {
+                                                                layer.closeAll();
+                                                            }
+                                                        );
+                                                    }
+                                                }
+                                            });
+
+                                        }
                                     }
                                 }
+                                , btnAlign: 'c movie-last'
+                                , moveType: 0 //拖拽模式，0或者1
+                                , content: WriteCommentHtml
                             });
+                        });
+                    }else {
 
-                        }
+                      return  layui.use(['layer'],function(){
+                            var layer = layui.layer;
+                          layer.alert('请先购买影票后再评论！', {icon: 0, offset: clientHeight / 5})
+                        })
+
                     }
                 }
-                , btnAlign: 'c movie-last'
-                , moveType: 0 //拖拽模式，0或者1
-                , content: WriteCommentHtml
-            });
-        });
+
+            }
+        })
+
+
     }
 
     //删除评论
