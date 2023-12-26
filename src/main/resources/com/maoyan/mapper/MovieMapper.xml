@@ -9,7 +9,7 @@
         select * from movie WHERE movie_state = 1
     </select>
     <select id="selectOrderby" resultType="com.maoyan.pojo.Movie">
-    select  * from movie order by movie_boxOffice desc limit 0,9
+    select  * from movie order by movie_boxOffice desc
     </select>
 
     <select id="selectBystate" resultType="com.maoyan.pojo.Movie">
@@ -29,6 +29,10 @@
 <!--            </if>-->
 
 
+    </select>
+
+    <select id="selectAllByType" resultType="java.util.Map">
+        select  movie_type,movie_boxOffice from movie  GROUP BY movie_type,movie_boxOffice
     </select>
 
 </mapper>

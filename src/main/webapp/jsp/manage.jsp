@@ -239,7 +239,7 @@
                 initSchedule(); //场次界面
                 initComment(); //评论界面
                 initTicket();  //订单界面
-                //  initBoxOffice();//票房统计
+                  initBoxOffice();//票房统计
             }
 
         }
@@ -432,7 +432,7 @@
                     ,toolbar: '#usertoolbar'
                     ,title: '用户列表'
                     ,cols: [[
-                        {field:'user_id', title:'用户ID', width:102, unresize: true, sort: true}
+                        {field:'user_id', title:'用户ID', width:102, unresize: true, sort: true,style:'color:black;'}
                         ,{field:'user_name', title:'用户账号', width:270, unresize: true,sort: true}
                         ,{field:'user_pwd',title:'密码', width:270, unresize: true, edit: "text"}
                         ,{field:'user_email',  title:'邮箱', width:270, unresize: true, sort: true, edit: "text"}
@@ -1965,31 +1965,33 @@
         function initBoxOffice(){
             $.ajax({
                 type:'post',
-                url: url + "/movie/findAllMovies",
+                url: url + "/movielist/findAll",
                 dataType:'json',
                 data: {},
                 //获取数据  根据类型：统计票房   type:['喜剧','动作','爱情','动画','科幻','惊悚','冒险','犯罪','悬疑'] typeIncome: []  场次管理接口 下架之后数据更新    //头像为null时 默认设置为某一张
                 success:function (obj) {
-                    if(obj.sort.length > 10){
-                        obj.sort.length = 10;
+                    console.log(obj.movieType)
+                    if(obj.movieType.length > 10){
+                        obj.movieType.length = 10;
                     }
-                    for(var i = obj.sort.length - 1;i >= 0;i--){
-                        movieArray.push(obj.sort[i].movie_cn_name);
-                        boxOffice.push(Math.ceil(obj.sort[i].movie_boxOffice * 10000));
+                    for(var i = obj.boxoffice.length - 1;i >= 0;i--){
+                        movieArray.push(obj.boxoffice[i].movie_cn_name);
+                        boxOffice.push(Math.ceil(obj.boxoffice[i].movie_boxOffice * 10000));
                     }
-                    for(var i = 0;i < obj.type.length;i++){
+
+                    for(var i = 0;i < obj.movieType.length;i++){
                         var typeJson = {};
-                        for(var key in obj.type[i]){
-                            movieType.push(key);
-                            movieTypeBoxOffice.push(obj.type[i][key]);
-                            var num = parseFloat(obj.type[i][key]);
+                        for(var key in obj.movieType[i]){
+                            key = obj.movieType[i].movie_type
+                           // movieType.push(key);
+                          //  movieTypeBoxOffice.push(obj.movieType[i][key]);
+                            var num = parseFloat(obj.movieType[i].movie_boxOffice);
                             typeJson.value = Math.ceil(num * 10000);
                             typeJson.name = key;
                         }
                         type.push(typeJson);
                     }
-                    console.log(movieArray);
-                    console.log(boxOffice);
+
                     //扇形图
                     var aaa = $("#aaa");
                     aaa.append("<div id=\"main1\" style=\"width: 1100px;height:400px;\"></div>")
@@ -2008,7 +2010,7 @@
                             orient : 'vertical',
                             x : '10%',
                             y : '15%',
-                            data:movieType
+                            data:'电影类型'
                         },
                         toolbox: {
                             show : true,
@@ -2038,7 +2040,7 @@
                                 type:'pie',
                                 radius : '60%',
                                 center: ['50%', '50%'],
-                                data: type,
+                                data: type
                             }
                         ]
                     };

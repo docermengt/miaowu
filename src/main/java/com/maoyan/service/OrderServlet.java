@@ -183,7 +183,7 @@ public class OrderServlet extends HttpServlet {
         SqlSession session = sqlSessionFactory.openSession();
         OrderMapper mapper = session.getMapper(OrderMapper.class);
         List<Map<String, Object>> order = mapper.findAllOrdersPage();
-        System.out.println(order);
+
         Map map = new HashMap();
         if (order != null) {
             map.put("data", order);
@@ -208,7 +208,7 @@ public class OrderServlet extends HttpServlet {
         SqlSession session = sqlSessionFactory.openSession();
         OrderMapper mapper = session.getMapper(OrderMapper.class);
         List<Map<String, Object>> order = mapper.findAllRefundOrder();
-        System.out.println(order);
+
         Map map = new HashMap();
         if (order != null) {
             map.put("data", order);
@@ -250,12 +250,12 @@ public class OrderServlet extends HttpServlet {
         //获取sqlsession对象
         String title = req.getParameter("user_name");
 //        String page = req.getParameter("page");
-        System.out.println(title);
+
         SqlSession session = sqlSessionFactory.openSession();
         OrderMapper mapper = session.getMapper(OrderMapper.class);
 //        List<User> users = mapper.selectUserID(title);
         List<Map> users = mapper.selectorder(title);
-        System.out.println(users);
+
         Map map = new HashMap();
         if (users != null) {
             map.put("data", users);

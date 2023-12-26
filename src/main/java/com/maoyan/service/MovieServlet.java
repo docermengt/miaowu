@@ -74,15 +74,17 @@ public class MovieServlet extends HttpServlet {
 
         MovieMapper mapper = sqlSession.getMapper(MovieMapper.class);
         List<Movie> movies =   mapper.selectAll();
+        List<Map> movieType =   mapper.selectAllByType();
         List<Movie> boxoffice = mapper.selectOrderby();
         List<Movie> upcoming = mapper.selectBystate();
+
 
 
         Map map = new HashMap<>();
         map.put("movies", movies);//正在热映电影
         map.put("boxoffice",boxoffice);//票房前9电影
         map.put("upcoming",upcoming);//即将上映电影
-
+        map.put("movieType", movieType); //所有电影
         String  movie = JSON.toJSONString(map);
 
         out.println(movie); //返回json格式

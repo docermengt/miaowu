@@ -4,10 +4,13 @@ import com.maoyan.pojo.Movie;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MovieMapper {
 
-    //查询全部
+  //查询所有电影
+  List<Map> selectAllByType();
+    //查询所有上映的电影
   List<Movie>  selectAll();
   //查询票房前4的电影
   List<Movie> selectOrderby();
