@@ -19,7 +19,28 @@
     </select>
     <select id="selectByUserid" resultType="com.maoyan.pojo.Schedule" parameterType="string">
         SELECT * FROM schedule WHERE schedule_id in
-         (SELECT schedule_id FROM orderinfo WHERE user_id = #{user_id})
+         (SELECT schedule_id FROM orderinfo WHERE user_id = #{user_id} and order_state =1)
+    </select>
+    <select id="selectSchedule" resultType="java.util.Map">
+        SELECT DISTINCT `schedule`.schedule_startTime,
+                        `schedule`.schedule_price,
+                        movie.movie_cn_name,
+                        cinema.cinema_name,
+                        hall.hall_name
+        FROM hall
+                 INNER JOIN
+             `schedule`
+             ON
+                         hall.hall_id = `schedule`.hall_id AND
+                         hall.hall_id = `schedule`.hall_id
+                 INNER JOIN
+             movie
+             ON
+                 movie.movie_id = `schedule`.movie_id
+                 INNER JOIN
+             cinema
+             ON
+                 cinema.cinema_id = hall.cinema_id
     </select>
 
 </mapper>

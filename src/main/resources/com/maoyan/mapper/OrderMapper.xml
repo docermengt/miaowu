@@ -24,4 +24,132 @@
     <update id="updataOrder">
        update orderinfo set order_state =0 where order_id = #{order_id}
     </update>
+    <!--    徐主任的-->
+
+    <delete id="updateOrder">
+        update orderinfo set order_state = 2 where order_id = #{oreder_id}
+    </delete>
+
+
+    <select id="findAllOrdersPage" resultType="java.util.Map">
+        SELECT DISTINCT
+            orderinfo.order_id,
+            `user`.user_name,
+            `schedule`.schedule_id,
+            cinema.cinema_name,
+            orderinfo.order_position,
+            orderinfo.order_state,
+            orderinfo.order_price,
+            movie.movie_cn_name,
+            hall.hall_name,
+            orderinfo.order_time,
+            schedule.schedule_startTime
+        FROM
+            cinema
+                INNER JOIN
+            hall
+            ON
+                cinema.cinema_id = hall.cinema_id
+                INNER JOIN
+            `schedule`
+            ON
+                hall.hall_id = `schedule`.hall_id
+                INNER JOIN
+            movie
+            ON
+                `schedule`.movie_id = movie.movie_id
+                INNER JOIN
+            orderinfo
+            ON
+                `schedule`.schedule_id = orderinfo.schedule_id
+                INNER JOIN
+            `user`
+            ON
+                orderinfo.user_id = `user`.user_id
+        ORDER BY orderinfo.order_time desc
+        limit 0,20
+    </select>
+    <select id="findAllRefundOrder" resultType="java.util.Map">
+        SELECT DISTINCT
+            orderinfo.order_id,
+            `user`.user_name,
+            `schedule`.schedule_id,
+            cinema.cinema_name,
+            orderinfo.order_position,
+            orderinfo.order_state,
+            orderinfo.order_price,
+            movie.movie_cn_name,
+            hall.hall_name,
+            orderinfo.order_time,
+            schedule.schedule_startTime
+        FROM
+            cinema
+                INNER JOIN
+            hall
+            ON
+                cinema.cinema_id = hall.cinema_id
+                INNER JOIN
+            `schedule`
+            ON
+                hall.hall_id = `schedule`.hall_id
+                INNER JOIN
+            movie
+            ON
+                `schedule`.movie_id = movie.movie_id
+                INNER JOIN
+            orderinfo
+            ON
+                `schedule`.schedule_id = orderinfo.schedule_id
+                INNER JOIN
+            `user`
+            ON
+                orderinfo.user_id = `user`.user_id
+        where orderinfo.order_state =0
+        ORDER BY orderinfo.order_time desc
+        limit 0,20
+    </select>
+
+    <!--	订单查询-->
+    <select id="selectorder" resultType="java.util.Map" >
+        SELECT DISTINCT
+        orderinfo.order_id,
+        `user`.user_name,
+        `schedule`.schedule_id,
+        cinema.cinema_name,
+        orderinfo.order_position,
+        orderinfo.order_state,
+        orderinfo.order_price,
+        movie.movie_cn_name,
+        hall.hall_name,
+        orderinfo.order_time,
+        schedule.schedule_startTime
+        FROM
+        cinema
+        INNER JOIN
+        hall
+        ON
+        cinema.cinema_id = hall.cinema_id
+        INNER JOIN
+        `schedule`
+        ON
+        hall.hall_id = `schedule`.hall_id
+        INNER JOIN
+        movie
+        ON
+        `schedule`.movie_id = movie.movie_id
+        INNER JOIN
+        orderinfo
+        ON
+        `schedule`.schedule_id = orderinfo.schedule_id
+        INNER JOIN
+        `user`
+        ON
+        orderinfo.user_id = `user`.user_id
+        <where>
+            <if test="username!=null and username!=''">
+                user.user_name = #{username}
+            </if>
+        </where>
+        limit 0,20
+    </select>
 </mapper>

@@ -15,4 +15,7 @@ public interface ScheduleMapper {
 
  //查询用户是否购买过此电影
     List<Schedule>  selectByUserid(@Param("user_id")String user_id);
+
+    //查询电影场次
+    List<Map> selectSchedule();
 }

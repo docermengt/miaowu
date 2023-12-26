@@ -49,19 +49,17 @@
             var pwd = admin_upwd.val()
             $.ajax({
                 type: "post",
-                url: url + "/manage/login",
+                url: url + "/manage/adminlogin",
                 data: {
                     admin_uname: name,
                     admin_upwd: pwd
                 },
                 dataType: "json",
                 success: function (obj) {
-                    if (obj.msg == "fail") {
+                    if (obj.msg == 0) {
                         $('#username_err').html("账户名或密码错误")
                     } else {
                         localStorage.setItem("admin_name", name)
-                        localStorage.setItem("admin_pwd", pwd)
-                        // localStorage.setItem("admin_json", JSON.stringify(obj.data));
                         window.location.href = "./manage.jsp";
                     }
                 },

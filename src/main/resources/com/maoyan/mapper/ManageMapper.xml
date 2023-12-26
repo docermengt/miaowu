@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--接口路径-->
+<mapper namespace="com.maoyan.mapper.ManageMapper">
+    <insert id="addUser">
+        insert into user(user_id,user_name,user_pwd,user_email) values (#{uid},#{username},#{password},#{user_email});
+    </insert>
+
+
+    <select id="selectUserName" resultType="com.maoyan.pojo.User">
+        select * from user
+                 <where>
+                     <if test="username!=null and username!=''">
+                         user_name = #{username}
+                     </if>
+                 </where>
+                 order by user_id desc
+                  limit 0,20
+    </select>
+
+    <select id="selectAll" resultType="com.maoyan.pojo.User">
+        select * from user  order by user_id desc  limit  0,20
+    </select>
+
+    <delete id="delectUserById">
+        delete from user where user_id=#{user_id}
+    </delete>
+
+<!--    修改用户邮箱和密码-->
+    <update id="updataPwdandemail">
+        UPDATE user <set>
+        <if test="user_pwd !=null and user_pwd!=''">
+            user_pwd = #{user_pwd},
+        </if>
+        <if test="user_email !=null and user_email!=''">
+            user_email=#{user_email},
+        </if>
+    </set>
+        where user_id=#{user_id}
+    </update>
+
+    <update id="updateMovies">
+        update movie
+        set movie_state = 0
+        where movie_id=#{movie_id}
+    </update>
+<!--查询所有场次-->
+    <select id="selectAllByManage" resultType="java.util.Map">
+        SELECT `schedule`.schedule_id,cinema_name,cinema_address,hall_name,movie_cn_name,schedule_startTime,schedule_price,schedule_remain from
+         `schedule`, hall,cinema,movie
+        where `schedule`.hall_id=hall.hall_id and hall.cinema_id=cinema.cinema_id and `schedule`.movie_id=movie.movie_id
+        <if test="schedule_state!=null and schedule_state!='' ">
+            and schedule_state = #{schedule_state}
+        </if>
+        limit 0,20
+    </select>
+<!--根据电影名查询场次-->
+    <select id="selectMovieByName" resultType="java.util.Map">
+        select `schedule`.schedule_id,cinema_name,cinema_address,hall_name,movie_cn_name,schedule_startTime,schedule_price,schedule_remain
+            from `schedule`,hall,cinema,movie
+
+        where
+
+            `schedule`.hall_id=hall.hall_id and hall.cinema_id=cinema.cinema_id and `schedule`.movie_id=movie.movie_id
+        <if test="movie_cn_name!=null and movie_cn_name!='' ">
+            and movie_cn_name=#{movie_cn_name}
+        </if>
+
+        limit 0,20
+    </select>
+
+
+
+
+
+<!--删除评论-->
+    <delete id="delectCommentById">
+        delete from comment where comment_id=#{comment_id}
+    </delete>
+
+    <!--评论查询-->
+    <select id="selectcomment" resultType="java.util.Map" >
+        SELECT DISTINCT
+        `user`.user_name,
+        `comment`.comment_id,
+        `comment`.comment_content,
+        `comment`.comment_time
+        FROM
+        `comment`
+        INNER JOIN`user`ON 	`comment`.user_id = `user`.user_id
+        <where>
+            <if test="username!=null and username!=''">
+                user.user_name = #{username}
+            </if>
+        </where>
+        limit 0,20
+    </select>
+
+<!--    管理员登录-->
+    <select id="selectByAdmin" resultType="com.maoyan.pojo.Admin">
+        select  * from admin where admin_uname = #{admin_uname} and admin_upwd=#{admin_upwd}
+    </select>
+
+
+    <!--    修改评论内容-->
+    <update id="updateComment">
+        UPDATE comment <set>
+        <if test="comment_content !=null and comment_content!=''">
+            comment_content = #{comment_content},
+        </if>
+    </set>
+        where comment_id=#{comment_id}
+    </update>
+</mapper>

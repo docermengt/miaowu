@@ -42,6 +42,7 @@
         <url-pattern>/schedule/findScheduleByCinemaAndMovie</url-pattern>
         <url-pattern>/schedule/findScheduleById</url-pattern>
         <url-pattern>/schedule/selectByUserid</url-pattern>
+        <url-pattern>/schedule/selectSchedule</url-pattern>
     </servlet-mapping>
 
 <!--    配置orderservlet-->
@@ -54,6 +55,11 @@
         <url-pattern>/order/buyTickets</url-pattern>
         <url-pattern>/order/findOrderByUserName</url-pattern>
         <url-pattern>/order/updataOrder</url-pattern>
+
+        <url-pattern>/order/findAllOrdersPage</url-pattern>
+        <url-pattern>/order/updateOrder</url-pattern>
+        <url-pattern>/order/findAllRefundOrder</url-pattern>
+        <url-pattern>/order/selectorder</url-pattern>
     </servlet-mapping>
 
 
@@ -70,6 +76,31 @@
         <url-pattern>/comment/updateComment</url-pattern>
     </servlet-mapping>
 
+    <!--    配置Manage-->
+    <servlet>
+        <servlet-name>manage</servlet-name>
+        <servlet-class>com.maoyan.service.ManageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>manage</servlet-name>
+        <!--管理员登录-->
+        <url-pattern>/manage/adminlogin</url-pattern>
+        <url-pattern>/manage/adminlogout</url-pattern>
+
+        <url-pattern>/manage/findAllUser</url-pattern>
+        <url-pattern>/manage/selectUserName</url-pattern>
+        <url-pattern>/manage/addUser</url-pattern>
+        <url-pattern>/manage/delectUserById</url-pattern>
+        <url-pattern>/manage/updataPwdandemail</url-pattern>
+        <url-pattern>/manage/updateComment</url-pattern>
+        <url-pattern>/manage/delectMovies</url-pattern>
+        <url-pattern>/manage/selectAllByManage</url-pattern>
+        <url-pattern>/manage/selectMovieByName</url-pattern>
+
+        <!--        主任的-->
+        <url-pattern>/manage/deleteComemnt</url-pattern>
+        <url-pattern>/manage/findComment</url-pattern>
+    </servlet-mapping>
 
 
 

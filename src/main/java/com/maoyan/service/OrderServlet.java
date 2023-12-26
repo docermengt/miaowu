@@ -45,6 +45,18 @@ public class OrderServlet extends HttpServlet {
             case "updataOrder":
                 updataOrder(req, resp);
                 break;
+            case "findAllOrdersPage":
+                findAllOrdersPage(req, resp);
+                break;
+            case "findAllRefundOrder":
+                findAllRefundOrder(req, resp);
+                break;
+            case "updateOrder":
+                updateOrder(req, resp);
+                break;
+            case "selectorder":
+                selectorder(req,resp);
+                break;
 
         }
     }
@@ -157,6 +169,103 @@ public class OrderServlet extends HttpServlet {
              sqlSession.close();
          }
 
+    /**
+     * 订单模块
+     */
+    public void findAllOrdersPage(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("text/json;charset=utf-8");
+        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
+        //获取sqlsession对象
+        String title = req.getParameter("title");
+        String page = req.getParameter("page");
+        String state = req.getParameter("state");
+
+        SqlSession session = sqlSessionFactory.openSession();
+        OrderMapper mapper = session.getMapper(OrderMapper.class);
+        List<Map<String, Object>> order = mapper.findAllOrdersPage();
+        System.out.println(order);
+        Map map = new HashMap();
+        if (order != null) {
+            map.put("data", order);
+            map.put("code", 0);
+            map.put("count", order.size());
+            resp.getWriter().write(JSON.toJSONString(map));
+        }
+
+        session.close();
+    }
+
+
+    //查看退票订单
+    public void findAllRefundOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("text/json;charset=utf-8");
+        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
+        //获取sqlsession对象
+        String title = req.getParameter("title");
+        String page = req.getParameter("page");
+        String state = req.getParameter("state");
+
+        SqlSession session = sqlSessionFactory.openSession();
+        OrderMapper mapper = session.getMapper(OrderMapper.class);
+        List<Map<String, Object>> order = mapper.findAllRefundOrder();
+        System.out.println(order);
+        Map map = new HashMap();
+        if (order != null) {
+            map.put("data", order);
+            map.put("code", 0);
+            map.put("count", order.size());
+            resp.getWriter().write(JSON.toJSONString(map));
+        }
+
+        session.close();
+    }
+
+    //删除订单
+    public void updateOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.setCharacterEncoding("utf-8");
+        resp.setContentType("text/html;charset=UTF-8");
+        String order_id = req.getParameter("order_id");
+        //调用mybatis工具类
+        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
+        //获取sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+        int i = mapper.updateOrder(order_id);
+        if (i > 0) {
+            Map map = new HashMap();
+            map.put("code", 0);
+            map.put("msg", "退票成功！");
+            sqlSession.commit();
+            sqlSession.close();
+            String msg = JSON.toJSONString(map);
+            resp.getWriter().println(msg);
+
+        }
+    }
+    public void selectorder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+//        req.setCharacterEncoding("text/json;charset=utf-8");
+        resp.setContentType("text/json;charset=utf-8");
+        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
+        //获取sqlsession对象
+        String title = req.getParameter("user_name");
+//        String page = req.getParameter("page");
+        System.out.println(title);
+        SqlSession session = sqlSessionFactory.openSession();
+        OrderMapper mapper = session.getMapper(OrderMapper.class);
+//        List<User> users = mapper.selectUserID(title);
+        List<Map> users = mapper.selectorder(title);
+        System.out.println(users);
+        Map map = new HashMap();
+        if (users != null) {
+            map.put("data", users);
+            map.put("code", 0);
+            map.put("count", users.size());
+            resp.getWriter().write(JSON.toJSONString(map));
+        }
+
+        session.close();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

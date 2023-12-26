@@ -11,7 +11,7 @@
     <script src="../static/bootstrap/js/jquery-3.3.1.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
     <link rel="icon" type="image/x-icon" href="../static/images/logo.ico"/>
-<%--    <link rel="stylesheet" type="text/css" href="../static/css/header.css">--%>
+    <link rel="stylesheet" type="text/css" href="../static/css/header.css">
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
     <link rel="stylesheet" type="text/css" href="../static/css/manage.css">
     <link rel="stylesheet" type="text/css" href="../static/css/footer.css">
@@ -19,7 +19,7 @@
     <script src="../static/js/echarts.js"></script>
     <script src="../static/js/Api.js"></script>
     <script src="../static/layui/layui.js" charset="utf-8"></script>
-<%--    <link rel="stylesheet" href="../static/layui/css/layui.css" >--%>
+<%--    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.2/css/layui.css" integrity="sha512-V8POzDh/+/NrceHV1dsdK9v6VWgQAtPaxYvQWGID2+PRoWJrjFiqlb26gE2PzdE8GIFoBvOOBtMH/SiAvj8uWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>猫眼电影-后台管理</title>
 </head>
@@ -64,7 +64,7 @@
                         <hr/>
                     </div>
                     <div class="main-inner">
-                        <div class="addMovie">
+                        <div class="addMovie" style="display: none">
                             <img alt="" src="../static/images/addMovie.png" onclick="addConfirm(-1)">
                             <span>添加电影</span>
                         </div>
@@ -132,7 +132,7 @@
 
     <!--     用户管理      -->
     <script type="text/html" id="userbar">
-        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="delete">删除</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">保存</a>
     </script>
     <script type="text/html" id="usertoolbar">
@@ -141,18 +141,18 @@
         </div>
         <div class="usercheck">
             <input id="userfindtext" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入用户账号" class="layui-input">
-            <button class="layui-btn layui-btn-sm" lay-event="finduserbtn">搜索</button> 
+            <button class="layui-btn layui-btn-sm" lay-event="finduserbtn">搜索</button>
         </div>
     </script>
 
     <!--     场次管理      -->
     <script type="text/html" id="schedulebar">
         <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">下架</a>
+<%--        <a class="layui-btn layui-btn-xs" lay-event="edit">下架</a>--%>
     </script>
     <script type="text/html" id="scheduletoolbar">
         <div class="layui-btn-container addbtn">
-            <button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="scheduleadd">添加场次</button>     
+<%--            <button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="scheduleadd">添加场次</button>     --%>
         </div>
         <div class="schedulecheck">
             <input id="scheduletext" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入电影名" class="layui-input">
@@ -171,7 +171,7 @@
 
     <!--     评论管理      -->
     <script type="text/html" id="commentbar">
-        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+<%--        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>--%>
         <a class="layui-btn layui-btn-xs" lay-event="edit">保存</a>
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
     </script>
@@ -228,9 +228,9 @@
         var movieTypeBoxOffice = []; //电影类型票房数组
         var type = [];
         window.onload = function(){
-            if(admin_json == null){
-                alert("请先登录!")
-                window.location.href = url+'/jsp/adminlogin.jsp'
+            if(admin_json==""||admin_json==null || admin_json==undefined){
+              alert("请先登录账号")
+                window.location.href = url+"/jsp/adminlogin.jsp"
             }else {
                 initHtml(); //初始化html
                 initCard(); //选项卡
@@ -239,10 +239,14 @@
                 initSchedule(); //场次界面
                 initComment(); //评论界面
                 initTicket();  //订单界面
-                initBoxOffice();//票房统计
+                //  initBoxOffice();//票房统计
             }
 
         }
+
+
+
+
 
         //选项卡
         function initCard(){
@@ -415,7 +419,7 @@
 
         //初始化用户管理界面
         function initUser(){
-            var actionUrl = "";
+            var actionUrl = 0;
             //用户列表
             layui.use(['laypage', 'layer', 'table'], function(){
                 var laypage = layui.laypage;
@@ -423,31 +427,31 @@
                 var table = layui.table;
                 table.render({
                     elem: '#user_table_id'
-                    ,url: url + '/user/findAllUser'
+                    ,url: url + '/manage/findAllUser'
                     ,method: 'post'
                     ,toolbar: '#usertoolbar'
                     ,title: '用户列表'
                     ,cols: [[
                         {field:'user_id', title:'用户ID', width:102, unresize: true, sort: true}
                         ,{field:'user_name', title:'用户账号', width:270, unresize: true,sort: true}
-                        ,{field:'user_pwd', title:'密码', width:270, unresize: true, edit: "text"}
-                        ,{field:'user_email', title:'邮箱', width:270, unresize: true, sort: true, edit: "text"}
+                        ,{field:'user_pwd',title:'密码', width:270, unresize: true, edit: "text"}
+                        ,{field:'user_email',  title:'邮箱', width:270, unresize: true, sort: true, edit: "text"}
                         ,{title:'操作', width:300, unresize: true, align:'center', toolbar: '#userbar'}
                     ]]
-                    ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                        ,curr: 1 //设定初始在第 1 页
-                        ,groups: 5 //只显示 5 个连续页码
-                        ,first: false //显示首页
-                        ,last: false //显示尾页
-                        ,limits: [10,15,20]
-                    }
+                    // ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    //     ,curr: 1 //设定初始在第 1 页
+                    //     ,groups: 5 //只显示 5 个连续页码
+                    //     ,first: false //显示首页
+                    //     ,last: false //显示尾页
+                    //     ,limits: [10,15,20]
+                    // }
                     ,response: {
-                        statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 0
+                        statusCode: 1 //重新规定成功的状态码为 200，table 组件默认为 0
                     }
                     ,parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
                         return {
                             "code": res.code, //解析接口状态
-                            "msg": res.msg, //解析提示文本
+                            "msg": "", //解析提示文本
                             "count": res.count, //解析数据长度
                             "data": res.data //解析数据列表
                         };
@@ -456,37 +460,63 @@
                 //监听工具条
                 table.on('tool(UserTable)', function(obj){
                     var data = obj.data;
-                    if(obj.event === 'detail'){
-                        layer.msg('ID：'+ data.user_id + '</br>账号：'+ data.user_name + '</br>密码：'+ data.user_pwd  + '</br>邮箱：'+ data.user_email, {offset: clientHeight/4,area: '300px;'});
-                    }
-                    else if(obj.event === 'edit'){
-                        layer.alert('确定要对id为“'+ JSON.stringify(data.user_id) + '”的用户修改进行保存吗？',{icon: 0,offset: clientHeight/5},
+                        if(obj.event === 'delete'){
+                        layer.alert('确定要对id为“'+ JSON.stringify(data.user_id) + '”的用户进行删除吗？',{icon: 0,offset: clientHeight/5},
                             function () {
                                 $.ajax({
                                     type:'post',
-                                    url: url + "/user/updateUser",
+                                    url: url + "/manage/delectUserById",
                                     dataType:'json',
                                     data: {
                                         user_id: data.user_id,
-                                        user_name: data.user_name,
-                                        user_pwd: data.user_pwd,
-                                        user_email: data.user_email,
                                     },
                                     success:function (date) {
-                                        if(date == "success"){
-                                            layer.alert('修改成功！',{icon: 0,offset: clientHeight/5},
+                                        if(date.code == 0){
+                                            layer.alert('删除成功！',{icon: 0,offset: clientHeight/5},
                                                 function (){
                                                     layer.closeAll();
                                                     location.reload();
                                                 }
                                             );
                                         }else{
-                                            layer.alert('用户名已存在，修改失败！',{icon: 0,offset: clientHeight/5},
+                                            layer.alert('删除失败！',{icon: 0,offset: clientHeight/5},
                                                 function (){
                                                     layer.closeAll();
                                                 }
                                             );
                                         }
+                                    }
+                                });
+                            }
+                        );
+                    }
+                       else  if(obj.event === 'edit'){
+                        layer.alert('确定要对id为“'+ JSON.stringify(data.user_id) + '”的用户修改进行保存吗？',{icon: 0,offset: clientHeight/5},
+                            function () {
+                                $.ajax({
+                                    type:'post',
+                                    url: url + "/manage/updataPwdandemail",
+                                    dataType:'json',
+                                    data: {
+                                        user_id: data.user_id,
+                                        // user_name: data.user_name,
+                                        user_pwd: data.user_pwd,
+                                        user_email: data.user_email,
+                                    },
+                                    success:function (date) {
+                                            layer.msg('修改成功！',{icon: 6,offset: clientHeight/5},
+                                                function (){
+                                                    layer.closeAll();
+                                                    location.reload();
+                                                }
+                                            );
+                                        // else{
+                                        //     layer.alert('用户名已存在，修改失败！',{icon: 0,offset: clientHeight/5},
+                                        //         function (){
+                                        //             layer.closeAll();
+                                        //         }
+                                        //     );
+                                        // }
                                     }
                                 });
                             }
@@ -510,41 +540,47 @@
                                 ,btn: ['确认添加', '取消']
                                 ,yes: function(){
                                     var user_name = $('#user_name').val(),
-                                        user_pwd = $('#user_pwd').val()
+                                        user_pwd = $('#user_pwd').val(),
                                         user_email = $('#user_email').val();
                                     if((user_name == "") || (user_pwd == "") || (user_email == "")){
                                         layer.alert('添加信息不能存在空，添加失败！',{icon: 0,offset: clientHeight/5},
                                             function (){
-                                                layer.close(layer.index);
+                                                layer.close(layer .index);
                                             }
                                         );
                                     }
                                     else{
                                         $.ajax({
-                                            type:'post',
-                                            url: url + "/user",
-                                            dataType:'json',
+                                            type: 'post',
+                                            url: url + "/manage/addUser",
+                                            dataType: 'json',
                                             data: {
                                                 user_name: user_name,
                                                 user_pwd: user_pwd,
-                                                user_email: user_email,
+                                                user_email: user_email
                                             },
-                                            success:function (date) {
-                                                if(date == "success"){
-                                                    layer.alert('添加成功！',{icon: 0,offset: clientHeight/5},
-                                                        function (){
-                                                            layer.closeAll();
-                                                            location.reload();
-                                                        }
-                                                    );
-                                                }else{
-                                                    layer.alert('用户名已存在，添加失败！',{icon: 0,offset: clientHeight/5},
-                                                        function (){
-                                                            layer.closeAll();
-                                                        }
-                                                    );
-                                                }
+                                            success: function(response) {
+                                                layer.alert(response,{icon: 0,offset: clientHeight/5},
+                                                    function (){
+                                                       location.reload();
+                                                        layer.closeAll();
+                                                    }
+                                                )
+                                                // if(response.success) {
+                                                //     layer.alert('用户添加成功！', {icon: 1, offset: clientHeight/5}, function() {
+                                                //         layer.close(layer.index);
+                                                //     });
+                                                // } else {
+                                                //     layer.alert('添加用户失败，原因：' + response.message, {icon: 0, offset: clientHeight/5}, function() {
+                                                //         layer.close(layer.index);
+                                                //     });
+                                                // }
                                             }
+                                            // error: function(xhr, status, error) {
+                                            //     layer.alert('发生错误，错误信息：' + error, {icon: 0, offset: clientHeight/5}, function() {
+                                            //         layer.close(layer.index);
+                                            //     });
+                                            // }
                                         });
                                     }
 
@@ -559,24 +595,89 @@
                                 }
                             });
                         break;
+                            // $("findcommentbtn").click(function (){
+                            //     title = $("title").val()
+                            //     $.ajax({
+                            //         type:'post',
+                            //         url:url + "/manage/selectUserName",
+                            //         dataType:'json',
+                            //         data:{
+                            //             "path":"selectUserName",
+                            //             "title":title
+                            //         },
+                            //         success:function (data){
+                            //             console.log(data)
+                            //         }
+                            //     })
+                            // });
+
                         case 'finduserbtn':
                             var user_name = $('#userfindtext').val();
                             table.reload('user_table_id', {
-                                url: url + '/user/findUserInfosByName'
+                                url: url + '/manage/selectUserName'
                                 ,method: "POST"
                                 ,where: {
-                                    user_name: user_name
+                                    title: user_name
                                 }
-                                ,page: {
-                                    curr: 1 //重新从第 1 页开始
+                                // ,page: {
+                                //     curr: 1 //重新从第 1 页开始
+                                // }
+                                ,response: {
+                                    statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 0
                                 }
+                                ,parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
+                                    return {
+                                        "code": res.code, //解析接口状态
+                                        "msg": res.msg, //解析提示文本
+                                        "count": res.count, //解析数据长度
+                                        "data": res.data //解析数据列表
+                                    };
+                                }
+
                             });
+                            console.log(user_name)
                         break;
                             
                     };
-                });
+
+
+
+                }
+
+                );
             });
+            //     if(obj.event === 'delete'){
+            //     layer.alert('确定要对id为“'+ JSON.stringify(data.comment_id) + '”的用户进行删除吗？',{icon: 0,offset: clientHeight/5},
+            //         function () {
+            //             $.ajax({
+            //                 type:'post',
+            //                 url: url + "/manage/deleteComemnt",
+            //                 dataType:'json',
+            //                 data: {
+            //                     comment_id: data.comment_id,
+            //                 },
+            //                 success:function (date) {
+            //                     if(date.code == 0){
+            //                         layer.alert('删除成功！',{icon: 0,offset: clientHeight/5},
+            //                             function (){
+            //                                 layer.closeAll();
+            //                                 location.reload();
+            //                             }
+            //                         );
+            //                     }else{
+            //                         layer.alert('删除失败！',{icon: 0,offset: clientHeight/5},
+            //                             function (){
+            //                                 layer.closeAll();
+            //                             }
+            //                         );
+            //                     }
+            //                 }
+            //             });
+            //         }
+            //     );
+            // }
         }
+
 
         //初始化电影管理界面
         function initMovies(){
@@ -585,34 +686,34 @@
 
             $.ajax({
                 type:'post',
-                url: url + "/movie/findAllMovies",
+                url: url + "/movielist/findAll",
                 dataType:'json',
                 data: {},
                 success:function (obj) {
                     console.log(obj);
-                    MoviesNum.append("<span class=\"textcolor_red\">正在热映（" + obj.data.length + "部）</span>");
-                    for(var i=0;i<obj.data.length;i++){
+                    MoviesNum.append("<span class=\"textcolor_red\">正在热映（" + obj.movies.length + "部）</span>");
+                    for(var i=0;i<obj.movies.length;i++){
                         MoviesListHtml =
                         "<li>" +
                             "<div class=\"movie-item\">" +
-                                "<a href=\"javascript:void(0)\" target=\"_blank\" data-act=\"playingMovie-click\" data-val=\""+ obj.data[i].movie_id +"\">" +
+                                "<a href=\"javascript:void(0)\" target=\"_blank\" data-act=\"playingMovie-click\" data-val=\""+ obj.movies[i].movie_id +"\">" +
                                     "<div class=\"movie-poster\">" +
-                                        "<img src=\""+ obj.data[i].movie_picture +"\" onclick=\"movieDetail("+obj.data[i].movie_id+")\">" +
+                                        "<img src=\""+ obj.movies[i].movie_picture +"\" onclick=\"movieDetail("+obj.movies[i].movie_id+")\">" +
                                         "<div class=\"movie-overlay movie-overlay-bg\">" +
                                             "<div class=\"movie-info\">" +
-                                                "<div class=\"movie-score\"><i class=\"integer\">"+ obj.data[i].movie_score +"</i></div>" +
-                                                "<div class=\"movie-title movie-title-padding\" title=\"\">"+ obj.data[i].movie_cn_name +"</div>\"" +
+                                                "<div class=\"movie-score\"><i class=\"integer\">"+ obj.movies[i].movie_score +"</i></div>" +
+                                                "<div class=\"movie-title movie-title-padding\" title=\"\">"+ obj.movies[i].movie_cn_name +"</div>\"" +
                                             "</div>" +
                                         "</div>" +
                                     "</div>" +
                                 "</a>" +
                                 "<div class=\"moive-btn\">" +
                                     "<div class=\"movies-detail movie-detail-strong movie-sale\">" +
-                                        "<a class=\"active\" onclick=\"addConfirm("+ obj.data[i].movie_id +")\" target=\"_blank\" data-act=\"salePlayingMovie-click\" data-val=\"\">修改</a>" +
+                                        "<a class=\"active\" onclick=\"addConfirm("+ obj.movies[i].movie_id +")\" target=\"_blank\" data-act=\"salePlayingMovie-click\" data-val=\"\">修改</a>" +
                                     "</div>" +
                                     "<div class=\"movies-detail movie-detail-strong movie-sale\">" +
                                         "<span id=\"deleteId\" style=\"display:none;\">${u.id}</span>" +
-                                        "<a class=\"active\" onclick=\"deleteConfirm("+ obj.data[i].movie_id +")\" data-act=\"salePlayingMovie-click\" id=\"delete\">下架</a>" +
+                                        "<a class=\"active\" onclick=\"deleteConfirm("+ obj.movies[i].movie_id +")\" data-act=\"salePlayingMovie-click\" id=\"delete\">下架</a>" +
                                     "</div>" +
                                 "</div>" +
                             "</div>" +
@@ -854,7 +955,7 @@
                     function () {
                         $.ajax({
                             type:'post',
-                            url: url + "/movie/deleteMovie",
+                            url: url + "/manage/delectMovies",
                             dataType:'json',
                             data: {
                                 movie_id: movie_id,
@@ -932,7 +1033,7 @@
         }
 
         //初始化场次管理界面      (未完成)
-        function initSchedule(){
+        function initScheduless(){
             //场次列表
             layui.use(['table'], function(){
                 var table = layui.table;
@@ -944,27 +1045,29 @@
                     ,toolbar: '#scheduletoolbar'
                     ,title: '场次列表'
                     ,cols: [[
-                        {field:'schedule_id', title:'ID', width:102, unresize: true, sort: true}
-                        ,{field:'schedule_cinema', title:'电影院', width:270, unresize: true,sort: true}
-                        ,{field:'schedule_hall', title:'放映厅', width:270, unresize: true, sort: true, edit: "text"}
+                        {field:'schedule_id', title:'场次编号', width:102, unresize: true, sort: true}
+                        ,{field:'cinema_name', title:'影院', width:270, unresize: true,sort: true}
+                        ,{field:'cinema_address', title:'影院地址', width:270, unresize: true, sort: true, edit: "text"}
+                        ,{field: 'hall_name' ,title:'影厅',width:270, unresize: true, sort: true, edit: "text"}
+                        ,{field: 'movie_detail' ,title:'电影',width:270, unresize: true, sort: true, edit: "text"}
                         ,{field:'schedule_startTime', title:'放映时间', width:270, unresize: true, sort: true, edit: "text"}
-                        ,{field:'schedule_price', title:'售价', width:270, unresize: true, edit: "text"}
+                        ,{field:'schedule_price', title:'价格', width:270, unresize: true, edit: "text"}
                         ,{title:'操作', width:300, unresize: true, align:'center', toolbar: '#schedulebar'}
                     ]]
-                    ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                        ,curr: 1 //设定初始在第 1 页
-                        ,groups: 5 //只显示 5 个连续页码
-                        ,first: false //显示首页
-                        ,last: false //显示尾页
-                        ,limit: 10
-                    }
+                    // ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    //     ,curr: 1 //设定初始在第 1 页
+                    //     ,groups: 5 //只显示 5 个连续页码
+                    //     ,first: false //显示首页
+                    //     ,last: false //显示尾页
+                    //     ,limit: 10
+                    // }
                     ,response: {
                         statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 0
                     }
                     ,parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
                         return {
                             "code": res.code, //解析接口状态
-                            "msg": res.msg, //解析提示文本
+                            "msg": "", //解析提示文本
                             "count": res.count, //解析数据长度
                             "data": res.data //解析数据列表
                         };
@@ -1120,36 +1223,37 @@
                 var table = layui.table;
                 table.render({
                     elem: '#comment_table_id'
-                    ,url: url + '/comment/findAllCommentsPage'
+                    ,url: url + '/manage/findComment'
                     ,method: 'post'
                     ,toolbar: '#commenttoolbar'
                     ,title: '订单列表'
                     ,cols: [[
                         {field:'comment_id', title:'评论编号', width:102, unresize: true, sort: true}
-                        ,{field:'comment_user', title:'用户账号', width:100, unresize: true,templet: '<div>{{d.comment_user.user_name}}</div>'}
+                        ,{field:'comment_user', title:'用户账号', width:100, unresize: true,templet: '<div>{{d.user_name}}</div>'}
                         ,{field:'comment_time', title:'评论时间', width:180, unresize: true, sort: true}
                         ,{field:'comment_content', title:'评论内容', width:590, unresize: true, edit: "text"}
                         ,{title:'操作', width:240, unresize: true, align:'center', toolbar: '#commentbar'}
                     ]]
-                    ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                        ,curr: 1 //设定初始在第 1 页
-                        ,groups: 5 //只显示 5 个连续页码
-                        ,first: false //显示首页
-                        ,last: false //显示尾页
-                        ,limits: [10,15,20]
-                    }
-                    ,response: {
-                        statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 00
-                    }
-                    ,parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
-                        return {
-                            "code": res.code, //解析接口状态
-                            "msg": res.msg, //解析提示文本
-                            "count": res.count, //解析数据长度
-                            "data": res.data //解析数据列表
-                        };
-                    }
-                });
+                    // ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    //     ,curr: 1 //设定初始在第 1 页
+                    //     ,groups: 5 //只显示 5 个连续页码
+                    //     ,first: false //显示首页方
+                    //     ,last: false //显示尾页
+                    //     ,limits: [10,15,20]
+
+                        ,response: {
+                            statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 00
+                        }
+                        ,parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
+                            return {
+                                "code": res.code, //解析接口状态
+                                "msg": res.msg, //解析提示文本
+                                "count": res.count, //解析数据长度
+                                "data": res.data //解析数据列表
+                            };
+                        }
+                    }      )
+
                 //监听工具条
                 table.on('tool(CommentTable)', function(obj){
                     var data = obj.data;
@@ -1162,26 +1266,27 @@
                             function () {
                                 $.ajax({
                                     type:'post',
-                                    url: url + "/comment/updateComment",
+                                    url: url + "/manage/updateComment",
                                     dataType:'json',
                                     data: {
                                         comment_id: data.comment_id,
                                         comment_content: data.comment_content
                                     },
                                     success:function (date) {
-                                        if(date.code == 0){
-                                            layer.alert('修改成功！',{icon: 0,offset: clientHeight/5},
+                                        // if(date.code == 0){
+                                            layer.msg('修改成功！',{icon: 6,offset: clientHeight/5},
                                                 function (){
                                                     layer.closeAll();
                                                 }
                                             );
-                                        }else{
-                                            layer.alert('修改失败！',{icon: 0,offset: clientHeight/5},
-                                                function (){
-                                                    layer.closeAll();
-                                                }
-                                            );
-                                        }
+                                        // }
+                                        // else{
+                                        //     layer.alert('修改失败！',{icon: 6,offset: clientHeight/5},
+                                        //         function (){
+                                        //             layer.closeAll();
+                                        //         }
+                                        //     );
+                                        // }
                                     }
                                 });
                             }
@@ -1192,21 +1297,22 @@
                             function () {
                                 $.ajax({
                                     type:'post',
-                                    url: url + "/comment/deleteComemnt",
+                                    url: url + "/manage/deleteComemnt",
                                     dataType:'json',
                                     data: {
                                         comment_id: data.comment_id,
                                     },
                                     success:function (date) {
                                         if(date.code == 0){
-                                            layer.alert('删除成功！',{icon: 0,offset: clientHeight/5},
+                                            layer.alert('删除成功！',{icon: 6,offset: clientHeight/5},
                                                 function (){
                                                     layer.closeAll();
                                                     location.reload();
                                                 }
                                             );
-                                        }else{
-                                            layer.alert('删除失败！',{icon: 0,offset: clientHeight/5},
+                                        }
+                                        else{
+                                            layer.alert('删除失败！',{icon: 6,offset: clientHeight/5},
                                                 function (){
                                                     layer.closeAll();
                                                 }
@@ -1225,37 +1331,37 @@
                         case 'findcommentbtn':
                             var user_name = $('#commentfindtext').val();
                             table.reload('comment_table_id', {
-                                url: url + '/comment/findCommentsByUserName'
+                                url: url + '/manage/findComment'
                                 ,method: "POST"
                                 ,where: {
                                     user_name: user_name
                                 }
-                                ,page: {
-                                    curr: 1 //重新从第 1 页开始
-                                }
+                                // ,page: {
+                                //     curr: 1 //重新从第 1 页开始
+                                // }
                             });
-                        break;
+                            break;
                         case 'findcommentall':
                             table.render({
                                 elem: '#comment_table_id'
-                                ,url: url + '/comment/findAllCommentsPage'
+                                ,url: url + '/manage/findComment'
                                 ,method: 'post'
                                 ,toolbar: '#commenttoolbar'
                                 ,title: '订单列表'
                                 ,cols: [[
                                     {field:'comment_id', title:'评论编号', width:102, unresize: true, sort: true}
-                                    ,{field:'comment_user', title:'用户账号', width:100, unresize: true,templet: '<div>{{d.comment_user.user_name}}</div>'}
+                                    ,{field:'comment_user', title:'用户账号', width:100, unresize: true,templet: '<div>{{d.user_name}}</div>'}
                                     ,{field:'comment_time', title:'评论时间', width:180, unresize: true, sort: true}
                                     ,{field:'comment_content', title:'评论内容', width:590, unresize: true, edit: "text"}
                                     ,{title:'操作', width:240, unresize: true, align:'center', toolbar: '#commentbar'}
                                 ]]
-                                ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                                    ,curr: 1 //设定初始在第 1 页
-                                    ,groups: 5 //只显示 5 个连续页码
-                                    ,first: false //显示首页
-                                    ,last: false //显示尾页
-                                    ,limits: [10,15,20]
-                                }
+                                // ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                                //     ,curr: 1 //设定初始在第 1 页
+                                //     ,groups: 5 //只显示 5 个连续页码
+                                //     ,first: false //显示首页
+                                //     ,last: false //显示尾页
+                                //     ,limits: [10,15,20]
+                                // }
                                 ,response: {
                                     statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 00
                                 }
@@ -1268,7 +1374,7 @@
                                     };
                                 }
                             });
-                        break;
+                            break;
                     };
                 });
             });
@@ -1289,23 +1395,23 @@
                     ,title: '订单列表'
                     ,cols: [[
                         {field:'order_id', title:'订单编号', width:160,unresize:true,sort: true,fixed:'left'}
-                        ,{field:'order_user', title:'用户账号', width:100, unresize: true,templet:'<div>{{d.order_user.user_name}}</div>'}
-                        ,{field:'order_schedule', title:'场次', width:180, unresize: true,templet:'<div>{{d.order_schedule.schedule_startTime}}</div>'}
-                        ,{field:'order_position',title:'位置',width:100,unresize:true}                       
-                        ,{field:'order_schedule',title:'价格',width:80,unresize:true,templet:'<div>￥{{d.order_schedule.schedule_price}}</div>'}
-                        ,{field:'order_schedule',title:'电影',width:240,unresize:true,templet:'<div>{{d.order_schedule.schedule_movie.movie_cn_name}}</div>'}
-                        ,{field:'order_schedule', title:'影厅', width:100, unresize: true, templet:'<div>{{d.order_schedule.schedule_hall.hall_name}}</div>'}
-                        ,{field:'order_schedule',title:'影院',width:240,unresize:true,templet:'<div>{{d.order_schedule.schedule_hall.hall_cinema.cinema_name}}</div>'}
+                        ,{field:'order_user', title:'用户账号', width:100, unresize: true,templet:'<div>{{d.user_name}}</div>'}
+                        ,{field:'order_schedule', title:'场次', width:180, unresize: true,templet:'<div>{{d.schedule_startTime}}</div>'}
+                        ,{field:'order_position',title:'位置',width:100,unresize:true}
+                        ,{field:'order_price',title:'价格',width:80,unresize:true,templet:'<div>￥{{d.order_price}}</div>'}
+                        ,{field:'order_schedule',title:'电影',width:240,unresize:true,templet:'<div>{{d.movie_cn_name}}</div>'}
+                        ,{field:'order_schedule', title:'影厅', width:100, unresize: true, templet:'<div>{{d.hall_name}}</div>'}
+                        ,{field:'order_schedule',title:'影院',width:240,unresize:true,templet:'<div>{{d.cinema_name}}</div>'}
                         ,{field:'order_state',title:'订单状态',width:100,unresize:true,align:'center',templet:function(d){if(d.order_state == 1) return '<div style="color:#337ab7">完成</div>';else if(d.order_state == 0) return '<div style="color:#ef4238">申请退票</div>';else return '<div style="color:#5cb85c">已退票</div>';}}
                         ,{title:'操作', width:100, unresize: true, align:'center', toolbar: '#ticketbar'}
                     ]]
-                    ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                        ,curr: 1 //设定初始在第 1 页
-                        ,groups: 5 //只显示 5 个连续页码
-                        ,first: false //显示首页
-                        ,last: false //显示尾页
-                        ,limits: [10,15,20]
-                    }
+                    // ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    //     ,curr: 1 //设定初始在第 1 页
+                    //     ,groups: 5 //只显示 5 个连续页码
+                    //     ,first: false //显示首页
+                    //     ,last: false //显示尾页
+                    //     ,limits: [10,15,20]
+                    // }
                     ,response: {
                         statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 0
                     }
@@ -1318,33 +1424,33 @@
                         };
                     },
                 });
-              
+
                 //监听工具条
                 table.on('tool(TicketTable)', function(obj){
                     var data = obj.data;
                     if(obj.event === 'detail'){
-                        layer.msg('订单编号：'+ data.order_id + '&nbsp;&nbsp;&nbsp;用户：' + data.order_user.user_name + '<br>场次：'+ data.order_schedule.schedule_startTime + '&nbsp;&nbsp;&nbsp;位置：' + data.order_position + '<br>电影：《' + data.order_schedule.schedule_movie.movie_cn_name + '》&nbsp;&nbsp;&nbsp;价格：￥' + data.order_schedule.schedule_price + '<br>影院：'+ data.order_schedule.schedule_hall.hall_cinema.cinema_name + '&nbsp;&nbsp;&nbsp;影厅：' + data.order_schedule.schedule_hall.hall_name, {offset: clientHeight/4,area:['400px','140px']});
+                        layer.msg('订单编号：'+ data.order_id + '&nbsp;&nbsp;&nbsp;用户：' + data.user_name + '<br>场次：'+ data.schedule_startTime + '&nbsp;&nbsp;&nbsp;位置：' + data.order_position + '<br>电影：《' + data.movie_cn_name + '》&nbsp;&nbsp;&nbsp;价格：￥' + data.order_price + '<br>影院：'+ data.cinema_name + '&nbsp;&nbsp;&nbsp;影厅：' + data.hall_name, {offset: clientHeight/4,area:['400px','140px']});
                     }
                     else if(obj.event === 'pass'){
                         layer.alert('确定要通过订单编号为“' + data.order_id + '”的退票申请吗？',{icon: 0,offset: clientHeight/5},
                             function () {
                                 $.ajax({
                                     type:'post',
-                                    url: url + "/order/agreeForRefund",
+                                    url: url + "/order/updateOrder",
                                     dataType:'json',
                                     data: {
                                         order_id: data.order_id
                                     },
                                     success:function (data) {
                                         if(data.code == 0){
-                                            layer.alert(data.msg,{icon: 0,offset: clientHeight/5},
+                                            layer.alert(data.msg,{icon: 6,offset: clientHeight/5},
                                                 function (){
                                                     layer.closeAll();
                                                     location.reload();
                                                 }
                                             );
                                         }else{
-                                            layer.alert(data.msg,{icon: 0,offset: clientHeight/5},
+                                            layer.alert(data.msg,{icon: 6,offset: clientHeight/5},
                                                 function (){
                                                     layer.closeAll();
                                                 }
@@ -1369,62 +1475,62 @@
                             //订单管理
                             if(PageStatus == 0){
                                 if(changeticketbtn.val()=="订单编号"){
-                                    url_temp = '/order/findOrderById';
+                                    url_temp = '/order/selectorder';
                                     table.reload('ticket_table_id', {
                                         url: url + url_temp
                                         ,method: "POST"
                                         ,where: {
                                             order_id: find_temp
                                         }
-                                        ,page: {
-                                            curr: 1 //重新从第 1 页开始
-                                        }
+                                        // ,page: {
+                                        //     curr: 1 //重新从第 1 页开始
+                                        // }
                                     });
                                 }
                                 else{
-                                    url_temp = '/order/findOrderByUserName';
+                                    url_temp = '/order/selectorder';
                                     table.reload('ticket_table_id', {
                                         url: url + url_temp
                                         ,method: "POST"
                                         ,where: {
                                             user_name: find_temp
                                         }
-                                        ,page: {
-                                            curr: 1 //重新从第 1 页开始
-                                        }
+                                        // ,page: {
+                                        //     curr: 1 //重新从第 1 页开始
+                                        // }
                                     });
                                 }
                             }
                             //退票审核
                             else{
                                 if(changeticketbtn.val()=="订单编号"){
-                                    url_temp = '/order/findOrderById';
+                                    url_temp = '/order/selectorder';
                                     table.reload('ticket_table_id', {
                                         url: url + url_temp
                                         ,method: "POST"
                                         ,where: {
                                             order_id: find_temp
                                         }
-                                        ,page: {
-                                            curr: 1 //重新从第 1 页开始
-                                        }
+                                        // ,page: {
+                                        //     curr: 1 //重新从第 1 页开始
+                                        // }
                                     });
                                 }
                                 else{
-                                    url_temp = '/order/findRefundOrderByUser';
+                                    url_temp = '/order/selectorder';
                                     table.reload('ticket_table_id', {
                                         url: url + url_temp
                                         ,method: "POST"
                                         ,where: {
                                             user_name: find_temp
                                         }
-                                        ,page: {
-                                            curr: 1 //重新从第 1 页开始
-                                        }
+                                        // ,page: {
+                                        //     curr: 1 //重新从第 1 页开始
+                                        // }
                                     });
                                 }
                             }
-                        break;
+                            break;
                         case 'changeticketbtn':
                             if(changeticketbtn.val()=="订单编号"){
                                 changeticketbtn.val("用户帐号");
@@ -1434,7 +1540,7 @@
                                 changeticketbtn.val("订单编号");
                                 ticketfindtext.attr("placeholder","请输入订单编号");
                             }
-                        break;
+                            break;
                         case 'findorderall':
                             PageStatus = 0;
                             table.render({
@@ -1445,23 +1551,23 @@
                                 ,title: '订单列表'
                                 ,cols: [[
                                     {field:'order_id', title:'订单编号', width:160,unresize:true,sort: true,fixed:'left'}
-                                    ,{field:'order_user', title:'用户账号', width:100, unresize: true,templet:'<div>{{d.order_user.user_name}}</div>'}
-                                    ,{field:'order_schedule', title:'场次', width:180, unresize: true,templet:'<div>{{d.order_schedule.schedule_startTime}}</div>'}
-                                    ,{field:'order_position',title:'位置',width:100,unresize:true}                       
-                                    ,{field:'order_schedule',title:'价格',width:80,unresize:true,templet:'<div>￥{{d.order_schedule.schedule_price}}</div>'}
-                                    ,{field:'order_schedule',title:'电影',width:240,unresize:true,templet:'<div>{{d.order_schedule.schedule_movie.movie_cn_name}}</div>'}
-                                    ,{field:'order_schedule', title:'影厅', width:100, unresize: true, templet:'<div>{{d.order_schedule.schedule_hall.hall_name}}</div>'}
-                                    ,{field:'order_schedule',title:'影院',width:240,unresize:true,templet:'<div>{{d.order_schedule.schedule_hall.hall_cinema.cinema_name}}</div>'}
+                                    ,{field:'order_user', title:'用户账号', width:100, unresize: true,templet:'<div>{{d.user_name}}</div>'}
+                                    ,{field:'order_schedule', title:'场次', width:180, unresize: true,templet:'<div>{{d.schedule_startTime}}</div>'}
+                                    ,{field:'order_position',title:'位置',width:100,unresize:true}
+                                    ,{field:'order_price',title:'价格',width:80,unresize:true,templet:'<div>￥{{d.order_price}}</div>'}
+                                    ,{field:'order_schedule',title:'电影',width:240,unresize:true,templet:'<div>{{d.movie_cn_name}}</div>'}
+                                    ,{field:'order_schedule', title:'影厅', width:100, unresize: true, templet:'<div>{{d.hall_name}}</div>'}
+                                    ,{field:'order_schedule',title:'影院',width:240,unresize:true,templet:'<div>{{d.cinema_name}}</div>'}
                                     ,{field:'order_state',title:'订单状态',width:100,unresize:true,align:'center',templet:function(d){if(d.order_state == 1) return '<div style="color:#337ab7">完成</div>';else if(d.order_state == 0) return '<div style="color:#ef4238">申请退票</div>';else return '<div style="color:#5cb85c">已退票</div>';}}
                                     ,{title:'操作', width:100, unresize: true, align:'center', toolbar: '#ticketbar'}
                                 ]]
-                                ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                                    ,curr: 1 //设定初始在第 1 页
-                                    ,groups: 5 //只显示 5 个连续页码
-                                    ,first: false //显示首页
-                                    ,last: false //显示尾页
-                                    ,limits: [10,15,20]
-                                }
+                                // ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                                //     ,curr: 1 //设定初始在第 1 页
+                                //     ,groups: 5 //只显示 5 个连续页码
+                                //     ,first: false //显示首页
+                                //     ,last: false //显示尾页
+                                //     ,limits: [10,15,20]
+                                // }
                                 ,response: {
                                     statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 0
                                 }
@@ -1474,7 +1580,7 @@
                                     };
                                 },
                             });
-                        break;
+                            break;
                         case 'backorderbtn':
                             PageStatus = 1;
                             table.render({
@@ -1485,23 +1591,23 @@
                                 ,title: '订单列表'
                                 ,cols: [[
                                     {field:'order_id', title:'订单编号', width:160,unresize:true,sort: true,fixed:'left'}
-                                    ,{field:'order_user', title:'用户账号', width:100, unresize: true,templet:'<div>{{d.order_user.user_name}}</div>'}
-                                    ,{field:'order_schedule', title:'场次', width:180, unresize: true,templet:'<div>{{d.order_schedule.schedule_startTime}}</div>'}
-                                    ,{field:'order_position',title:'位置',width:100,unresize:true}                       
-                                    ,{field:'order_schedule',title:'价格',width:80,unresize:true,templet:'<div>￥{{d.order_schedule.schedule_price}}</div>'}
-                                    ,{field:'order_schedule',title:'电影',width:240,unresize:true,templet:'<div>{{d.order_schedule.schedule_movie.movie_cn_name}}</div>'}
-                                    ,{field:'order_schedule', title:'影厅', width:100, unresize: true, templet:'<div>{{d.order_schedule.schedule_hall.hall_name}}</div>'}
-                                    ,{field:'order_schedule',title:'影院',width:240,unresize:true,templet:'<div>{{d.order_schedule.schedule_hall.hall_cinema.cinema_name}}</div>'}
+                                    ,{field:'order_user', title:'用户账号', width:100, unresize: true,templet:'<div>{{d.user_name}}</div>'}
+                                    ,{field:'order_schedule', title:'场次', width:180, unresize: true,templet:'<div>{{d.schedule_startTime}}</div>'}
+                                    ,{field:'order_position',title:'位置',width:100,unresize:true}
+                                    ,{field:'order_schedule',title:'价格',width:80,unresize:true,templet:'<div>￥{{d.order_price}}</div>'}
+                                    ,{field:'order_schedule',title:'电影',width:240,unresize:true,templet:'<div>{{d.movie_cn_name}}</div>'}
+                                    ,{field:'order_schedule', title:'影厅', width:100, unresize: true, templet:'<div>{{d.hall_name}}</div>'}
+                                    ,{field:'order_schedule',title:'影院',width:240,unresize:true,templet:'<div>{{d.cinema_name}}</div>'}
                                     ,{field:'order_state',title:'订单状态',width:100,unresize:true,align:'center',templet:function(d){if(d.order_state == 1) return '<div style="color:#337ab7">完成</div>';else if(d.order_state == 0) return '<div style="color:#ef4238">申请退票</div>';else return '<div style="color:#5cb85c">已退票</div>';}}
                                     ,{title:'操作', width:200, unresize: true, align:'center', toolbar: '#backticketbar'}
                                 ]]
-                                ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                                    ,curr: 1 //设定初始在第 1 页
-                                    ,groups: 5 //只显示 5 个连续页码
-                                    ,first: false //显示首页
-                                    ,last: false //显示尾页
-                                    ,limits: [10,15,20]
-                                }
+                                // ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                                //     ,curr: 1 //设定初始在第 1 页
+                                //     ,groups: 5 //只显示 5 个连续页码
+                                //     ,first: false //显示首页
+                                //     ,last: false //显示尾页
+                                //     ,limits: [10,15,20]
+                                // }
                                 ,response: {
                                     statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 0
                                 }
@@ -1514,14 +1620,14 @@
                                     };
                                 },
                             });
-                        break;
+                            break;
                     };
                 });
             });
         }
 
-         //初始化场次管理界面
-         function initSchedule(){
+        //初始化场次管理界面
+        function initSchedule(){
             var ScheduleStatus=0; //0：上映      1：下架
             //场次列表
             layui.use(['table','form'], function(){
@@ -1529,31 +1635,28 @@
                 var form = layui.form;
                 table.render({
                     elem: '#schedule_table_id'
-                    ,url: url + '/schedule/findAllScheduleByState'
+                    ,url: url + '/manage/selectAllByManage'
                     ,method: 'post'
                     ,where: {"schedule_state": 1}
                     ,toolbar: '#scheduletoolbar'
                     ,title: '场次列表'
                     ,cols: [[
-                        {field:'schedule_id', title:'场次编号', width:100, unresize: true, sort: true}
-                        ,{field:'schedule_hall', title:'影院', width:240, unresize: true,templet:'<div>{{d.schedule_hall.hall_cinema.cinema_name}}</div>'}
-                        ,{field:'schedule_hall', title:'影院地址', width:300, unresize: true,templet:'<div>{{d.schedule_hall.hall_cinema.cinema_address}}</div>'}
-                        ,{field:'schedule_hall', title:'影厅', width:100, unresize: true, templet:'<div>{{d.schedule_hall.hall_name}}</div>'}
-                        ,{field:'schedule_movie', title:'电影', width:240, unresize: true,templet:'<div>{{d.schedule_movie.movie_cn_name}}</div>'}
-                        ,{field:'schedule_startTime', title:'放映时间', width:180, unresize: true, sort: true}
-                        ,{field:'schedule_price', title:'价格(￥)', width:100,align:'center', unresize: true}
-                        ,{field:'orderList',title:'订单数量',width:100,unresize:true,align:'center',templet:'<div>{{d.orderList.length}}</div>'}
-                        ,{field:'schedule_remain',title:'剩余票数',width:100,align:'center',unresize:true}
-                        ,{field:'orderList',title:'场次收入(￥)',width:120,align:'center',unresize:true,templet:'<div>{{d.orderList.length * d.schedule_price}}</div>'}
-                        ,{title:'操作', width:200, unresize: true, align:'center', toolbar: '#schedulebar'}
+                        {field:'schedule_id', title:'场次编号', width:102, unresize: true, sort: true}
+                        ,{field:'cinema_name', title:'影院', width:270, unresize: true,sort: true}
+                        ,{field:'cinema_address', title:'影院地址', width:270, unresize: true, sort: true, edit: "text"}
+                        ,{field: 'hall_name' ,title:'影厅',width:270, unresize: true, sort: true, edit: "text"}
+                        ,{field: 'movie_cn_name' ,title:'电影',width:270, unresize: true, sort: true, edit: "text"}
+                        ,{field:'schedule_startTime', title:'放映时间', width:270, unresize: true, sort: true, edit: "text"}
+                        ,{field:'schedule_price', title:'价格', width:270, unresize: true, edit: "text"}
+                        ,{title:'操作', width:300, unresize: true, align:'center', toolbar: '#schedulebar'}
                     ]]
-                    ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                        ,curr: 1 //设定初始在第 1 页
-                        ,groups: 5 //只显示 5 个连续页码
-                        ,first: false //显示首页
-                        ,last: false //显示尾页
-                        ,limits: [10,15,20]
-                    }
+                    // ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    //     ,curr: 1 //设定初始在第 1 页
+                    //     ,groups: 5 //只显示 5 个连续页码
+                    //     ,first: false //显示首页
+                    //     ,last: false //显示尾页
+                    //     ,limits: [10,15,20]
+                    // }
                     ,response: {
                         statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 0
                     }
@@ -1674,19 +1777,19 @@
                                 ,content: addScheduleContent
                                 ,success: function(layero){
                                     layui.use(['form','laydate','layedit'], function(){
-                                        var form = layui.form, 
-                                        layedit = layui.layedit, 
-                                        laydate = layui.laydate;
+                                        var form = layui.form,
+                                            layedit = layui.layedit,
+                                            laydate = layui.laydate;
                                         laydate.render({
-                                          elem: '#schedule_startTime_Text'
-                                          ,type: 'datetime'
-                                          ,format:'yyyy-MM-dd HH:mm'
+                                            elem: '#schedule_startTime_Text'
+                                            ,type: 'datetime'
+                                            ,format:'yyyy-MM-dd HH:mm'
                                         });
                                         form.render('select' ,'select');
                                     });
                                     $.ajax({
                                         type:'post',
-                                        url: url + "/schedule/findAllSchedule",
+                                        url: url + "/schedule/findScheduleByCinemaAndMovie",
                                         dataType:'json',
                                         data: {},
                                         success:function (objs) {
@@ -1696,7 +1799,7 @@
                                             for(var i = 0;i < cinemaArr.length;i++){
                                                 var cinemaJson = {};
                                                 for(var key in cinemaArr[i]){
-                                                    var cinemaName = key; 
+                                                    var cinemaName = key;
                                                     var hallArr = [];
                                                     for(var j = 0;j < cinemaArr[i][key].length; j++){
                                                         hallArr.push(cinemaArr[i][key][j].hall_name);
@@ -1709,8 +1812,8 @@
 
                                             console.log(cinemaJsonArr);
                                             for(var i=0;i<movieArr.length;i++){
-                                               $("#select_movie_name").append(new Option(movieArr[i]));
-                                               layui.form.render("select");
+                                                $("#select_movie_name").append(new Option(movieArr[i]));
+                                                layui.form.render("select");
                                             }
 
                                             for(var i=0;i<cinemaJsonArr.length;i++){
@@ -1721,65 +1824,63 @@
                                     });
                                 }
                             });
-                        break;
+                            break;
                         case 'findschedulebtn':
                             var find_temp = $('#scheduletext').val();
+                            console.log(find_temp)
                             //上映
-                            if(ScheduleStatus==0){
+
                                 table.reload('schedule_table_id', {
-                                    url: url + "/schedule/findScheduleByMovieName"
+                                    url: url + "/manage/selectMovieByName"
                                     ,method: "POST"
                                     ,where: {
-                                        movie_name: find_temp
+                                        title: find_temp
                                     }
-                                    ,page: {
-                                        curr: 1 //重新从第 1 页开始
-                                    }
-                                });
-                            }
-                            //下架
-                            else{
-                                table.reload('schedule_table_id', {
-                                    url: url + "/schedule/findOffScheduleByMovieName"
-                                    ,method: "POST"
-                                    ,where: {
-                                        movie_name: find_temp
-                                    }
-                                    ,page: {
-                                        curr: 1 //重新从第 1 页开始
+                                    // ,page: {
+                                    //     curr: 1 //重新从第 1 页开始
+                                    // }
+                                    ,response:{
+                                        statusCode:0
+                                    },parseData:function (res){
+                                        return {
+                                            "code": res.code, //解析接口状态
+                                            "msg": res.msg, //解析提示文本
+                                            "count": res.count, //解析数据长度
+                                            "data": res.data //解析数据列表
+                                        };
                                     }
                                 });
-                            }
-                        break;
+                            break;
+
                         case 'scheduleonallbtn':
                             ScheduleStatus = 0;
                             table.render({
                                 elem: '#schedule_table_id'
-                                ,url: url + '/schedule/findAllScheduleByState'
+                                ,url: url + '/manage/selectAllByManage'
                                 ,method: 'post'
                                 ,where: {"schedule_state": 1}
                                 ,toolbar: '#scheduletoolbar'
                                 ,title: '场次列表'
                                 ,cols: [[
                                     {field:'schedule_id', title:'场次编号', width:100, unresize: true, sort: true}
-                                    ,{field:'schedule_hall', title:'影院', width:240, unresize: true,templet:'<div>{{d.schedule_hall.hall_cinema.cinema_name}}</div>'}
-                                    ,{field:'schedule_hall', title:'影院地址', width:300, unresize: true,templet:'<div>{{d.schedule_hall.hall_cinema.cinema_address}}</div>'}
-                                    ,{field:'schedule_hall', title:'影厅', width:100, unresize: true, templet:'<div>{{d.schedule_hall.hall_name}}</div>'}
-                                    ,{field:'schedule_movie', title:'电影', width:240, unresize: true,templet:'<div>{{d.schedule_movie.movie_cn_name}}</div>'}
+                                    ,{field:'schedule_hall', title:'影院', width:240, unresize: true,templet:'<div>{{d.cinema_name}}</div>'}
+                                    ,{field:'schedule_hall', title:'影院地址', width:300, unresize: true,templet:'<div>{{d.cinema_address}}</div>'}
+                                    ,{field:'schedule_hall', title:'影厅', width:100, unresize: true, templet:'<div>{{d.hall_name}}</div>'}
+                                    ,{field:'movie_cn_name', title:'电影', width:240, unresize: true,templet:'<div>{{d.movie_cn_name}}</div>'}
                                     ,{field:'schedule_startTime', title:'放映时间', width:180, unresize: true, sort: true}
                                     ,{field:'schedule_price', title:'价格(￥)', width:100,align:'center', unresize: true}
-                                    ,{field:'orderList',title:'订单数量',width:100,unresize:true,align:'center',templet:'<div>{{d.orderList.length}}</div>'}
+                                    ,{field:'schedule_price',title:'订单数量',width:100,unresize:true,align:'center',templet:'<div>{{d.schedule_price}}</div>'}
                                     ,{field:'schedule_remain',title:'剩余票数',width:100,align:'center',unresize:true}
-                                    ,{field:'orderList',title:'场次收入(￥)',width:120,align:'center',unresize:true,templet:'<div>{{d.orderList.length * d.schedule_price}}</div>'}
+                                    ,{field:'schedule_price',title:'场次收入(￥)',width:120,align:'center',unresize:true,templet:'<div>{{d.schedule_price * d.schedule_price}}</div>'}
                                     ,{title:'操作', width:200, unresize: true, align:'center', toolbar: '#schedulebar'}
                                 ]]
-                                ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                                    ,curr: 1 //设定初始在第 1 页
-                                    ,groups: 5 //只显示 5 个连续页码
-                                    ,first: false //显示首页
-                                    ,last: false //显示尾页
-                                    ,limits: [10,15,20]
-                                }
+                                // ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                                //     ,curr: 1 //设定初始在第 1 页
+                                //     ,groups: 5 //只显示 5 个连续页码
+                                //     ,first: false //显示首页
+                                //     ,last: false //显示尾页
+                                //     ,limits: [10,15,20]
+                                // }
                                 ,response: {
                                     statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 0
                                 }
@@ -1793,36 +1894,36 @@
                                     };
                                 }
                             });
-                        break;
+                            break;
                         case 'scheduledownallbtn':
                             ScheduleStatus = 1;
                             table.render({
                                 elem: '#schedule_table_id'
-                                ,url: url + '/schedule/findAllScheduleByState'
+                                ,url: url + '/manage/selectAllByManage'
                                 ,method: 'post'
                                 ,where: {"schedule_state": 0}
                                 ,toolbar: '#scheduletoolbar'
                                 ,title: '场次列表'
                                 ,cols: [[
                                     {field:'schedule_id', title:'场次编号', width:100, unresize: true, sort: true}
-                                    ,{field:'schedule_hall', title:'影院', width:240, unresize: true,templet:'<div>{{d.schedule_hall.hall_cinema.cinema_name}}</div>'}
-                                    ,{field:'schedule_hall', title:'影院地址', width:300, unresize: true,templet:'<div>{{d.schedule_hall.hall_cinema.cinema_address}}</div>'}
-                                    ,{field:'schedule_hall', title:'影厅', width:100, unresize: true, templet:'<div>{{d.schedule_hall.hall_name}}</div>'}
-                                    ,{field:'schedule_movie', title:'电影', width:240, unresize: true,templet:'<div>{{d.schedule_movie.movie_cn_name}}</div>'}
+                                    ,{field:'schedule_hall', title:'影院', width:240, unresize: true,templet:'<div>{{d.cinema_name}}</div>'}
+                                    ,{field:'schedule_hall', title:'影院地址', width:300, unresize: true,templet:'<div>{{d.cinema_address}}</div>'}
+                                    ,{field:'schedule_hall', title:'影厅', width:100, unresize: true, templet:'<div>{{d.hall_name}}</div>'}
+                                    ,{field:'movie_cn_name', title:'电影', width:240, unresize: true,templet:'<div>{{d.movie_cn_name}}</div>'}
                                     ,{field:'schedule_startTime', title:'放映时间', width:180, unresize: true, sort: true}
                                     ,{field:'schedule_price', title:'价格(￥)', width:100,align:'center', unresize: true}
-                                    ,{field:'orderList',title:'订单数量',width:100,unresize:true,align:'center',templet:'<div>{{d.orderList.length}}</div>'}
+                                    ,{field:'schedule_price',title:'订单数量',width:100,unresize:true,align:'center',templet:'<div>{{d.schedule_price}}</div>'}
                                     ,{field:'schedule_remain',title:'剩余票数',width:100,align:'center',unresize:true}
-                                    ,{field:'orderList',title:'场次收入(￥)',width:120,align:'center',unresize:true,templet:'<div>{{d.orderList.length * d.schedule_price}}</div>'}
+                                    ,{field:'schedule_price',title:'场次收入(￥)',width:120,align:'center',unresize:true,templet:'<div>{{d.schedule_price * d.schedule_price}}</div>'}
                                     ,{title:'操作', width:200, unresize: true, align:'center', toolbar: '#scheduledownbar'}
                                 ]]
-                                ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                                    ,curr: 1 //设定初始在第 1 页
-                                    ,groups: 5 //只显示 5 个连续页码
-                                    ,first: false //显示首页
-                                    ,last: false //显示尾页
-                                    ,limits: [10,15,20]
-                                }
+                                // ,page: {layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                                //     ,curr: 1 //设定初始在第 1 页
+                                //     ,groups: 5 //只显示 5 个连续页码
+                                //     ,first: false //显示首页
+                                //     ,last: false //显示尾页
+                                //     ,limits: [10,15,20]
+                                // }
                                 ,response: {
                                     statusCode: 0 //重新规定成功的状态码为 200，table 组件默认为 0
                                 }
@@ -1836,7 +1937,7 @@
                                     };
                                 }
                             });
-                        break;
+                            break;
                     };
                 });
                 //监听影院二级联动
@@ -1855,17 +1956,19 @@
             });
         }
 
+
+
         function sortUp(a,b){
-                return a-b;
-         }
-         //初始化票房统计界面
+            return a-b;
+        }
+        //初始化票房统计界面
         function initBoxOffice(){
             $.ajax({
                 type:'post',
                 url: url + "/movie/findAllMovies",
                 dataType:'json',
                 data: {},
-                //获取数据  根据类型：统计票房   type:['喜剧','动作','爱情','动画','科幻','惊悚','冒险','犯罪','悬疑'] typeIncome: []  场次管理接口 下架之后数据更新    //头像为null时 默认设置为某一张 
+                //获取数据  根据类型：统计票房   type:['喜剧','动作','爱情','动画','科幻','惊悚','冒险','犯罪','悬疑'] typeIncome: []  场次管理接口 下架之后数据更新    //头像为null时 默认设置为某一张
                 success:function (obj) {
                     if(obj.sort.length > 10){
                         obj.sort.length = 10;
@@ -1887,10 +1990,10 @@
                     }
                     console.log(movieArray);
                     console.log(boxOffice);
-                     //扇形图
+                    //扇形图
                     var aaa = $("#aaa");
                     aaa.append("<div id=\"main1\" style=\"width: 1100px;height:400px;\"></div>")
-                    var myChart1 = echarts.init(document.getElementById('main1'));   
+                    var myChart1 = echarts.init(document.getElementById('main1'));
                     option1 = {
                         title : {
                             text: '类型统计',
@@ -1913,7 +2016,7 @@
                                 mark : {show: true},
                                 dataView : {show: true, readOnly: false},
                                 magicType : {
-                                    show: true, 
+                                    show: true,
                                     type: ['pie', 'funnel'],
                                     option: {
                                         funnel: {
@@ -1944,7 +2047,7 @@
                     //统计图
                     var aaa = $("#aaa");
                     aaa.append("<div id=\"main2\" style=\"width: 1200px;height:450px;margin-top:100px;\"></div>")
-                    var myChart2 = echarts.init(document.getElementById('main2'));  
+                    var myChart2 = echarts.init(document.getElementById('main2'));
                     option2 = {
                         title : {
                             text: '电影票房排名',
@@ -1973,7 +2076,7 @@
                                 boundaryGap : [0, 0.01]
                             }
                         ],
-                        
+
                         yAxis : [
                             {
                                 type : 'category',
@@ -1993,6 +2096,9 @@
                 }
             });
         }
+
+
+
 
     </script>
     <!-- ------------------------------------------------------------------- -->

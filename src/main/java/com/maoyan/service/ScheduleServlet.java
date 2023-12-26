@@ -41,6 +41,9 @@ public class ScheduleServlet extends HttpServlet {
             case "selectByUserid":
                 selectByUserid(req,resp);
                 break;
+            case "selectSchedule":
+                selectSchedule(req, resp);
+                break;
 
         }
 
@@ -153,6 +156,35 @@ public class ScheduleServlet extends HttpServlet {
 
         Map map = new HashMap<>();
         map.put("scheduleList", scheduleList);
+
+        String orderlist = JSON.toJSONString(map);
+        out.println(orderlist);
+
+
+    }
+
+
+    /*
+     * 查询电影场次
+    *  @selectSchedule
+    * */
+    public void selectSchedule(HttpServletRequest req,HttpServletResponse resp)throws IOException{
+
+
+        //调用mybatis工具类
+        SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtils.getSqlSessionFactory();
+
+        //获取sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        ScheduleMapper scheduleMapper = sqlSession.getMapper(ScheduleMapper.class);
+        List<Map> schedule = scheduleMapper.selectSchedule();
+        resp.setContentType("text/json;charset=utf-8"); //返回json格式
+        PrintWriter out = resp.getWriter();
+
+        sqlSession.close();
+
+        Map map = new HashMap<>();
+       map.put("schedule", schedule);
 
         String orderlist = JSON.toJSONString(map);
         out.println(orderlist);

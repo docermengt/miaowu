@@ -56,9 +56,9 @@
 <script>
 
     var clientHeight = document.documentElement.clientHeight;
-   // var admin_json =  JSON.parse(localStorage.getItem("admin_json"));
     var admin_json = localStorage.getItem("admin_name")
     $(function (){
+
             initHeader()
 
     })
@@ -76,12 +76,7 @@
             });
         });
 
-            var HeadImg = "";
-            if(admin_json.user_headImg == null || typeof admin_json.user_headImg == "undefined"){
-                HeadImg = "../upload/head/admin.jpg";
-            }else{
-                HeadImg = admin_json.user_headImg;
-            }
+            var HeadImg = "../upload/head/admin.jpg";
             LayuiNavMore.append(
                 "<a href=\"javascript:;\" style=\"padding: 0;height: 42px; width: 42px;\"><img src=\"" + HeadImg + "\" class=\"layui-nav-img\"></a>" +
                 "<dl class=\"layui-nav-child nav-image\">" +
@@ -100,14 +95,15 @@
                 function (){
                     $.ajax({
                         type:'post',
-                        url: url + "/manage/logout",
+                        url: url + "/manage/adminlogout",
                         dataType:'json',
                         data: {},
-                        success:function () {
-
-                            window.localStorage.removeItem("admin_name")
-                            layer.closeAll();
-                            window.location.href = "./mainPage.jsp";
+                        success:function (obj) {
+                         if(obj.msg=="ok"){
+                             window.localStorage.removeItem("admin_name")
+                             layer.closeAll();
+                             window.location.href = "./adminlogin.jsp";
+                         }
                         }
                     });
                 }

@@ -121,6 +121,8 @@ public class MovieServlet extends HttpServlet {
         map.put("cinemaList", cinemaList);
         map.put("hallsList", halls);
        map.put("scheduleList", scheduleList);
+
+
         String  movie = JSON.toJSONString(map);
         out.println(movie);
        sqlSession.close();
