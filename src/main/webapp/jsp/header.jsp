@@ -124,7 +124,10 @@
                         dataType:'json',
                         data: {},
                         success:function () {
-                             window.localStorage.clear()
+                            // window.localStorage.clear()
+                            localStorage.removeItem("user_name")
+                            localStorage.removeItem("user_pwd")
+                            localStorage.removeItem("user_json")
                             layer.closeAll();
                             window.location.href = "./mainPage.jsp";
                         }

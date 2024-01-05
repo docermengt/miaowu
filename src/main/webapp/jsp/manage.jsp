@@ -21,7 +21,7 @@
     <script src="../static/layui/layui.js" charset="utf-8"></script>
 <%--    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.9.2/css/layui.css" integrity="sha512-V8POzDh/+/NrceHV1dsdK9v6VWgQAtPaxYvQWGID2+PRoWJrjFiqlb26gE2PzdE8GIFoBvOOBtMH/SiAvj8uWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>猫眼电影-后台管理</title>
+    <title>喵呜电影-后台管理</title>
 </head>
 <body>
     <!-- ------------------------------------------------------------------- -->
@@ -707,10 +707,10 @@
                                         "</div>" +
                                     "</div>" +
                                 "</a>" +
-                                "<div class=\"moive-btn\">" +
-                                    "<div class=\"movies-detail movie-detail-strong movie-sale\">" +
-                                        "<a class=\"active\" onclick=\"addConfirm("+ obj.movies[i].movie_id +")\" target=\"_blank\" data-act=\"salePlayingMovie-click\" data-val=\"\">修改</a>" +
-                                    "</div>" +
+                                // "<div class=\"moive-btn\">" +
+                                //     "<div class=\"movies-detail movie-detail-strong movie-sale\">" +
+                                //         "<a class=\"active\" onclick=\"addConfirm("+ obj.movies[i].movie_id +")\" target=\"_blank\" data-act=\"salePlayingMovie-click\" data-val=\"\"></a>" +
+                                //     "</div>" +
                                     "<div class=\"movies-detail movie-detail-strong movie-sale\">" +
                                         "<span id=\"deleteId\" style=\"display:none;\">${u.id}</span>" +
                                         "<a class=\"active\" onclick=\"deleteConfirm("+ obj.movies[i].movie_id +")\" data-act=\"salePlayingMovie-click\" id=\"delete\">下架</a>" +

@@ -9,7 +9,7 @@
         select * from movie WHERE movie_state = 1
     </select>
     <select id="selectOrderby" resultType="com.maoyan.pojo.Movie">
-    select  * from movie order by movie_boxOffice desc
+    select  * from movie where  movie_state =1 order by movie_boxOffice desc
     </select>
 
     <select id="selectBystate" resultType="com.maoyan.pojo.Movie">

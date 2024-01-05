@@ -24,6 +24,8 @@ public class ScheduleServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+
         //获取请求url
         String path = req.getRequestURI();
         //获取最后一个斜杠下标

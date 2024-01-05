@@ -41,6 +41,7 @@
             <artifactId>ibaguice-core</artifactId>
             <version>1.0</version>
         </dependency>
+<!--        阿里json-jar包 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>

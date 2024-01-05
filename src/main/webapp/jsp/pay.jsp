@@ -59,7 +59,7 @@
     <div class="count-down-wrapper">
         <div class="count-down">
             <p class="time-left">
-                请在<span class="minute"></span>分钟<span class="second"></span>秒内完成支付
+                请在<span class="minute"></span>分钟<span class="second"></span>内完成支付
             </p>
             <p class="tip">超时订单会自动取消，如遇支付问题，请联系管理员</p>
         </div>
@@ -159,12 +159,12 @@
         var timeSecond = $(".second");
         var minute
         var second
-        timeMinute.text("");
+        timeMinute.text("15");
         timeSecond.text("");
-        setInterval(function () {
+      /*  setInterval(function () {
             if (second == 0 && minute == 0) {
                 window.alert("支付时间已过，订单失效！");
-                localStorage.clear();
+                //localStorage.clear();
             }
             if ((localStorage.second == "NaN") || (localStorage.second == 0 && localStorage.minute == 0)) {
                 localStorage.minute = 14;
@@ -181,7 +181,7 @@
             timeSecond.text(second);
             localStorage.second = second;
             localStorage.minute = minute;
-        }, 1000);
+        }, 1000);*/
     }
 
     //购买
@@ -208,36 +208,12 @@
                 if (obj.code === 0) {
                     layui.use(['layer'], function () {
                         // 页面层
-                        layer.confirm('<img src="../static/images/success.jpg" style="width: 50px;height: 50px">', {
-                                offset: clientHeight / 5,
-                                title: false,
-                                btn: ['已支付', '取消']
-                            }, function () {
-                                layer.alert('购票成功！', {icon: 0, offset: clientHeight / 5})
-                                localStorage.removeItem("second")
-                                localStorage.removeItem("minute")
-                                document.location.href = "./payStatus.jsp";
-                            }, function () {
-                                layer.alert('用户取消支付！', {icon: 0, offset: clientHeight / 5})
-                            }
-                        )
+                                layer.alert('购票成功！', {icon: 0, offset: clientHeight / 5},function (){
+                                    localStorage.removeItem("second")
+                                    localStorage.removeItem("minute")
+                                    document.location.href = "./payStatus.jsp";
+                                })
 
-
-                        /*          var layer = layui.layer;
-                                  layer.confirm('一个询问框的示例？', {
-                                      btn: ['已完成支付', '取消'] //按钮
-                                  }, function(){
-                                          layer.alert('购票成功！',{icon: 0,offset: clientHeight/5})
-                                          localStorage.removeItem("second")
-                                          localStorage.removeItem("minute")
-                                          layer.closeAll();
-                                          document.location.href = "./payStatus.jsp";
-                                  },
-                                          function (){
-                                              layer.alert('用户取消支付！',{icon: 0,offset: clientHeight/5})
-                                          }
-
-                                  );*/
                     });
                 }
             },

@@ -29,6 +29,9 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+
         //获取请求url
         String path = req.getRequestURI();
         String realPath = GetPathUrl.getUrl(path);
@@ -60,6 +63,8 @@ public class UserServlet extends HttpServlet {
      */
 
     public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
 
         String username = req.getParameter("user_name");
         String password = req.getParameter("user_pwd");

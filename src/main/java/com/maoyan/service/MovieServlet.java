@@ -30,6 +30,8 @@ import java.util.Map;
 public class MovieServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        resp.setHeader("Access-Control-Allow-Origin", "*"); //允许前端跨域
         //获取请求url
         String path = req.getRequestURI();
         //获取最后一个斜杠下标

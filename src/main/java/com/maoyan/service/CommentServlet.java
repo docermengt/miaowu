@@ -26,6 +26,7 @@ public class CommentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
         //获取请求url
         String path = req.getRequestURI();
         String realPath = GetPathUrl.getUrl(path);

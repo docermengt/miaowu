@@ -435,7 +435,7 @@
                         flag = 0;
                     }
                 }
-
+                console.log(flag)
                   if(flag){
                      alertWitle()
                   }else {
