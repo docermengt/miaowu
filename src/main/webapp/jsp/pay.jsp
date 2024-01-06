@@ -184,6 +184,7 @@
             },
             success: function (obj){
                 document.write(obj)
+                 getNotify()
                 $.ajax({
                     type: "post",
                     url: url + "/order/buyTickets",
@@ -213,6 +214,18 @@
             }
         })
 
+    }
+
+    //支付状态
+    function getNotify(){
+        $.ajax({
+            data:"post",
+            dataType:"json",
+            url:url+"/notify",
+            success:function (obj){
+                console.log(obj)
+            }
+        })
     }
 
     //获取url参数

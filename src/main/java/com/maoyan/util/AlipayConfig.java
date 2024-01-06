@@ -18,10 +18,11 @@ public class AlipayConfig {
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzrNi+C4NjsLK7WsC0bqTHB86fGWBQ/nrNCRAz6I6Ilt2BridwnppdaVkJpa2ZRK5qEhhMKPSJ7C1cqPn9B4oWPmS3TxHjxXDGgPkuxtZhaFlSTB05nCfvHEVo2lr4Mo1IlLUTX6/dWHRmPWMgybHNE5hCClIjUCveuSmsx5n1c5QwE8qrLyQqCjSQX+ut+8PQAfLbnq5lYzv58ejO6MmWTrfoCWL3PWGAUS9+mKxzYgKNklXL0y+5oXigoUZCQt5qmFqh8x4LzJBEQoHW7gskWlI0/LnmbDa2CPr/8SAPMSFA4am3KbXdl/rPtAFgg6cevxLXnr8M1owjeNyFPrYqwIDAQAB";
 
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String notify_url = "http://f07b5e5.r16.cpolar.top/movie/notify";
+	public static String notify_url = "http://390652ea.r7.cpolar.top/movie/notify";
 
 	// 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String return_url = "http://f07b5e5.r16.cpolar.top/movie/jsp/payStatus.jsp";
+	//public static String return_url = "http://390652ea.r7.cpolar.top/movie/jsp/payStatus.jsp";
+	public static String return_url = "http://localhost:8081/movie/jsp/payStatus.jsp";
 
 	// 签名方式
 	public static String sign_type = "RSA2";

@@ -34,12 +34,12 @@
 	//String subject = new String(request.getParameter("body").getBytes("ISO-8859-1"),"UTF-8");
 	String subject = "电影票";
 	//商品描述，可空
-	//String body = request.getParameter("body");
+	String body = request.getParameter("body");
 	
 	alipayRequest.setBizContent("{\"out_trade_no\":\""+ order_id +"\","
 			+ "\"total_amount\":\""+ total_amount +"\","
 			+ "\"subject\":\""+ subject +"\"," 
-			+ "\"body\":\""+ "" +"\","
+			+ "\"body\":\""+ body +"\","
 			+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
 	
 

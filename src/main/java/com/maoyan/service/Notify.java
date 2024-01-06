@@ -32,7 +32,6 @@ public class Notify extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setContentType("application/json;charset=utf-8");
         Map<String,String> params = new HashMap<String,String>();
         Map<String,String[]> requestParams = req.getParameterMap();
         for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
@@ -73,6 +72,7 @@ public class Notify extends HttpServlet {
             Map map = new HashMap<>();
             map.put("msg", "success");
             resp.getWriter().println(JSON.toJSONString(map));
+            resp.getWriter().write("success");
 
         }else {//验证失败
             Map map = new HashMap<>();
