@@ -105,6 +105,7 @@
     console.log(json);
     var schedule_id = json.schedule_id;
     var payBtn = $(".pay-btn");
+    var body  //商品描述
     window.onload = function () {
 
         initPay(); //支付
@@ -125,6 +126,7 @@
                 schedule_id: schedule_id
             },
             success: function (obj) {
+                 body = obj.movieslist[0].movie_cn_name
                 orderTable.append(
                     "<tr>" +
                     "<td class=\"movie-name\">" + obj.movieslist[0].movie_cn_name + "</td>" +
@@ -161,27 +163,7 @@
         var second
         timeMinute.text("15");
         timeSecond.text("");
-      /*  setInterval(function () {
-            if (second == 0 && minute == 0) {
-                window.alert("支付时间已过，订单失效！");
-                //localStorage.clear();
-            }
-            if ((localStorage.second == "NaN") || (localStorage.second == 0 && localStorage.minute == 0)) {
-                localStorage.minute = 14;
-                localStorage.second = 59;
-            }
-            second = localStorage.second;
-            minute = localStorage.minute;
-            if (second == 0) {
-                minute--;
-                second = 60;
-            }
-            second--;
-            timeMinute.text(minute);
-            timeSecond.text(second);
-            localStorage.second = second;
-            localStorage.minute = minute;
-        }, 1000);*/
+
     }
 
     //购买
@@ -191,46 +173,46 @@
         var position_arr = new Array(Array.from(position))
         var price = json.price;
         var user_id = JSON.parse(localStorage.getItem("user_json"))
+        body += "座位号："+position_arr
+
         $.ajax({
             type: "post",
-            url: url + "/order/buyTickets",
+            url: url + "/jsp/alipay_pay.jsp",
             data: {
-                schedule_id: schedule_id,
-                position: position_arr,
                 price: price,
-                user_id: user_id
+                body:body
             },
-            traditional: true,
-            dataType: "json",
-            success: function (obj) {
-                console.log(obj.code)
-                localStorage.removeItem("order");
-                if (obj.code === 0) {
-                    layui.use(['layer'], function () {
-                        // 页面层
-                                layer.alert('购票成功！', {icon: 0, offset: clientHeight / 5},function (){
-                                    localStorage.removeItem("second")
-                                    localStorage.removeItem("minute")
-                                    document.location.href = "./payStatus.jsp";
-                                })
-
-                    });
-                }
-            },
-            error: function () {
-                localStorage.removeItem("order");
-                console.log("network error");
-                layui.use(['layer'], function () {
-                    var layer = layui.layer;
-                    layer.alert("请先登录账号", {icon: 0, offset: clientHeight / 5},
-                        function () {
-                            layer.closeAll();
-                            window.location.href = url + "/jsp/login.jsp"
+            success: function (obj){
+                document.write(obj)
+                $.ajax({
+                    type: "post",
+                    url: url + "/order/buyTickets",
+                    data: {
+                        schedule_id: schedule_id,
+                        position: position_arr,
+                        price: price,
+                        user_id: user_id
+                    },
+                    traditional: true,
+                    dataType: "json",
+                    success: function (obj) {
+                        console.log(obj.code)
+                        localStorage.removeItem("order");
+                        if (obj.code === 0) {
+                            // 页面层
+                            localStorage.removeItem("second")
+                            localStorage.removeItem("minute")
+                            // document.location.href = "./payStatus.jsp";
                         }
-                    );
+                    }
+
                 });
+
+            },error:function (){
+                console.log("出现错误")
             }
-        });
+        })
+
     }
 
     //获取url参数
