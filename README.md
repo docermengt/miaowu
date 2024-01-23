@@ -5,22 +5,23 @@
 
 #### 软件架构
 
-本项目采用B/S架构，由tomcat容器运行，前后端分离
+本项目采用B/S架构，使用tomcat运行，前后端分离
 
-以下为项目技术栈： 由maven3.6管理第三方jar包
-
+Java环境： maven3.6管理第三方jar包
 ​     1.Java1.8         
-
-​      2.mybatis3.5                               
-
+​     2.mybatis3.5                               
 ​     3.javax-servlet-api
-
 ​     4.javax-jsp-api
-
 ​     5.fastjson-1.26
+     6.alipay-sdk-java
+​
+前端环境：
+     1.layui
+     2.echarts
+     3.jquery3.3.1
 
-​     6.jsp页面需引入jQuery包
-
+支付宝沙箱支付：
+    在支付宝开放平台，拿到沙箱账户，随后在Alipayconfig.java中配置对应信息即可
 
 #### 运行教程
 ```
